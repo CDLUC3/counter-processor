@@ -3,6 +3,7 @@ from .metadata_item import MetadataItem
 from peewee import *
 
 class LogItem(BaseModel):
+    """These are the log items in the sqlite database based on peewee ORM"""
     event_time = DateTimeField(null=False, index=True)
     client_ip = CharField(null=False, index=True)
     session_id = CharField(null=True, index=True)
