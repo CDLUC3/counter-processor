@@ -1,9 +1,11 @@
 from models import *
 from peewee import *
+import dateutil.parser
+import datetime
 #import ipdb; ipdb.set_trace()
 
 class LogLine():
-    """A class to handle log lines"""
+    """A class to handle log line importing from log to database"""
 
     def __init__(self, line):
         self.line = line.strip()
@@ -17,7 +19,7 @@ class LogLine():
 
                 md_item = find_or_create_metadata(fields)
 
-                log_item = LogItem.create(
+                l_item = LogItem.create(
                     event_time=fields[0],
                     client_ip=fields[1],
                     session_id=fields[2],
@@ -26,9 +28,34 @@ class LogLine():
                     filename=fields[5],
                     size=fields[6],
                     user_agent=fields[7],
-                    metadata_item_id=md_item.id) # TODO: fix this up.
+                    metadata_item_id=md_item.id)
+                deduplicate(l_item)
 
 # helper methods without object state
+
+def deduplicate(l_item):
+    """Take the created log line and deduplicate any earlier from same person within 30 seconds before"""
+    l_item_time = dateutil.parser.parse(l_item.event_time) # why is peewee so crappy? If it's a datetime it should be that type, not a string
+    earlier_time = l_item_time - datetime.timedelta(seconds=30)
+    if l_item.request_url == 'http://dash-dev.ucop.edu/stash/downloads/file_download/575':
+        duptimes = LogItem.select().where(LogItem.event_time.between(earlier_time.isoformat(), l_item_time.isoformat())).execute()
+        print(list(duptimes))
+        import ipdb; ipdb.set_trace()
+
+
+    # delete any duplicate requests within 30 seconds earlier by this person from the db
+    #(LogItem
+    #    .delete()
+    #    .where(
+    #        LogItem.event_time.between(earlier_time, l_item_time) &
+    #        ( LogItem.session_id == l_item.session_id | LogItem.client_ip == l_item.client_ip) &
+    #        LogItem.request_url == l_item.request_url)
+    #    .execute())
+
+
+
+
+
 def find_or_create_metadata(fields):
     query = (MetadataItem
                     .select()
@@ -48,9 +75,17 @@ def find_or_create_metadata(fields):
             target_url=fields[15],
             publication_year=fields[16]
         )
-        return mi
+        create_authors(md_item=mi, author_field=fields[11])
     else:
-        return mis[0]
+        mi = mis[0]
+    return mi
 
-def create_authors(md_item, auth_field):
-    pass
+def create_authors(md_item, author_field):
+    # delete previously created authors if we're updating them
+    query = (MetadataAuthor
+                .delete()
+                .where(MetadataAuthor.metadata_item_id == md_item.id)
+                .execute())
+
+    for author in author_field.split("|"):
+        MetadataAuthor.create(metadata_item_id=md_item.id, author_name=author)
