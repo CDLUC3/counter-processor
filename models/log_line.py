@@ -35,26 +35,20 @@ class LogLine():
 
 def deduplicate(l_item):
     """Take the created log line and deduplicate any earlier from same person within 30 seconds before"""
-    l_item_time = dateutil.parser.parse(l_item.event_time) # why is peewee so crappy? If it's a datetime it should be that type, not a string
+    l_item_time = l_item.event_time_as_dt() # why is peewee so crappy? If it's a datetime it should be that, not string
     earlier_time = l_item_time - datetime.timedelta(seconds=30)
-    if l_item.request_url == 'http://dash-dev.ucop.edu/stash/downloads/file_download/575':
-        duptimes = LogItem.select().where(LogItem.event_time.between(earlier_time.isoformat(), l_item_time.isoformat())).execute()
-        print(list(duptimes))
-        import ipdb; ipdb.set_trace()
-
 
     # delete any duplicate requests within 30 seconds earlier by this person from the db
-    #(LogItem
-    #    .delete()
-    #    .where(
-    #        LogItem.event_time.between(earlier_time, l_item_time) &
-    #        ( LogItem.session_id == l_item.session_id | LogItem.client_ip == l_item.client_ip) &
-    #        LogItem.request_url == l_item.request_url)
-    #    .execute())
-
-
-
-
+    # use parenthesis around your condition clauses, otherwise peewee will f*ck you up
+    (LogItem
+        .delete()
+        .where(
+            LogItem.event_time.between(earlier_time.isoformat(), l_item_time.isoformat()) &
+            ((LogItem.session_id == l_item.session_id) | (LogItem.client_ip == l_item.client_ip)) &
+            (LogItem.request_url == l_item.request_url) &
+            (LogItem.id != l_item.id)
+        )
+        .execute())
 
 def find_or_create_metadata(fields):
     query = (MetadataItem
