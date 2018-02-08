@@ -2,6 +2,7 @@ from models import *
 from peewee import *
 import dateutil.parser
 import datetime
+import requests
 #import ipdb; ipdb.set_trace()
 
 class LogLine():
@@ -18,6 +19,7 @@ class LogLine():
                 fields = [( None if x == '' or x == '-' or x == '????' else x) for x in self.line.split("\t")]
 
                 md_item = find_or_create_metadata(fields)
+                country = lookup_geoip(fields[1])
 
                 l_item = LogItem.create(
                     event_time=fields[0],
@@ -28,6 +30,7 @@ class LogLine():
                     filename=fields[5],
                     size=fields[6],
                     user_agent=fields[7],
+                    country=country,
                     metadata_item_id=md_item.id)
                 deduplicate(l_item)
 
@@ -83,3 +86,15 @@ def create_authors(md_item, author_field):
 
     for author in author_field.split("|"):
         MetadataAuthor.create(metadata_item_id=md_item.id, author_name=author)
+
+def lookup_geoip(ip_address):
+    """Lookup the geographical area from the IP address and return the 2 letter code"""
+    # try to grab this IP location cached in our existing database when possible to cut down on API requests
+    prev = LogItem.select().where(LogItem.client_ip == ip_address).limit(1)
+    for l in prev:
+        return l.country
+
+    resp = requests.get(f'http://freegeoip.net/json/{ip_address}')
+    if resp.status_code != 200:
+        raise ApiError('GET /json/<ip_address> {}'.format(resp.status_code))
+    return resp.json()['country_code']
