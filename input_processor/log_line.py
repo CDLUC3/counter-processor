@@ -30,17 +30,27 @@ class LogLine():
         if self.event_time == None:
             return
 
+        # create descriptive metadata
         md_item = self.find_or_create_metadata()
+
+        # add geoip
         country = self.lookup_geoip()
 
+        # add base logging data
         l_item = LogItem()
         for my_field in self.COLUMNS[0:10]:
             setattr(l_item, my_field, getattr(self, my_field))
 
+        # link-in desriptive metadata
         l_item.metadata_item = md_item.id
 
+        # add COUNTER style user-session identification for double-click detection
+        l_item.add_doubleclick_id()
+
+        # save the basic log record
         l_item.save()
 
+        # remove previous duplicates within 30 seconds
         deduplicate(l_item)
 
 
