@@ -1,30 +1,19 @@
 #!/usr/bin/env python
+from config import *
 from models import *
 import input_processor as ip
 import os
 
-DB_FILE = 'db/counter_db.sqlite3'
-LOG_FILE = 'log/counter_2018-02-13.log'
-PATH_TYPE_REGEXP = {
-    'investigations': ('^/api/datasets/[^\/]+$', '^/api/versions/\d+$', '^/stash/dataset/\S+$', '^/stash/data_paper/\S+$'),
-    'requests': (
-        '^/api/datasets/[^\/]+/download$',
-        '^/api/versions/\d+/download$',
-        '^/api/downloads/\d+$',
-        '^/stash/downloads/download_resource/\d+$',
-        '^/stash/downloads/file_download/\d+$',
-        '^/stash/downloads/file_stream/\d+$',
-        '^/stash/downloads/async_request/\d+$',
-        '^/stash/share/\S+$'
-        )}
+conf = Config()
 
-ip.LogLine.setup_path_types(PATH_TYPE_REGEXP)
+ip.LogLine.setup_path_types(conf.path_types)
+ip.LogLine.setup_robots_list(conf.robots_url)
 
-os.remove(DB_FILE)
-#import ipdb; ipdb.set_trace()
+if os.path.isfile(conf.processing_database):
+    os.remove(conf.processing_database)
 DbActions.create_db()
 
-with open(LOG_FILE) as infile:
+with open(conf.log_files) as infile:
     for line in infile:
         ll = ip.LogLine(line)
         ll.populate()

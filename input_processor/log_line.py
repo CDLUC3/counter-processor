@@ -1,6 +1,5 @@
 from models import *
 from peewee import *
-from ostruct import OpenStruct
 import dateutil.parser
 import datetime
 import requests
@@ -44,7 +43,10 @@ class LogLine():
             setattr(l_item, my_field, getattr(self, my_field))
 
         # add type of request
-        l_item.hit_type = self.get_hit_type(self.request_url)
+        l_item.hit_type = self.get_hit_type()
+
+        # set if is robot
+        l_item.is_robot = self.is_robot()
 
         # link-in desriptive metadata
         l_item.metadata_item = md_item.id
@@ -113,9 +115,22 @@ class LogLine():
         self.query_types = { 'investigation': re.compile( '|'.join( my_dict['investigations']) ),
             'request': re.compile( '|'.join(my_dict['requests']))}
 
-    def get_hit_type(self, my_url):
-        o = urlparse(my_url)
+    @classmethod
+    def setup_robots_list(self, url):
+        """Get the list of robots/crawlers from the COUNTER list that is one per line
+        from the URL passed in and make a regular expression for the detection"""
+        resp = requests.get(url)
+        if resp.status_code != 200:
+            raise ApiError(f'GET {url} failed.')
+        lines = resp.text.splitlines()
+        self.robots = re.compile('|'.join(lines))
+
+    def get_hit_type(self):
+        o = urlparse(self.request_url)
         for k,v in self.query_types.items():
             if v.search(o.path):
                 return k
         return None
+
+    def is_robot(self):
+        return bool(self.robots.search(self.user_agent))

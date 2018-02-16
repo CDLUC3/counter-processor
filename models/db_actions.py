@@ -8,6 +8,5 @@ class DbActions(BaseModel):
 
     @staticmethod
     def create_db():
-        # import ipdb; ipdb.set_trace()
         db = DbActions._meta.database
         db.create_tables([MetadataItem, MetadataAuthor, LogItem])

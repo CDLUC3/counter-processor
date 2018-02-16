@@ -18,6 +18,7 @@ class LogItem(BaseModel):
     user_agent = TextField(null=True)
     country = CharField(null=True)
     hit_type = CharField(null=True, index=True)
+    is_robot = BooleanField(default=False, index=True)
     metadata_item = ForeignKeyField(MetadataItem, backref='log_items')
     calc_doubleclick_id = TextField(null=True, index=True)
     calc_session_id = TextField(null=True, index=True)

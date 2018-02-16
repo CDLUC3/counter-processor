@@ -1,7 +1,8 @@
 from peewee import *
 
-db = SqliteDatabase('db/counter_db.sqlite3')
+# db = SqliteDatabase('db/counter_db.sqlite3')
+deferred_db = SqliteDatabase(None)
 
 class BaseModel(Model):
     class Meta:
-        database = db
+        database = deferred_db
