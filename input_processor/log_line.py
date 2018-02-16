@@ -4,6 +4,8 @@ from ostruct import OpenStruct
 import dateutil.parser
 import datetime
 import requests
+import re
+from urllib.parse import urlparse
 #import ipdb; ipdb.set_trace()
 
 class LogLine():
@@ -41,17 +43,23 @@ class LogLine():
         for my_field in self.COLUMNS[0:10]:
             setattr(l_item, my_field, getattr(self, my_field))
 
+        # add type of request
+        l_item.hit_type = self.get_hit_type(self.request_url)
+
         # link-in desriptive metadata
         l_item.metadata_item = md_item.id
 
         # add COUNTER style user-session identification for double-click detection
         l_item.add_doubleclick_id()
 
+        # add COUNTER style session tracking with timeslices and different types of tracking
+        l_item.add_session_id()
+
         # save the basic log record
         l_item.save()
 
         # remove previous duplicates within 30 seconds
-        deduplicate(l_item)
+        l_item.de_double_click()
 
 
     def find_or_create_metadata(self):
@@ -100,21 +108,14 @@ class LogLine():
             raise ApiError('GET /json/<ip_address> {}'.format(resp.status_code))
         return resp.json()['country_code']
 
-# helper methods without object state
+    @classmethod
+    def setup_path_types(self, my_dict):
+        self.query_types = { 'investigation': re.compile( '|'.join( my_dict['investigations']) ),
+            'request': re.compile( '|'.join(my_dict['requests']))}
 
-def deduplicate(l_item):
-    """Take the created log line and deduplicate any earlier from same person within 30 seconds before"""
-    l_item_time = l_item.event_time_as_dt() # why does peewee treat datetimes as strings? This called method treats it that way.
-    earlier_time = l_item_time - datetime.timedelta(seconds=30)
-
-    # delete any duplicate requests within 30 seconds earlier by this person from the db
-    # use parenthesis around your condition clauses, otherwise peewee will frack you up
-    (LogItem
-        .delete()
-        .where(
-            LogItem.event_time.between(earlier_time.isoformat(), l_item_time.isoformat()) &
-            ((LogItem.user_cookie_id == l_item.user_cookie_id) | (LogItem.client_ip == l_item.client_ip)) &
-            (LogItem.request_url == l_item.request_url) &
-            (LogItem.id != l_item.id)
-        )
-        .execute())
+    def get_hit_type(self, my_url):
+        o = urlparse(my_url)
+        for k,v in self.query_types.items():
+            if v.search(o.path):
+                return k
+        return None
