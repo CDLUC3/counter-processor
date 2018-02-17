@@ -10,9 +10,9 @@ class Config():
             cfg = yaml.load(ymlfile)
         for x in cfg:
             setattr(self, x, cfg[x])
-            
+
         # if someone has set any of these environment variables, overide whatever loaded from yaml (but make them lowercase props)
-        for ev in ('LOG_FILES', 'PROCESSING_DATABASE', 'ROBOTS_URL'):
+        for ev in ('LOG_GLOB', 'PROCESSING_DATABASE', 'ROBOTS_URL'):
             if ev in os.environ:
                 setattr(self, ev.lower(), os.environ[ev])
 

@@ -34,13 +34,13 @@ class LogLine():
         # create descriptive metadata
         md_item = self.find_or_create_metadata()
 
-        # add geoip
-        country = self.lookup_geoip()
-
         # add base logging data
         l_item = LogItem()
         for my_field in self.COLUMNS[0:10]:
             setattr(l_item, my_field, getattr(self, my_field))
+
+        # add geoip
+        l_item.country = self.lookup_geoip()
 
         # add type of request
         l_item.hit_type = self.get_hit_type()

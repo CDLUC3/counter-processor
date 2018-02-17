@@ -1,4 +1,4 @@
-log_files: log/counter_2018-02-13.log
+log_glob: log/counter_2018-02-*.log
 processing_database: db/counter_db.sqlite3
 path_types:
   investigations:
