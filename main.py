@@ -14,7 +14,7 @@ if os.path.isfile(conf.processing_database):
     os.remove(conf.processing_database)
 DbActions.create_db()
 
-for lf in glob.glob(conf.log_glob):
+for lf in sorted(glob.glob(conf.log_glob)):
     with open(lf) as infile:
         for line in infile:
             ll = ip.LogLine(line)
