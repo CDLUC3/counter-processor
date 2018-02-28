@@ -39,13 +39,9 @@ class LogLine():
         for my_field in self.COLUMNS[0:10]:
             setattr(l_item, my_field, getattr(self, my_field))
 
-        # add geoip
         l_item.country = self.lookup_geoip()
-
-        # add type of request
         l_item.hit_type = self.get_hit_type()
-
-        # set if is robot
+        l_item.is_machine = self.is_machine()
         l_item.is_robot = self.is_robot()
 
         # link-in desriptive metadata
@@ -117,13 +113,25 @@ class LogLine():
 
     @classmethod
     def setup_robots_list(self, url):
-        """Get the list of robots/crawlers from the COUNTER list that is one per line
+        """Get the list of robots/crawlers from a list that is one per line
         from the URL passed in and make a regular expression for the detection"""
         resp = requests.get(url)
         if resp.status_code != 200:
             raise ApiError(f'GET {url} failed.')
         lines = resp.text.splitlines()
+        lines = [s for s in lines if not s.startswith('#')]
         self.robots = re.compile('|'.join(lines))
+
+    @classmethod
+    def setup_machines_list(self, url):
+        """Get the list of machines user-agent from list that is one per line
+        from the URL passed in and make a regular expression for the detection"""
+        resp = requests.get(url)
+        if resp.status_code != 200:
+            raise ApiError(f'GET {url} failed.')
+        lines = resp.text.splitlines()
+        lines = [s for s in lines if not s.startswith('#')]
+        self.machines = re.compile('|'.join(lines))
 
     def get_hit_type(self):
         o = urlparse(self.request_url)
@@ -134,3 +142,6 @@ class LogLine():
 
     def is_robot(self):
         return bool(self.robots.search(self.user_agent))
+
+    def is_machine(self):
+        return bool(self.machines.search(self.user_agent))

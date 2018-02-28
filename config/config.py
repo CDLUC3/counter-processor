@@ -2,6 +2,7 @@ import yaml
 import os
 from models import *
 import input_processor as ip
+import output_processor as op
 
 class Config():
     def __init__(self):
@@ -20,3 +21,4 @@ class Config():
         base_model.deferred_db.init(self.processing_database)
         ip.LogLine.setup_path_types(self.path_types)
         ip.LogLine.setup_robots_list(self.robots_url)
+        op.Report.setup_report_range(self.start_time, self.end_time)
