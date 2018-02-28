@@ -1,5 +1,6 @@
 from models import *
 from peewee import *
+from .id_stat import IdStat
 #import dateutil.parser
 #import datetime
 #import re
@@ -32,3 +33,4 @@ class Report():
     def iterate_stats(self):
         for my_id in self.ids_to_process:
             print(my_id.identifier)
+            temp = IdStat(my_id, self.start_sql(), self.end_sql())
