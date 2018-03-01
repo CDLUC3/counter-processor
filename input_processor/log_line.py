@@ -1,9 +1,9 @@
+import config
 from models import *
 from peewee import *
 import dateutil.parser
 import datetime
 import requests
-import re
 from urllib.parse import urlparse
 #import ipdb; ipdb.set_trace()
 
@@ -106,42 +106,15 @@ class LogLine():
             raise ApiError('GET /json/<ip_address> {}'.format(resp.status_code))
         return resp.json()['country_code']
 
-    @classmethod
-    def setup_path_types(self, my_dict):
-        self.query_types = { 'investigation': re.compile( '|'.join( my_dict['investigations']) ),
-            'request': re.compile( '|'.join(my_dict['requests']))}
-
-    @classmethod
-    def setup_robots_list(self, url):
-        """Get the list of robots/crawlers from a list that is one per line
-        from the URL passed in and make a regular expression for the detection"""
-        resp = requests.get(url)
-        if resp.status_code != 200:
-            raise ApiError(f'GET {url} failed.')
-        lines = resp.text.splitlines()
-        lines = [s for s in lines if not s.startswith('#')]
-        self.robots = re.compile('|'.join(lines))
-
-    @classmethod
-    def setup_machines_list(self, url):
-        """Get the list of machines user-agent from list that is one per line
-        from the URL passed in and make a regular expression for the detection"""
-        resp = requests.get(url)
-        if resp.status_code != 200:
-            raise ApiError(f'GET {url} failed.')
-        lines = resp.text.splitlines()
-        lines = [s for s in lines if not s.startswith('#')]
-        self.machines = re.compile('|'.join(lines))
-
     def get_hit_type(self):
         o = urlparse(self.request_url)
-        for k,v in self.query_types.items():
+        for k,v in config.hit_type_regexp().items():
             if v.search(o.path):
                 return k
         return None
 
     def is_robot(self):
-        return bool(self.robots.search(self.user_agent))
+        return bool(config.robots_regexp().search(self.user_agent))
 
     def is_machine(self):
-        return bool(self.machines.search(self.user_agent))
+        return bool(config.machines_regexp().search(self.user_agent))

@@ -1,23 +1,18 @@
 #!/usr/bin/env python
-from config import *
+import config
 from models import *
 import input_processor as ip
 import output_processor as op
 import os
 import glob
+# import ipdb; ipdb.set_trace()
 
-conf = Config()
-
-ip.LogLine.setup_path_types(conf.path_types)
-ip.LogLine.setup_robots_list(conf.robots_url)
-ip.LogLine.setup_machines_list(conf.machines_url)
-
-if os.path.isfile(conf.processing_database):
-    os.remove(conf.processing_database)
+if os.path.isfile(config.processing_database):
+    os.remove(config.processing_database)
 DbActions.create_db()
 
 # process the log lines into a sqlite database
-for lf in sorted(glob.glob(conf.log_glob)):
+for lf in sorted(glob.glob(config.log_glob)):
     with open(lf) as infile:
         print(f'processing {lf}')
         for line in infile:
