@@ -22,7 +22,7 @@ for x in cfg:
     setattr(thismodule, x, cfg[x])
 
 # if someone has set any of these environment variables, overide whatever loaded from yaml (but make them lowercase props)
-for ev in ('LOG_GLOB', 'PROCESSING_DATABASE', 'ROBOTS_URL'):
+for ev in ('LOG_GLOB', 'PROCESSING_DATABASE', 'ROBOTS_URL', 'OUTPUT_FILE'):
     if ev in os.environ:
         setattr(thismodule, ev.lower(), os.environ[ev])
 

@@ -19,6 +19,6 @@ for lf in sorted(glob.glob(config.log_glob)):
             ll = ip.LogLine(line)
             ll.populate()
 
-# output for each unique identifier in range that isn't robot
-my_report = op.Report()
-my_report.iterate_stats()
+# output for each unique identifier (that isn't robots)
+my_report = op.TsvReport()
+my_report.output()
