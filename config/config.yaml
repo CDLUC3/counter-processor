@@ -20,3 +20,4 @@ machines_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/us
 start_time: 2018-02-01 00:00:00
 end_time: 2018-03-01 00:00:00
 output_file: tmp/test.tsv
+platform: Dash

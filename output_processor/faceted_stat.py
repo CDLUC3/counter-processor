@@ -50,8 +50,9 @@ class FacetedStat():
         return self.__total_requests_size
 
     def unique_requests_size(self):
+        """ The unique requests size is more complicated than it seems, this is an approximation for now """
         if self.__unique_requests_size is None:
-            pass # do & set query results
+            self.__unique_requests_size = round((self.unique_requests() / self.total_requests()) * self.total_requests_size())
         return self.__unique_requests_size
 
 # These are helper functions

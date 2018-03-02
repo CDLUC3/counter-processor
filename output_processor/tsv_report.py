@@ -3,23 +3,63 @@ from models import *
 from peewee import *
 from .report import Report
 import csv
+import datetime
 #import ipdb; ipdb.set_trace()
 
-class TsvReport():
-    """Make a TSV report from the generic data report object"""
-    def __init__(self):
-        self.my_report = Report()
+HEAD_ROW = ['Dataset_Title', 'Publisher', 'Publisher_ID', 'Platform', 'Creators',
+    'Publication_Date', 'Dataset_Version', 'DOI', 'Other_ID', 'URI', 'YOP', 'Access_Method',
+    'Metric_Type', 'Country', 'Reporting_Period_Total'	'Reporting_Period_Volume']
+
+# these are the functions to use on the FacetStat class instances
+CALCULATOR_FUNCTIONS = \
+        {   'Total_Dataset_Investigations': ['total_investigations', ''],
+            'Unique_Dataset_Investigations': ['unique_investigations', ''],
+            'Total_Dataset_Requests': ['total_requests', 'total_requests_size'],
+            'Unique_Dataset_Requests': ['unique_requests', 'unique_requests_size'] }
+
+class TsvReport(Report):
+    """Make a TSV report from the generic data report object this inherits from"""
 
     def output(self):
-        for i in self.my_report.iterate_facet_stats():
-            self.printrr(i)
+        with open(config.output_file, 'w', newline='\n') as tsvfile:
+            writer = csv.writer(tsvfile, delimiter='\t')
 
-    def printrr(self, f):
-        """A dumb method to print out info so I can debug/see working output"""
-        print('')
-        print(f'id: {f.identifier}, country: {f.country_code}, method: {f.access_method}')
-        print(f'  total_investigations: {f.total_investigations()}')
-        print(f'  total_requests: {f.total_requests()}')
-        print(f'  unique_investigations: {f.unique_investigations()}')
-        print(f'  unique_requests: {f.unique_requests()}')
-        print(f'  total_requests_size: {f.total_requests_size()}')
+            self.output_header_section(writer)
+            self.output_header_row(writer)
+
+            # output table rows
+            for i in self.iterate_facet_stats(): # from the parent report
+                self.output_rows(i, writer)
+                #self.printrr(i)
+
+    def output_header_section(self, w):
+        rows = \
+            [   ['Report_Name',         'Dataset Master Report'],
+                ['Report_ID',           'DSR' ],
+                ['Release',             'RD1'],
+                ['Exceptions',          ''],
+                ['Reporting_Period',    f'{config.start_time} to {config.end_time}' ],
+                ['Created',             datetime.datetime.now().strftime("%Y-%m-%d")  ],
+                ['Created_By',          'Dash'],
+                ['']
+            ]
+        for row in rows:
+            w.writerow(row)
+
+    def output_header_row(self, w):
+        w.writerow(HEAD_ROW)
+
+    def output_rows(self, facet_stats, w):
+        """ Output the related set of stats for this identifier and current facets """
+        print(facet_stats.identifier)
+        meta = self.find_metadata_by_identifier(facet_stats.identifier)
+        creators = ';'.join([ a.author_name for a in meta.author ])
+        base_meta = [meta.title, meta.publisher, 'TODO', config.platform, creators,
+            meta.publication_date, '', meta.identifier, 'TODO', meta.target_url, meta.publication_year ]
+
+        for name, funcs in CALCULATOR_FUNCTIONS.items():
+            if getattr(facet_stats, funcs[0])() < 1: continue
+            end_line = [facet_stats.access_method, name, facet_stats.country_code,
+                getattr(facet_stats, funcs[0])(),
+                ('' if funcs[1] == '' else getattr(facet_stats, funcs[1])())]
+            w.writerow(base_meta + end_line)
