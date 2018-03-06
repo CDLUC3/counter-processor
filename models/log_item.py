@@ -67,7 +67,7 @@ class LogItem(BaseModel):
         earlier_time = self.event_time_as_dt() - datetime.timedelta(seconds=30)
 
         # delete any duplicate requests within 30 seconds earlier by this person from the db
-        # use parenthesis around your condition clauses, otherwise peewee will frack you up
+        # use parenthesis around your condition clauses, otherwise peewee will mess you up
         (LogItem
             .delete()
             .where(

@@ -18,6 +18,8 @@ CALCULATOR_FUNCTIONS = \
             'Total_Dataset_Requests': ['total_requests', 'total_requests_size'],
             'Unique_Dataset_Requests': ['unique_requests', 'unique_requests_size'] }
 
+ACCESS_METHOD_TERMS = {'human': 'Regular', 'machine': 'Machine'}
+
 class TsvReport(Report):
     """Make a TSV report from the generic data report object this inherits from"""
 
@@ -60,7 +62,7 @@ class TsvReport(Report):
 
         for name, funcs in CALCULATOR_FUNCTIONS.items():
             if getattr(facet_stats, funcs[0])() < 1: continue
-            end_line = [facet_stats.access_method, name, facet_stats.country_code,
+            end_line = [self.access_term(facet_stats.access_method), name, facet_stats.country_code,
                 getattr(facet_stats, funcs[0])(),
                 ('' if funcs[1] == '' else getattr(facet_stats, funcs[1])())]
             w.writerow(base_meta + end_line)
@@ -69,3 +71,6 @@ class TsvReport(Report):
         if isinstance(dt, ''.__class__): # if this is a string, make it into a datetime, sqlite is poo
             dt = dateutil.parser.parse(dt)
         return dt.strftime("%Y-%m-%d")
+
+    def access_term(self, t):
+        return ACCESS_METHOD_TERMS[t]

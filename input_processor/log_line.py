@@ -21,6 +21,7 @@ class LogLine():
             self.event_time = None
             return
         split_line = line.split("\t")
+        # import the COLUMNS above
         for idx, my_field in enumerate(self.COLUMNS):
             tempval = split_line[idx]
             if tempval == '' or tempval == '-' or tempval == '????':

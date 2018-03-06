@@ -21,3 +21,5 @@ start_time: 2018-02-01 00:00:00
 end_time: 2018-03-01 00:00:00
 output_file: tmp/test.tsv
 platform: Dash
+# only_calculate allows outputting stats from current database without having to crunch all the logs again and populate it (slow)
+only_calculate: False
