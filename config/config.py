@@ -6,6 +6,7 @@ import output_processor as op
 import sys
 import requests
 import re
+import dateutil.parser
 
 robots_reg = None
 machines_reg = None
@@ -13,24 +14,33 @@ hit_type_reg = None
 
 thismodule = sys.modules[__name__]
 
-#class Config():
-#    def __init__(self):
-# load in first level properties of yaml file as properties on this object
-with open("config/config.yaml", 'r') as ymlfile:
+ALLOWED_ENV = ('LOG_GLOB', 'PROCESSING_DATABASE', 'ROBOTS_URL', 'MACHINES_URL', 'START_TIME', 'END_TIME',
+    'OUTPUT_FILE', 'PLATFORM', 'ONLY_CALCULATE')
+
+# this makes easy way to completely change the config file to a different one if needed by CONFIG_FILE ENV Variable
+config_file = 'config/config.yaml'
+if 'CONFIG_FILE' in os.environ:
+    config_file = os.environ['CONFIG_FILE']
+
+with open(config_file, 'r') as ymlfile:
     cfg = yaml.load(ymlfile)
 for x in cfg:
     setattr(thismodule, x, cfg[x])
 
 # if someone has set any of these environment variables, overide whatever loaded from yaml (but make them lowercase props)
-for ev in ('LOG_GLOB', 'PROCESSING_DATABASE', 'ROBOTS_URL', 'OUTPUT_FILE'):
+for ev in ALLOWED_ENV:
     if ev in os.environ:
         setattr(thismodule, ev.lower(), os.environ[ev])
 
-# set up database, path types and the robots list URL
+if isinstance(start_time, str):
+    start_time = dateutil.parser.parse(start_time)
+
+if isinstance(end_time, str):
+    end_time = dateutil.parser.parse(end_time)
+
+# set up database path
 base_model.deferred_db.init(processing_database)
-#ip.LogLine.setup_path_types(path_types)
-#ip.LogLine.setup_robots_list(robots_url)
-#op.Report.setup_report_range(start_time, end_time)
+
 
 def robots_regexp():
     """Get the list of robots/crawlers from a list that is one per line

@@ -1,0 +1,17 @@
+log_glob: log/counter_2018-02-*.log
+processing_database: db/counter_db.sqlite3
+path_types:
+  investigations:
+    - investo
+    - inclumpto
+  requests:
+    - requesto
+    - reqlumpto
+robots_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user-agents/lists/robot.txt
+machines_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user-agents/lists/machine.txt
+start_time: 2018-02-01 00:00:00
+end_time: 2018-03-01 00:00:00
+output_file: tmp/test_run.tsv
+platform: Dashlet
+# only_calculate allows outputting stats from current database without having to crunch all the logs again and populate it (slow)
+only_calculate: False
