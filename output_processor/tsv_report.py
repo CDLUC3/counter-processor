@@ -36,11 +36,15 @@ class TsvReport(Report):
                 #self.printrr(i)
 
     def output_header_section(self, w):
+        if config.partial_data:
+            exception_msg = '3040: Partial Data Returned'
+        else:
+            exception_msg = ''
         rows = \
             [   ['Report_Name',         'Dataset Master Report'],
                 ['Report_ID',           'DSR' ],
                 ['Release',             'RD1'],
-                ['Exceptions',          ''],
+                ['Exceptions',          exception_msg],
                 ['Reporting_Period',    f'{config.start_time.isoformat()} to {config.end_time.isoformat()}'],
                 ['Created',             self.just_date(datetime.datetime.now())],
                 ['Created_By',          'Dash'],
@@ -57,8 +61,8 @@ class TsvReport(Report):
         print( f'Writing stats for {facet_stats.identifier}')
         meta = self.find_metadata_by_identifier(facet_stats.identifier)
         creators = ';'.join([ a.author_name for a in meta.author ])
-        base_meta = [meta.title, meta.publisher, 'TODO', config.platform, creators,
-            self.just_date(meta.publication_date), '', meta.identifier, 'TODO', meta.target_url, meta.publication_year ]
+        base_meta = [meta.title, meta.publisher, meta.publisher_id, config.platform, creators,
+            self.just_date(meta.publication_date), '', meta.bare_identifier(), meta.other_id, meta.target_url, meta.publication_year ]
 
         for name, funcs in CALCULATOR_FUNCTIONS.items():
             if getattr(facet_stats, funcs[0])() < 1: continue

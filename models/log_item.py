@@ -3,6 +3,7 @@ from .metadata_item import MetadataItem
 from peewee import *
 import dateutil.parser
 import datetime
+import re
 
 class LogItem(BaseModel):
     """These are the log items in the sqlite database based on peewee ORM"""
@@ -30,6 +31,13 @@ class LogItem(BaseModel):
     def event_time_as_timeslice(self):
         """This gives a timeslice of yyyymmddhh (year month day hour [in 24 hour clock])"""
         return self.event_time_as_dt().strftime('%Y%m%d%H')
+
+    def bare_identifier(self):
+        m = re.search('^([a-zA-Z]{2,4}\:)(.+)', self.identifier)
+        if m is None:
+            return self.identifier
+        else:
+            return m.group(2)
 
     def add_doubleclick_id(self):
         """Fills a unique identifier (but doesn't save it) after other fields have been filled

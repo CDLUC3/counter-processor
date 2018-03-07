@@ -15,7 +15,7 @@ hit_type_reg = None
 thismodule = sys.modules[__name__]
 
 ALLOWED_ENV = ('LOG_GLOB', 'PROCESSING_DATABASE', 'ROBOTS_URL', 'MACHINES_URL', 'START_TIME', 'END_TIME',
-    'OUTPUT_FILE', 'PLATFORM', 'ONLY_CALCULATE')
+    'OUTPUT_FILE', 'PLATFORM', 'ONLY_CALCULATE', 'PARTIAL_DATA')
 
 # this makes easy way to completely change the config file to a different one if needed by CONFIG_FILE ENV Variable
 config_file = 'config/config.yaml'
@@ -83,3 +83,14 @@ def start_sql():
 
 def end_sql():
     return end_time.isoformat()
+
+# I believe this method may not be needed and the Exception 3040 for Partial Data Returned will need to be set manually
+def full_month():
+    """Tells whether the dates exactly cover a full month (Day one at midnight to day one at midnight)"""
+    start_on_month_boundary = (start_time.day == 1 and start_time.hour == 0 and
+        start_time.minute == 0 and start_time.second == 0)
+    end_on_month_boundary = (end_time.day == 1 and end_time.hour == 0 and
+        end_time.minute == 0 and end_time.second == 0)
+    months_are_1_apart = ( start_time.month + 1 == end_time.month or
+            (start_time.month == 12 and end_time.month == 1) )
+    return (start_on_month_boundary and end_on_month_boundary and months_are_1_apart)

@@ -13,7 +13,7 @@ class LogLine():
     # the columns from the report in this order
     COLUMNS = ('event_time', 'client_ip', 'session_cookie_id', 'user_cookie_id', 'user_id', 'request_url', 'identifier',
         'filename', 'size', 'user_agent', 'title', 'publisher', 'publisher_id', 'authors', 'publication_date', 'version',
-        'other_ids', 'target_url', 'publication_year')
+        'other_id', 'target_url', 'publication_year')
 
     def __init__(self, line):
         line = line.strip()
@@ -76,7 +76,7 @@ class LogLine():
                 publisher_id=self.publisher_id,
                 publication_date=self.publication_date,
                 version=self.version,
-                other_ids=self.other_ids,
+                other_id=self.other_id,
                 target_url=self.target_url,
                 publication_year=self.publication_year
             )
