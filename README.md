@@ -50,7 +50,7 @@ The script takes a number of different configuration parameters in order to run 
 
 If you don't set a CONFIG_FILE it will use the one at *config/config.yaml*.
 
-###The options###
+###The options
 - **log_glob** is a glob that indicates what files the processor should load into its sqlite database for processing.
 - **processing_database**: the path where you'd like the sqlite database to be written (default is probably OK).
 - **path_types** have two sub-keys, *investigations* and *requests*. Each sub-key has an array of regular expressions for classifying the path portion of URLs for requests as either an *investigation* or a *request* for your system.
@@ -76,7 +76,7 @@ An example of overriding them:
 
 ```LOG_GLOB="log/counter_2018-03-*.log" START_TIME="2018-03-01 00:00:00" END_TIME="2018-04-01 00:00:00" ./main.py```
 
-##Example run##
+##Example run
 
 I'm sure this will change.
 
@@ -95,6 +95,6 @@ Writing stats for doi:10.5072/FK2474DX0J
 Writing stats for doi:10.5072/FK2H41S68W
 ```
 
-##Submitting to the hub##
+##Submitting to the hub
 
 Who knows? Something magic happens and unicorns and elves dance in the streets.
