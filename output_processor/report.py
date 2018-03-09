@@ -2,7 +2,8 @@ import config
 from models import *
 from peewee import *
 from .id_stat import IdStat
-import csv
+import datetime
+import dateutil.parser
 #import ipdb; ipdb.set_trace()
 
 class Report():
@@ -24,6 +25,11 @@ class Report():
 
     def find_metadata_by_identifier(self, doi):
         return MetadataItem.select().where(MetadataItem.identifier==doi).order_by(MetadataItem.id.desc()).get()
+
+    def just_date(self, dt):
+        if isinstance(dt, ''.__class__): # if this is a string, make it into a datetime, sqlite is poo
+            dt = dateutil.parser.parse(dt)
+        return dt.strftime("%Y-%m-%d")
 
     def printrr(self, f):
         """A dumb method to print out info so I can debug/see working output"""

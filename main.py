@@ -5,9 +5,6 @@ import input_processor as ip
 import output_processor as op
 import os
 import glob
-
-
-
 # import ipdb; ipdb.set_trace()
 
 if not config.only_calculate == True:
@@ -15,7 +12,7 @@ if not config.only_calculate == True:
         os.remove(config.processing_database)
     DbActions.create_db()
 
-print(f'Running report for {config.start_time.isoformat()} to {config.end_time.isoformat()}')
+print(f'Running report for {config.start_time().isoformat()} to {config.end_time().isoformat()}')
 
 # process the log lines into a sqlite database
 if not config.only_calculate == True:

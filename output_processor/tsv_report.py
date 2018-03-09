@@ -45,9 +45,9 @@ class TsvReport(Report):
                 ['Report_ID',           'DSR' ],
                 ['Release',             'RD1'],
                 ['Exceptions',          exception_msg],
-                ['Reporting_Period',    f'{config.start_time.isoformat()} to {config.end_time.isoformat()}'],
+                ['Reporting_Period',    f'{config.start_date.isoformat()} to {config.end_date.isoformat()}'],
                 ['Created',             self.just_date(datetime.datetime.now())],
-                ['Created_By',          'Dash'],
+                ['Created_By',          config.platform],
                 ['']
             ]
         for row in rows:
@@ -70,11 +70,6 @@ class TsvReport(Report):
                 getattr(facet_stats, funcs[0])(),
                 ('' if funcs[1] == '' else getattr(facet_stats, funcs[1])())]
             w.writerow(base_meta + end_line)
-
-    def just_date(self, dt):
-        if isinstance(dt, ''.__class__): # if this is a string, make it into a datetime, sqlite is poo
-            dt = dateutil.parser.parse(dt)
-        return dt.strftime("%Y-%m-%d")
 
     def access_term(self, t):
         return ACCESS_METHOD_TERMS[t]

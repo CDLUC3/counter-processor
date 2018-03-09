@@ -7,6 +7,7 @@ import sys
 import requests
 import re
 import dateutil.parser
+import datetime
 
 robots_reg = None
 machines_reg = None
@@ -14,7 +15,7 @@ hit_type_reg = None
 
 thismodule = sys.modules[__name__]
 
-ALLOWED_ENV = ('LOG_GLOB', 'PROCESSING_DATABASE', 'ROBOTS_URL', 'MACHINES_URL', 'START_TIME', 'END_TIME',
+ALLOWED_ENV = ('LOG_GLOB', 'PROCESSING_DATABASE', 'ROBOTS_URL', 'MACHINES_URL', 'START_DATE', 'END_DATE',
     'OUTPUT_FILE', 'PLATFORM', 'ONLY_CALCULATE', 'PARTIAL_DATA')
 
 # this makes easy way to completely change the config file to a different one if needed by CONFIG_FILE ENV Variable
@@ -32,15 +33,22 @@ for ev in ALLOWED_ENV:
     if ev in os.environ:
         setattr(thismodule, ev.lower(), os.environ[ev])
 
-if isinstance(start_time, str):
-    start_time = dateutil.parser.parse(start_time)
+if isinstance(start_date, str):
+    start_date = dateutil.parser.parse(start_date)
 
-if isinstance(end_time, str):
-    end_time = dateutil.parser.parse(end_time)
+if isinstance(end_date, str):
+    end_date = dateutil.parser.parse(end_date)
 
 # set up database path
 base_model.deferred_db.init(processing_database)
 
+dsr_release = 'RD1'
+
+def start_time():
+    return datetime.datetime.combine(start_date, datetime.datetime.min.time())
+
+def end_time():
+    return datetime.datetime.combine(end_date, datetime.datetime.min.time()) + datetime.timedelta(days=1)
 
 def robots_regexp():
     """Get the list of robots/crawlers from a list that is one per line
@@ -79,18 +87,7 @@ def hit_type_regexp():
     return hit_type_reg
 
 def start_sql():
-    return start_time.isoformat()
+    return start_time().isoformat()
 
 def end_sql():
-    return end_time.isoformat()
-
-# I believe this method may not be needed and the Exception 3040 for Partial Data Returned will need to be set manually
-def full_month():
-    """Tells whether the dates exactly cover a full month (Day one at midnight to day one at midnight)"""
-    start_on_month_boundary = (start_time.day == 1 and start_time.hour == 0 and
-        start_time.minute == 0 and start_time.second == 0)
-    end_on_month_boundary = (end_time.day == 1 and end_time.hour == 0 and
-        end_time.minute == 0 and end_time.second == 0)
-    months_are_1_apart = ( start_time.month + 1 == end_time.month or
-            (start_time.month == 12 and end_time.month == 1) )
-    return (start_on_month_boundary and end_on_month_boundary and months_are_1_apart)
+    return end_time().isoformat()

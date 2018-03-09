@@ -17,8 +17,10 @@ path_types:
     - ^/stash/share/\S+$
 robots_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user-agents/lists/robot.txt
 machines_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user-agents/lists/machine.txt
-start_time: 2018-03-01 00:00:00
-end_time: 2018-04-01 00:00:00
+#start_time: 2018-03-01 00:00:00
+#end_time: 2018-04-01 00:00:00
+start_date: 2018-03-01
+end_date: 2018-03-31
 # don't put filename extension, it will tack on the tsv or json in the code
 output_file: tmp/test
 platform: Dash
