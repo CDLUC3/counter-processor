@@ -40,17 +40,17 @@ Log items are separated by tabs (\t) and missing values may be logged with a das
   - Statistic generation and output
   - Submission of statistics (TODO)
 
-##Make logs available  
+## Make logs available  
 You will either need to run the script on a computer where the log files you're trying to process are available on the file system.
 
-##Set up the configuration file
+## Set up the configuration file
 The script takes a number of different configuration parameters in order to run correctly.  See **config/config.yaml** for an example.  To change the configuration, either edit this file or copy it and specify your configuration file location with an environment variable on the startup line such as:
 
 ```CONFIG_FILE=path/to/my/config.yaml ./main.py```
 
 If you don't set a CONFIG_FILE it will use the one at *config/config.yaml*.
 
-###The options###
+### The options
 - **log_glob** is a glob that indicates what files the processor should load into its sqlite database for processing.
 - **processing_database**: the path where you'd like the sqlite database to be written (default is probably OK).
 - **path_types** have two sub-keys, *investigations* and *requests*. Each sub-key has an array of regular expressions for classifying the path portion of URLs for requests as either an *investigation* or a *request* for your system.
@@ -63,7 +63,7 @@ If you don't set a CONFIG_FILE it will use the one at *config/config.yaml*.
 - **only_calculate**: True/False. If True, it tells the script not to re-process the log files (which might take a while) but to use the already existing database and generate statistics from it.
 - **partial_data**: if set to *True*, it adds an exception to the report which indicates that the reporting period you specified does not have complete data available yet.
 
-##Override selected options in environment variables when running the script##
+## Override selected options in environment variables when running the script##
 You will want to set the options in the *config.yaml* file that you use, but some options may change every time you run the script. 
 
 Most options listed above in the previous section can be overriden for each execution of the program by setting them in environment variables (but in all UPPERCASE letters).  The most likely things to be overridden when you are generating reports each month are these items:
@@ -76,7 +76,7 @@ An example of overriding them:
 
 ```LOG_GLOB="log/counter_2018-03-*.log" START_TIME="2018-03-01 00:00:00" END_TIME="2018-04-01 00:00:00" ./main.py```
 
-##Example run##
+## Example run
 
 I'm sure this will change.
 
@@ -95,6 +95,6 @@ Writing stats for doi:10.5072/FK2474DX0J
 Writing stats for doi:10.5072/FK2H41S68W
 ```
 
-##Submitting to the hub##
+## Submitting to the hub
 
 Who knows? Something magic happens and unicorns and elves dance in the streets.
