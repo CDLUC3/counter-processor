@@ -24,7 +24,7 @@ class TsvReport(Report):
     """Make a TSV report from the generic data report object this inherits from"""
 
     def output(self):
-        with open(config.output_file, 'w', newline='\n') as tsvfile:
+        with open(f"{config.output_file}.tsv", 'w', newline='\n') as tsvfile:
             writer = csv.writer(tsvfile, delimiter='\t')
 
             self.output_header_section(writer)

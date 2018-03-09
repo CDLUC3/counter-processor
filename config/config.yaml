@@ -19,7 +19,8 @@ robots_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user
 machines_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user-agents/lists/machine.txt
 start_time: 2018-03-01 00:00:00
 end_time: 2018-04-01 00:00:00
-output_file: tmp/test.tsv
+# don't put filename extension, it will tack on the tsv or json in the code
+output_file: tmp/test
 platform: Dash
 # only_calculate allows outputting stats from current database without having to crunch all the logs
 # again and populate it (may be slow).

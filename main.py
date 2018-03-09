@@ -29,3 +29,6 @@ if not config.only_calculate == True:
 # output for each unique identifier (that isn't robots)
 my_report = op.TsvReport()
 my_report.output()
+
+my_report = op.JsonReport()
+my_report.output()
