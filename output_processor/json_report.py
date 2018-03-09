@@ -3,6 +3,8 @@ import json
 from models import *
 from peewee import *
 from .report import Report
+from .id_stat import IdStat
+from .json_metadata import JsonMetadata
 import datetime
 import dateutil.parser
 #import ipdb; ipdb.set_trace()
@@ -12,8 +14,10 @@ class JsonReport(Report):
 
     def output(self):
         with open(f"{config.output_file}.json", 'w') as jsonfile:
-            data = self.header_dict()
-            json.dump(data, jsonfile, indent=4, ensure_ascii=False)
+            head = self.header_dict()
+            body = {'report_datasets': [self.dict_for_id(my_id) for my_id in self.ids_to_process ] }
+            data = dict(list(head.items()) + list(body.items()))
+            json.dump(data, jsonfile, indent=2, ensure_ascii=False)
 
     def header_dict(self):
         if config.partial_data:
@@ -48,3 +52,10 @@ class JsonReport(Report):
             }
         }
         return head_dict
+
+    def dict_for_id(self, my_id):
+        """Takes a IdStat object, which is at the level of identifier"""
+        id_stat = IdStat(my_id)
+        meta = self.find_metadata_by_identifier(id_stat.identifier)
+        js_meta = JsonMetadata(id_stat, meta)
+        return js_meta.descriptive_dict()

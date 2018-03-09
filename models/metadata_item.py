@@ -14,9 +14,23 @@ class MetadataItem(BaseModel):
     target_url = TextField(null=True)
     publication_year = IntegerField(null=True)
 
-    def bare_identifier(self):
+    def identifier_bare(self):
         m = re.search('^([a-zA-Z]{2,4}\:)(.+)', self.identifier)
         if m is None:
             return self.identifier
         else:
             return m.group(2)
+
+    def identifier_type(self):
+        m = re.search('^([a-zA-Z]{2,5})\:(.+)', self.identifier)
+        return m.group(1).upper()
+
+    def publisher_id_bare(self):
+        m = re.search('^[a-zA-Z]{2,10}[\:\.\=](.+)', self.publisher_id)
+        if m is None: return ''
+        return m.group(1)
+
+    def publisher_id_type(self):
+        m = re.search('^([a-zA-Z]{2,10})[\:\.\=].+', self.publisher_id)
+        if m is None: return ''
+        return m.group(1).upper()

@@ -26,7 +26,8 @@ class Report():
     def find_metadata_by_identifier(self, doi):
         return MetadataItem.select().where(MetadataItem.identifier==doi).order_by(MetadataItem.id.desc()).get()
 
-    def just_date(self, dt):
+    @staticmethod
+    def just_date(dt):
         if isinstance(dt, ''.__class__): # if this is a string, make it into a datetime, sqlite is poo
             dt = dateutil.parser.parse(dt)
         return dt.strftime("%Y-%m-%d")

@@ -31,7 +31,7 @@ class TsvReport(Report):
             self.output_header_row(writer)
 
             # output table rows
-            for i in self.iterate_facet_stats(): # from the parent report
+            for i in self.iterate_facet_stats(): # from the parent report, items with stats
                 self.output_rows(i, writer)
                 #self.printrr(i)
 
@@ -46,7 +46,7 @@ class TsvReport(Report):
                 ['Release',             'RD1'],
                 ['Exceptions',          exception_msg],
                 ['Reporting_Period',    f'{config.start_date.isoformat()} to {config.end_date.isoformat()}'],
-                ['Created',             self.just_date(datetime.datetime.now())],
+                ['Created',             Report.just_date(datetime.datetime.now())],
                 ['Created_By',          config.platform],
                 ['']
             ]
@@ -62,7 +62,7 @@ class TsvReport(Report):
         meta = self.find_metadata_by_identifier(facet_stats.identifier)
         creators = ';'.join([ a.author_name for a in meta.author ])
         base_meta = [meta.title, meta.publisher, meta.publisher_id, config.platform, creators,
-            self.just_date(meta.publication_date), '', meta.bare_identifier(), meta.other_id, meta.target_url, meta.publication_year ]
+            Report.just_date(meta.publication_date), '', meta.identifier_bare(), meta.other_id, meta.target_url, meta.publication_year ]
 
         for name, funcs in CALCULATOR_FUNCTIONS.items():
             if getattr(facet_stats, funcs[0])() < 1: continue
