@@ -6,6 +6,8 @@ import datetime
 import dateutil.parser
 #import ipdb; ipdb.set_trace()
 
+ACCESS_METHOD_TERMS = {'human': 'Regular', 'machine': 'Machine'}
+
 class Report():
     """A class to generate data for a report, that a specific kind of report can take and iterate/output from"""
 
@@ -31,6 +33,10 @@ class Report():
         if isinstance(dt, ''.__class__): # if this is a string, make it into a datetime, sqlite is poo
             dt = dateutil.parser.parse(dt)
         return dt.strftime("%Y-%m-%d")
+
+    @staticmethod
+    def access_term(t):
+        return ACCESS_METHOD_TERMS[t]
 
     def printrr(self, f):
         """A dumb method to print out info so I can debug/see working output"""

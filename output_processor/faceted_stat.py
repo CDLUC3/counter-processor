@@ -47,12 +47,17 @@ class FacetedStat():
                         (LogItem.country == self.country_code) &
                         (LogItem.is_machine == self.is_machine()) &
                         (LogItem.hit_type == 'request') ).scalar()
+            if self.__total_requests_size is None:
+                self.__total_requests_size = 0
         return self.__total_requests_size
 
     def unique_requests_size(self):
         """ The unique requests size is more complicated than it seems, this is an approximation for now """
         if self.__unique_requests_size is None:
-            self.__unique_requests_size = round((self.unique_requests() / self.total_requests()) * self.total_requests_size())
+            if self.total_requests() == 0:
+                self.__unique_requests_size = 0
+            else:
+                self.__unique_requests_size = round((self.unique_requests() / self.total_requests()) * self.total_requests_size())
         return self.__unique_requests_size
 
 # These are helper functions

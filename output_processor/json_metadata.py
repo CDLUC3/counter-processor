@@ -8,6 +8,10 @@ import datetime
 import dateutil.parser
 #import ipdb; ipdb.set_trace()
 
+STAT_METHODS = {'Total-Dataset-Requests': 'total_requests', 'Unique-Dataset-Requests': 'unique_requests',
+                'Total-Dataset-Requests-Size': 'total_requests_size', 'Unique-Dataset-Requests-Size': 'unique_requests_size',
+                'Total-Dataset-Investigations': 'total_investigations', 'Unique-Dataset-Investigations': 'unique_investigations'}
+
 class JsonMetadata():
     """Structures JSON (dict-format) metadata for an id_stat object"""
 
@@ -36,11 +40,26 @@ class JsonMetadata():
     def performance(self):
         return {
             'Period': { 'Begin-Date': Report.just_date(config.start_date), 'End-Date': Report.just_date(config.end_date) },
-            'Instance': [ {'some': 'stuff'}]
+            'Instance': self.performance_facet_data()
         }
 
     def performance_facet_data(self):
-        pass
+        my_stats = []
+        # import ipdb; ipdb.set_trace()
+        for f_stat in self.id_stat.stats():
+            for name, meth in STAT_METHODS.items():
+                stat = getattr(f_stat, meth)()
+                if stat == 0 or stat is None:
+                    continue
+                my_stats.append(
+                    {
+                        'Country': f_stat.country_code,
+                        'Access-Method': Report.access_term(f_stat.access_method),
+                        'Metric-Type': name,
+                        'Count': stat
+                    }
+                )
+        return my_stats
 
 
 # these are basic metadata issues
