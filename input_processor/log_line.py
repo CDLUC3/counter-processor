@@ -115,7 +115,11 @@ class LogLine():
         return None
 
     def is_robot(self):
+        if self.user_agent is None:
+            return False
         return bool(config.robots_regexp().search(self.user_agent))
 
     def is_machine(self):
+        if self.user_agent is None:
+            return True
         return bool(config.machines_regexp().search(self.user_agent))

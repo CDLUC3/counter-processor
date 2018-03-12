@@ -55,6 +55,7 @@ class JsonReport(Report):
 
     def dict_for_id(self, my_id):
         """Takes a IdStat object, which is at the level of identifier"""
+        print(f'Calculating {my_id} stats for json output')
         id_stat = IdStat(my_id)
         meta = self.find_metadata_by_identifier(id_stat.identifier)
         js_meta = JsonMetadata(id_stat, meta)
