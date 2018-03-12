@@ -16,22 +16,38 @@ hit_type_reg = None
 thismodule = sys.modules[__name__]
 
 ALLOWED_ENV = ('LOG_GLOB', 'PROCESSING_DATABASE', 'ROBOTS_URL', 'MACHINES_URL', 'START_DATE', 'END_DATE',
-    'OUTPUT_FILE', 'PLATFORM', 'ONLY_CALCULATE', 'PARTIAL_DATA')
+    'OUTPUT_FILE', 'OUTPUT_FORMAT', 'PLATFORM', 'ONLY_CALCULATE', 'PARTIAL_DATA', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB')
 
 # this makes easy way to completely change the config file to a different one if needed by CONFIG_FILE ENV Variable
 config_file = 'config/config.yaml'
 if 'CONFIG_FILE' in os.environ:
     config_file = os.environ['CONFIG_FILE']
 
+# load the config file
 with open(config_file, 'r') as ymlfile:
     cfg = yaml.load(ymlfile)
 for x in cfg:
     setattr(thismodule, x, cfg[x])
 
+# load the secrets file if you want to separate any sensitive information from the config in secrets.yaml
+# which is .gitignored.  Anything set in secrets will override that top-level key from the config if it's set.
+secret = os.path.join(os.path.dirname(config_file), 'secrets.yaml')
+if os.path.isfile(secret) == True:
+    with open(secret, 'r') as ymlfile:
+        cfg = yaml.load(ymlfile)
+        for x in cfg:
+            setattr(thismodule, x, cfg[x])
+
+
 # if someone has set any of these environment variables, overide whatever loaded from yaml (but make them lowercase props)
 for ev in ALLOWED_ENV:
     if ev in os.environ:
         setattr(thismodule, ev.lower(), os.environ[ev])
+
+for item in ('only_calculate', 'partial_data', 'upload_to_hub'):
+    my_val = getattr(thismodule, item)
+    if isinstance(my_val, str):
+        setattr(thismodule, item, (my_val == 'True' or my_val == 'true'))
 
 if isinstance(start_date, str):
     start_date = dateutil.parser.parse(start_date)

@@ -7,13 +7,14 @@ from .id_stat import IdStat
 from .json_metadata import JsonMetadata
 import datetime
 import dateutil.parser
+import io
 #import ipdb; ipdb.set_trace()
 
 class JsonReport(Report):
     """Make a JSON report from the generic data report object this inherits from"""
 
     def output(self):
-        with open(f"{config.output_file}.json", 'w') as jsonfile:
+        with io.open(f"{config.output_file}.json", 'w', encoding='utf8') as jsonfile:
             head = self.header_dict()
             body = {'report_datasets': [self.dict_for_id(my_id) for my_id in self.ids_to_process ] }
             data = dict(list(head.items()) + list(body.items()))
@@ -55,7 +56,7 @@ class JsonReport(Report):
 
     def dict_for_id(self, my_id):
         """Takes a IdStat object, which is at the level of identifier"""
-        print(f'Calculating {my_id} stats for json output')
+        print(f'Calculating stats for {my_id}')
         id_stat = IdStat(my_id)
         meta = self.find_metadata_by_identifier(id_stat.identifier)
         js_meta = JsonMetadata(id_stat, meta)

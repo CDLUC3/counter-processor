@@ -56,7 +56,7 @@ class TsvReport(Report):
 
     def output_rows(self, facet_stats, w):
         """ Output the related set of stats for this identifier and current facets """
-        print( f'Writing TSV stats for {facet_stats.identifier}')
+        print( f'Writing stats for {facet_stats.identifier}')
         meta = self.find_metadata_by_identifier(facet_stats.identifier)
         creators = ';'.join([ a.author_name for a in meta.author ])
         base_meta = [meta.title, meta.publisher, meta.publisher_id, config.platform, creators,

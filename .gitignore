@@ -1,3 +1,6 @@
+# Don't commit sensitive information
+secrets.yaml
+
 # Compiled source #
 ###################
 *.pyc

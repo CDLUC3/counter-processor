@@ -1,5 +1,11 @@
+# Choose log file(s) to process for this reporting period
 log_glob: log/counter_2018-03-*.log
+
+# choose where to save the sqlite database, generally you may not need to change the default
 processing_database: db/counter_db.sqlite3
+
+# path_types regular expressions allow matching to classify page urls as either an investigation or request
+# based on specific URL structure for your system.
 path_types:
   investigations:
     - ^/api/datasets/[^\/]+$
@@ -15,18 +21,34 @@ path_types:
     - ^/stash/downloads/file_stream/\d+$
     - ^/stash/downloads/async_request/\d+$
     - ^/stash/share/\S+$
+
+# Robots and machines urls are urls where the script can download a list of regular expressions to determine
+# if something is a robot or machine user-agent.  The text file has one regular expression per line
 robots_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user-agents/lists/robot.txt
 machines_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user-agents/lists/machine.txt
-#start_time: 2018-03-01 00:00:00
-#end_time: 2018-04-01 00:00:00
+
+# the start and end date limit queries to this time period, regardless of which logs were crunched
 start_date: 2018-03-01
-end_date: 2018-03-31
-# don't put filename extension, it will tack on the tsv or json in the code
+end_date: 2018-03-31 # end date is inclusive
+
+# Don't put the filename extension, the code will tack on the tsv or json extension for you.
+# Output formats are either tsv or json currently.
 output_file: tmp/test
+output_format: json
+
+# the name of the platform that goes into your reports
 platform: Dash
+
 # only_calculate allows outputting stats from current database without having to crunch all the logs
-# again and populate it (may be slow).
-only_calculate: False
+# again and populate the sqlite database again. Large log file crunching may take some time to complete.
+only_calculate: True
+
 # specifying partial data will set the exception 3040: Partial Data Returned in the report because
-# it's not a final report for the period.
+# it's not a final report for the time period.
 partial_data: True
+
+# Don't put your api token in here if you're going to commit it, but put in separate secrets.yaml in same
+# directory as the config or else set a environment variable when starting up in order to override the key.
+hub_api_token: set_me_in_secrets
+hub_base_url: https://metrics.test.datacite.org
+upload_to_hub: False

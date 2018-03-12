@@ -3,6 +3,7 @@ import config
 from models import *
 import input_processor as ip
 import output_processor as op
+from upload import upload
 import os
 import glob
 # import ipdb; ipdb.set_trace()
@@ -24,8 +25,12 @@ if not config.only_calculate == True:
                 ll.populate()
 
 # output for each unique identifier (that isn't robots)
-my_report = op.TsvReport()
-my_report.output()
+if config.output_format == 'tsv':
+    my_report = op.TsvReport()
+    my_report.output()
+elif config.output_format == 'json':
+    my_report = op.JsonReport()
+    my_report.output()
 
-my_report = op.JsonReport()
-my_report.output()
+if config.upload_to_hub == True:
+    upload.send_to_datacite()
