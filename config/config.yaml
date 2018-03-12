@@ -41,7 +41,7 @@ platform: Dash
 
 # only_calculate allows outputting stats from current database without having to crunch all the logs
 # again and populate the sqlite database again. Large log file crunching may take some time to complete.
-only_calculate: True
+only_calculate: False
 
 # specifying partial data will set the exception 3040: Partial Data Returned in the report because
 # it's not a final report for the time period.
