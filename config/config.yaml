@@ -33,7 +33,7 @@ end_date: 2018-03-31 # end date is inclusive
 
 # Don't put the filename extension, the code will tack on the tsv or json extension for you.
 # Output formats are either tsv or json currently.
-output_file: tmp/test
+output_file: tmp/6days
 output_format: json
 
 # the name of the platform that goes into your reports
@@ -41,7 +41,7 @@ platform: Dash
 
 # only_calculate allows outputting stats from current database without having to crunch all the logs
 # again and populate the sqlite database again. Large log file crunching may take some time to complete.
-only_calculate: False
+only_calculate: True
 
 # specifying partial data will set the exception 3040: Partial Data Returned in the report because
 # it's not a final report for the time period.
@@ -51,4 +51,4 @@ partial_data: True
 # directory as the config or else set a environment variable when starting up in order to override the key.
 hub_api_token: set_me_in_secrets
 hub_base_url: https://metrics.test.datacite.org
-upload_to_hub: False
+upload_to_hub: True
