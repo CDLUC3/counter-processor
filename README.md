@@ -85,18 +85,19 @@ An example of overriding them:
 I'm sure this will change.
 
 ```
-$ LOG_GLOB="log/counter_2018-03-*.log" START_DATE="2018-03-01" END_DATE="2018-03-15" ./main.py
-Running report for 2018-03-01T00:00:00 to 2018-03-16T00:00:00
-processing log/counter_2018-03-09.log
-processing log/counter_2018-03-10.log
-processing log/counter_2018-03-11.log
-processing log/counter_2018-03-12.log
-Calculating stats for doi:10.7291/D1Q94R
-Calculating stats for doi:10.15146/R34P46
+$ LOG_GLOB="sample_logs/counter_2018-03-*.log" START_DATE="2018-03-01" END_DATE="2018-03-31" ./main.py
+Running report for 2018-03-01T00:00:00 to 2018-04-01T00:00:00
+
+processing sample_logs/counter_2018-03-13.log
+processing sample_logs/counter_2018-03-14.log
+
 Calculating stats for doi:10.6071/Z7WC73
-Calculating stats for doi:10.6086/D1CM12
-Calculating stats for doi:10.7280/D1JD4X
+Calculating stats for doi:10.5060/D8H59D
+Calculating stats for doi:10.7280/D1MW2M
 ...
+Calculating stats for doi:10.6078/D11S3N
+
+Writing JSON report to tmp/test.json
 ```
 
 ## Submitting to the hub
