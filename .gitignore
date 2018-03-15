@@ -20,7 +20,7 @@ secrets.yaml
 
 # Logs and databases #
 ######################
-*.log
+log/*.log
 *.sql
 *.sqlite
 *.sqlite3
@@ -37,4 +37,5 @@ Thumbs.db
 
 # ignore directories
 ###########################
-tmp/*
+tmp/*.json
+tmp/*.tsv

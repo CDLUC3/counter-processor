@@ -32,6 +32,8 @@ class TsvReport(Report):
             for i in self.iterate_facet_stats(): # from the parent report, items with stats
                 self.output_rows(i, writer)
                 #self.printrr(i)
+        print('')
+        print(f'Report written to {config.output_file}.tsv')
 
     def output_header_section(self, w):
         if config.partial_data:

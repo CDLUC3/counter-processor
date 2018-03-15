@@ -14,6 +14,7 @@ if not config.only_calculate == True:
     DbActions.create_db()
 
 print(f'Running report for {config.start_time().isoformat()} to {config.end_time().isoformat()}')
+print('')
 
 # process the log lines into a sqlite database
 if not config.only_calculate == True:
@@ -24,6 +25,7 @@ if not config.only_calculate == True:
                 ll = ip.LogLine(line)
                 ll.populate()
 
+print('')
 # output for each unique identifier (that isn't robots)
 if config.output_format == 'tsv':
     my_report = op.TsvReport()

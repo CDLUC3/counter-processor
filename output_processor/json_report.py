@@ -18,6 +18,8 @@ class JsonReport(Report):
             head = self.header_dict()
             body = {'report_datasets': [self.dict_for_id(my_id) for my_id in self.ids_to_process ] }
             data = dict(list(head.items()) + list(body.items()))
+            print('')
+            print(f'Writing JSON report to {config.output_file}.json')
             json.dump(data, jsonfile, indent=2, ensure_ascii=False)
 
     def header_dict(self):
