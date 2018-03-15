@@ -101,4 +101,4 @@ Calculating stats for doi:10.7280/D1JD4X
 
 ## Submitting to the hub
 
-More to come.  I have some code for doing a POST request for these requests but some other details need to be hammered out.
+To submit to the hub, set *upload_to_hub* to True in either the configuration or an environment variable.  You must also set *hub_api_token* and *hub_base_url* in the config.yaml or secrets.yaml.  It will then try sending the report to the hub for you.
