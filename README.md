@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The Counter Processor is a Python script for processing dataset access statistics from logs
+The Counter Processor is a Python 3 (written in 3.6.4) script for processing dataset access statistics from logs
 according to the COUNTER Code of Practice for Research Data.
 
 The software assumes you area already logging your COUNTER dataset *investigations* and *requests* to a log file using a format somewhat similar to extended log format.  The COUNTER Code of Practice requires that descriptive metadata be submitted along with statistics so, these items are included in logs to ease later processing.
