@@ -8,9 +8,10 @@ import datetime
 import dateutil.parser
 #import ipdb; ipdb.set_trace()
 
-STAT_METHODS = {'Total-Dataset-Requests': 'total_requests', 'Unique-Dataset-Requests': 'unique_requests',
-                'Total-Dataset-Requests-Size': 'total_requests_size', 'Unique-Dataset-Requests-Size': 'unique_requests_size',
-                'Total-Dataset-Investigations': 'total_investigations', 'Unique-Dataset-Investigations': 'unique_investigations'}
+# these are the terms (key) and their methods (values)
+STAT_METHODS = {'total-dataset-requests': 'total_requests', 'unique-dataset-requests': 'unique_requests',
+                'total-dataset-requests-size': 'total_requests_size', 'unique-dataset-requests-size': 'unique_requests_size',
+                'total-dataset-investigations': 'total_investigations', 'unique-dataset-investigations': 'unique_investigations'}
 
 class JsonMetadata():
     """Structures JSON (dict-format) metadata for an id_stat object"""
@@ -20,27 +21,27 @@ class JsonMetadata():
         self.meta = meta
 
     def descriptive_dict(self):
-        contribs = [ { 'Type': "Name", 'Value': a.author_name } for a in self.meta.author ]
+        contribs = [ { 'type': "name", 'value': a.author_name } for a in self.meta.author ]
         return {
-            'Dataset-Title': self.meta.title,
-            'Dataset-ID': [ {'Type': self.meta.identifier_type(), 'Value': self.meta.identifier_bare()} ],
-            'Dataset-Contributors': contribs,
-            'Dataset-Dates': [ {'Type': "Pub-Date", 'Value': Report.just_date(self.meta.publication_date) } ],
-            'Platform': config.platform,
-            'Publisher': self.meta.publisher,
-            'Publisher-ID': [ { 'Type': self.meta.publisher_id_type(), 'Value': self.meta.publisher_id_bare() } ],
-            'Data-Type': "Dataset",
-            'YOP': self.meta.publication_year,
-            'URI': self.meta.target_url,
-            'Performance': [
+            'dataset-title': self.meta.title,
+            'dataset-id': [ {'type': self.meta.identifier_type(), 'value': self.meta.identifier_bare()} ],
+            'dataset-contributors': contribs,
+            'dataset-dates': [ {'type': "pub-date", 'value': Report.just_date(self.meta.publication_date) } ],
+            'platform': config.platform,
+            'publisher': self.meta.publisher,
+            'publisher-id': [ { 'type': self.meta.publisher_id_type(), 'value': self.meta.publisher_id_bare() } ],
+            'data-type': "dataset",
+            'yop': self.meta.publication_year,
+            'uri': self.meta.target_url,
+            'performance': [
                 self.performance()
             ]
         }
 
     def performance(self):
         return {
-            'Period': { 'Begin-Date': Report.just_date(config.start_date), 'End-Date': Report.just_date(config.end_date) },
-            'Instance': self.performance_facet_data()
+            'period': { 'begin-date': Report.just_date(config.start_date), 'end-date': Report.just_date(config.end_date) },
+            'instance': self.performance_facet_data()
         }
 
     def performance_facet_data(self):
@@ -53,10 +54,10 @@ class JsonMetadata():
                     continue
                 my_stats.append(
                     {
-                        'Country': f_stat.country_code,
-                        'Access-Method': Report.access_term(f_stat.access_method),
-                        'Metric-Type': name,
-                        'Count': stat
+                        'country': f_stat.country_code,
+                        'access-method': Report.access_term(f_stat.access_method),
+                        'metric-type': name,
+                        'count': stat
                     }
                 )
         return my_stats

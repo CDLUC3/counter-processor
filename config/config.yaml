@@ -1,5 +1,5 @@
 # Choose log file(s) to process for this reporting period
-log_glob: sample_logs/counter_2018-03-*.log
+log_glob: log/counter_2018-04-01.log
 
 # choose where to save the sqlite database, generally you may not need to change the default
 processing_database: db/counter_db.sqlite3
@@ -28,12 +28,12 @@ robots_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user
 machines_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user-agents/lists/machine.txt
 
 # the start and end date limit queries to this time period, regardless of which logs were crunched
-start_date: 2018-03-01
-end_date: 2018-03-31 # end date is inclusive
+start_date: 2018-04-01
+end_date: 2018-04-30 # end date is inclusive
 
 # Don't put the filename extension, the code will tack on the tsv or json extension for you.
 # Output formats are either tsv or json currently.
-output_file: tmp/test
+output_file: tmp/2018-04-20_01.log
 output_format: json
 
 # the name of the platform that goes into your reports
@@ -41,7 +41,7 @@ platform: Dash
 
 # only_calculate allows outputting stats from current database without having to crunch all the logs
 # again and populate the sqlite database again. Large log file crunching may take some time to complete.
-only_calculate: False
+only_calculate: True
 
 # specifying partial data will set the exception 3040: Partial Data Returned in the report because
 # it's not a final report for the time period.
@@ -52,4 +52,4 @@ partial_data: True
 # yaml key/values set in secrets.yaml will override one from the main config.
 hub_api_token: set_me_in_secrets
 hub_base_url: https://metrics.test.datacite.org
-upload_to_hub: False
+upload_to_hub: True

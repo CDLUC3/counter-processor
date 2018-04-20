@@ -26,15 +26,15 @@ class JsonReport(Report):
         if config.partial_data:
             exception_dict = {
                 'code':         3040,
-                'Severity':     'Warning',
-                'Message':      "Partial Data Returned",
-                'Help-URL':     "String",
-                'Data':         "Usage data has not been processed for the entire reporting period"
+                'severity':     'Warning',
+                'message':      "Partial Data Returned",
+                'help-url':     "String",
+                'data':         "Usage data has not been processed for the entire reporting period"
             }
         else:
             exception_dict = {}
 
-        head_dict = { 'report_header': {
+        head_dict = { 'report-header': {
                 'report-name':      "Dataset Report",
                 'report-id':        "DSR",
                 'release':          "RD1",
@@ -42,16 +42,16 @@ class JsonReport(Report):
                 'created-by':       config.platform,
                 'report-filters':   [
                     {
-                        'Name':     "Begin-Date",
-                        'Value':    config.start_date.isoformat()
+                        'name':     "begin-date",
+                        'value':    config.start_date.isoformat()
                     },
                     {
-                        'Name':     "End-Date",
-                        'Value':    config.end_date.isoformat()
+                        'name':     "end-date",
+                        'value':    config.end_date.isoformat()
                     }
                 ],
                 # any reporting period like in the CSV, or does filter also mean period?
-                'Exceptions': [ exception_dict ]
+                'exceptions': [ exception_dict ]
             }
         }
         return head_dict

@@ -8,7 +8,6 @@ class UploadException(Exception):
     pass
 
 def send_to_datacite():
-    my_url = urljoin(config.hub_base_url, 'reports')
     if config.output_format == 'json':
         ct = 'application/json; charset=UTF-8'
     else:
@@ -20,7 +19,15 @@ def send_to_datacite():
     # this is how you do a direct post of the information.
     # For a multipart encoded file, see http://docs.python-requests.org/en/master/user/quickstart/
     # It's not clear to me which way: as multi-part encoded file or as a direct POST of the json/tsv data
-    response = requests.post(my_url, data=data.encode("utf-8"), headers=headers)
+
+    # my_url = urljoin(config.hub_base_url, 'reports')
+    # response = requests.post(my_url, data=data.encode("utf-8"), headers=headers)
+
+    # my_url = urljoin(config.hub_base_url, 'reports/2018-04-CDL')
+    # my_url = urljoin(config.hub_base_url, 'reports/2018-4-Dash')
+    # response = requests.put(my_url, data=data.encode("utf-8"), headers=headers)
+
+    import ipdb; ipdb.set_trace()
     print('')
     print('Sending report to the hub')
     print(f'Response was: {response}')

@@ -6,7 +6,7 @@ import datetime
 import dateutil.parser
 #import ipdb; ipdb.set_trace()
 
-ACCESS_METHOD_TERMS = {'human': 'Regular', 'machine': 'Machine'}
+ACCESS_METHOD_TERMS = {'human': 'regular', 'machine': 'machine'}
 
 class Report():
     """A class to generate data for a report, that a specific kind of report can take and iterate/output from"""
