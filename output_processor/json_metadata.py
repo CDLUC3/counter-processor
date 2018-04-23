@@ -10,8 +10,9 @@ import dateutil.parser
 
 # these are the terms (key) and their methods (values)
 STAT_METHODS = {'total-dataset-requests': 'total_requests', 'unique-dataset-requests': 'unique_requests',
-                'total-dataset-requests-size': 'total_requests_size', 'unique-dataset-requests-size': 'unique_requests_size',
                 'total-dataset-investigations': 'total_investigations', 'unique-dataset-investigations': 'unique_investigations'}
+# These methods are not used for now because more ongoing discussion around them and unclear specification
+# 'total-dataset-requests-size': 'total_requests_size', 'unique-dataset-requests-size': 'unique_requests_size',
 
 class JsonMetadata():
     """Structures JSON (dict-format) metadata for an id_stat object"""

@@ -17,15 +17,20 @@ def send_to_datacite():
         data = myfile.read()
 
     # this is how you do a direct post of the information.
-    # For a multipart encoded file, see http://docs.python-requests.org/en/master/user/quickstart/
-    # It's not clear to me which way: as multi-part encoded file or as a direct POST of the json/tsv data
 
     # my_url = urljoin(config.hub_base_url, 'reports')
     # response = requests.post(my_url, data=data.encode("utf-8"), headers=headers)
 
-    # my_url = urljoin(config.hub_base_url, 'reports/2018-04-CDL')
+    #  this is the bad one -- my_url = urljoin(config.hub_base_url, 'reports/2018-04-CDL')
     # my_url = urljoin(config.hub_base_url, 'reports/2018-4-Dash')
     # response = requests.put(my_url, data=data.encode("utf-8"), headers=headers)
+
+    file = open("tmp/datacite_response_body.txt","w")
+    file.write(f'{str(response.status_code)}\n')
+    file.write(f'{response.headers['content-type']}')
+    file.write(response.text)
+    file.close()
+
 
     import ipdb; ipdb.set_trace()
     print('')

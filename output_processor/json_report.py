@@ -26,28 +26,29 @@ class JsonReport(Report):
         if config.partial_data:
             exception_dict = {
                 'code':         3040,
-                'severity':     'Warning',
-                'message':      "Partial Data Returned",
+                'severity':     'warning',
+                'message':      "partial data returned",
                 'help-url':     "String",
-                'data':         "Usage data has not been processed for the entire reporting period"
+                'data':         "usage data has not been processed for the entire reporting period"
             }
         else:
             exception_dict = {}
 
         head_dict = { 'report-header': {
-                'report-name':      "Dataset Report",
-                'report-id':        "DSR",
-                'release':          "RD1",
-                'created':          self.just_date(datetime.datetime.now()),
-                'created-by':       config.platform,
+                'report-name':          "dataset report",
+                'report-id':            "DSR",
+                'release':              "rd1",
+                'created':              self.just_date(datetime.datetime.now()),
+                'created-by':           config.platform,
+                'report-attributes':    [],
                 'report-filters':   [
                     {
-                        'name':     "begin-date",
-                        'value':    config.start_date.isoformat()
+                        'name':         "begin-date",
+                        'value':        config.start_date.isoformat()
                     },
                     {
-                        'name':     "end-date",
-                        'value':    config.end_date.isoformat()
+                        'name':         "end-date",
+                        'value':        config.end_date.isoformat()
                     }
                 ],
                 # any reporting period like in the CSV, or does filter also mean period?

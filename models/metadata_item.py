@@ -23,7 +23,7 @@ class MetadataItem(BaseModel):
 
     def identifier_type(self):
         m = re.search('^([a-zA-Z]{2,5})\:(.+)', self.identifier)
-        return m.group(1).upper()
+        return m.group(1).lower()
 
     def publisher_id_bare(self):
         m = re.search('^[a-zA-Z]{2,10}[\:\.\=](.+)', self.publisher_id)
@@ -33,4 +33,4 @@ class MetadataItem(BaseModel):
     def publisher_id_type(self):
         m = re.search('^([a-zA-Z]{2,10})[\:\.\=].+', self.publisher_id)
         if m is None: return ''
-        return m.group(1).upper()
+        return m.group(1).lower()
