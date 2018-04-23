@@ -8,6 +8,8 @@ import requests
 import re
 import dateutil.parser
 import datetime
+import json
+import calendar
 
 robots_reg = None
 machines_reg = None
@@ -15,8 +17,33 @@ hit_type_reg = None
 
 thismodule = sys.modules[__name__]
 
-ALLOWED_ENV = ('LOG_GLOB', 'PROCESSING_DATABASE', 'ROBOTS_URL', 'MACHINES_URL', 'START_DATE', 'END_DATE',
+ALLOWED_ENV = ('LOG_GLOB', 'PROCESSING_DATABASE', 'ROBOTS_URL', 'MACHINES_URL', 'YEAR_MONTH' # 'START_DATE', 'END_DATE',
     'OUTPUT_FILE', 'OUTPUT_FORMAT', 'PLATFORM', 'ONLY_CALCULATE', 'PARTIAL_DATA', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB')
+
+# --- methods used inside this file for processing ---
+def read_state():
+    my_dir = "state"
+    if not os.path.exists(my_dir):
+        os.makedirs(my_dir)
+
+    my_file = f'{my_dir}/statefile.json'
+    if not os.path.isfile(my_file):
+        with open(my_file, 'w') as f:
+            json.dump({}, f, sort_keys = True, indent = 4, ensure_ascii=False)
+
+    with open(my_file) as f:
+        return json.load(f)
+
+def make_start_and_end(my_year_month):
+    yr, mnth = my_year_month.split('-')
+    yr = int(yr)
+    mnth = int(mnth)
+    _, lastday = calendar.monthrange(yr,mnth)
+    return (f'{yr}-{mnth}-01', f'{yr}-{mnth}-{lastday}')
+
+# --- main setup and reading of all the config information ---
+
+state_dict = read_state()
 
 # this makes easy way to completely change the config file to a different one if needed by CONFIG_FILE ENV Variable
 config_file = 'config/config.yaml'
@@ -49,11 +76,11 @@ for item in ('only_calculate', 'partial_data', 'upload_to_hub'):
     if isinstance(my_val, str):
         setattr(thismodule, item, (my_val == 'True' or my_val == 'true'))
 
-if isinstance(start_date, str):
-    start_date = dateutil.parser.parse(start_date)
+# parse in the start and end days now
 
-if isinstance(end_date, str):
-    end_date = dateutil.parser.parse(end_date)
+sd, ed = make_start_and_end(year_month)
+start_date = dateutil.parser.parse(sd)
+end_date = dateutil.parser.parse(ed)
 
 # set up database path
 base_model.deferred_db.init(processing_database)

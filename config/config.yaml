@@ -28,12 +28,13 @@ robots_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user
 machines_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user-agents/lists/machine.txt
 
 # the start and end date limit queries to this time period, regardless of which logs were crunched
-start_date: 2018-04-01
-end_date: 2018-04-30 # end date is inclusive
+# start_date: 2018-04-01
+# end_date: 2018-04-30 # end date is inclusive
+year_month: 2018-04
 
 # Don't put the filename extension, the code will tack on the tsv or json extension for you.
 # Output formats are either tsv or json currently.
-output_file: tmp/2018-04-20_01.log
+output_file: tmp/2018-04-23.log
 output_format: json
 
 # the name of the platform that goes into your reports
@@ -52,4 +53,4 @@ partial_data: True
 # yaml key/values set in secrets.yaml will override one from the main config.
 hub_api_token: set_me_in_secrets
 hub_base_url: https://metrics.test.datacite.org
-upload_to_hub: True
+upload_to_hub: False

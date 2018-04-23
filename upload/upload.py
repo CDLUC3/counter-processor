@@ -27,7 +27,8 @@ def send_to_datacite():
 
     file = open("tmp/datacite_response_body.txt","w")
     file.write(f'{str(response.status_code)}\n')
-    file.write(f'{response.headers['content-type']}')
+    file.write(f'{response.headers}\n')
+    # this errors, not sure why -- file.write(f'{(response.headers['content-type'])}\n')
     file.write(response.text)
     file.close()
 
