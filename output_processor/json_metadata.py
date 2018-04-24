@@ -32,7 +32,7 @@ class JsonMetadata():
             'publisher': self.meta.publisher,
             'publisher-id': [ { 'type': self.meta.publisher_id_type(), 'value': self.meta.publisher_id_bare() } ],
             'data-type': "dataset",
-            'yop': self.meta.publication_year,
+            'yop': str(self.meta.publication_year),
             'uri': self.meta.target_url,
             'performance': [
                 self.performance()

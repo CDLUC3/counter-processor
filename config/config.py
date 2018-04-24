@@ -14,11 +14,13 @@ import calendar
 robots_reg = None
 machines_reg = None
 hit_type_reg = None
+last_p_day = None
 
 thismodule = sys.modules[__name__]
 
-ALLOWED_ENV = ('LOG_GLOB', 'ROBOTS_URL', 'MACHINES_URL', 'YEAR_MONTH' # 'START_DATE', 'END_DATE',
-    'OUTPUT_FILE', 'OUTPUT_FORMAT', 'PLATFORM', 'ONLY_CALCULATE', 'PARTIAL_DATA', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB')
+ALLOWED_ENV = ('LOG_NAME_PATTERN', 'ROBOTS_URL', 'MACHINES_URL', 'YEAR_MONTH',
+    'OUTPUT_FILE', 'OUTPUT_FORMAT', 'PLATFORM', 'PARTIAL_DATA', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB',
+    'SIMULATE_DATE')
 
 # --- methods used inside this file for processing ---
 def read_state():
@@ -75,13 +77,18 @@ for ev in ALLOWED_ENV:
     if ev in os.environ:
         setattr(thismodule, ev.lower(), os.environ[ev])
 
-for item in ('only_calculate', 'partial_data', 'upload_to_hub'):
+for item in ('partial_data', 'upload_to_hub'):
     my_val = getattr(thismodule, item)
     if isinstance(my_val, str):
         setattr(thismodule, item, (my_val == 'True' or my_val == 'true'))
 
-# parse in the start and end days now
+# similate date, in case someone wants to simulate running on a day besides now
+if 'simulate_date' in vars():
+    run_date = datetime.datetime.combine(simulate_date, datetime.datetime.min.time())
+else:
+    run_date = datetime.datetime.now()
 
+# parse in the start and end days now
 sd, ed = make_start_and_end(year_month)
 start_date = dateutil.parser.parse(sd)
 end_date = dateutil.parser.parse(ed)
@@ -100,10 +107,14 @@ def end_time():
 
 def last_day():
     """The last day available in the period, either yesterday if in same month, or else last day of month if it has passed"""
-    if end_time() < datetime.datetime.now():
-        return (end_time() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+    global last_p_day
+    if last_p_day is not None:
+        return last_p_day
+    if end_time() < run_date:
+        last_p_day = (end_time() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
     else:
-        return (datetime.datetime.now() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+        last_p_day = (run_date - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+    return last_p_day
 
 
 def robots_regexp():
@@ -149,6 +160,13 @@ def start_sql():
 def end_sql():
     return end_time().isoformat()
 
+def last_processed_on():
+    """gives string for last day it was processed for this month"""
+    if year_month in state_dict and 'last_processed_day' in state_dict[year_month]:
+        return f'{year_month}-{state_dict[year_month]["last_processed_day"]}'
+    else:
+        return f'not processed yet for {year_month}'
+
 def filenames_to_process():
     """Create list of filenames to process that haven't been done yet.
     They may be from 1st of month until yesterday (or last day of month).
@@ -168,3 +186,11 @@ def filenames_to_process():
 
     return [ log_name_pattern.replace('(yyyy-mm-dd)', year_month + '-' + ("%02d" % x))
         for x in range(to_process_from, ld + 1) ]
+
+def update_log_processed_date():
+    if year_month in state_dict:
+        state_dict[year_month]['last_processed_day'] = int(last_day().split('-')[2])
+    else:
+        state_dict[year_month] = {'last_processed_day': int(last_day().split('-')[2])}
+    with open('state/statefile.json', 'w') as f:
+        json.dump(state_dict, f, sort_keys = True, indent = 4, ensure_ascii=False)
