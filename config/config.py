@@ -24,7 +24,7 @@ ALLOWED_ENV = ('LOG_NAME_PATTERN', 'ROBOTS_URL', 'MACHINES_URL', 'YEAR_MONTH',
 
 # --- methods used inside this file for processing ---
 def read_state():
-    """State is a json file that is a dictionary like {'2018-03': {id: 'doi:1234/45632', 'last_processed_day': 17}}"""
+    """State is a json file that is a dictionary like {'2018-03': {'id': 'doi:1234/45632', 'last_processed_day': 17}}"""
     my_dir = "state"
     if not os.path.exists(my_dir):
         os.makedirs(my_dir)
@@ -192,5 +192,16 @@ def update_log_processed_date():
         state_dict[year_month]['last_processed_day'] = int(last_day().split('-')[2])
     else:
         state_dict[year_month] = {'last_processed_day': int(last_day().split('-')[2])}
+    with open('state/statefile.json', 'w') as f:
+        json.dump(state_dict, f, sort_keys = True, indent = 4, ensure_ascii=False)
+
+def current_id():
+    if 'id' in state_dict[year_month]:
+        return state_dict[year_month]['id']
+    else:
+        return None
+
+def write_id(the_id):
+    state_dict[year_month]['id'] = the_id
     with open('state/statefile.json', 'w') as f:
         json.dump(state_dict, f, sort_keys = True, indent = 4, ensure_ascii=False)

@@ -34,7 +34,7 @@ year_month: 2018-04
 
 # Don't put the filename extension, the code will tack on the tsv or json extension for you.
 # Output formats are either tsv or json currently.
-output_file: tmp/2018-04-23.log
+output_file: tmp/test_out
 output_format: json
 
 # the name of the platform that goes into your reports
@@ -49,6 +49,6 @@ partial_data: True
 # yaml key/values set in secrets.yaml will override one from the main config.
 hub_api_token: set_me_in_secrets
 hub_base_url: https://metrics.test.datacite.org
-upload_to_hub: False
+upload_to_hub: True
 # only use this to simulate running on a date besides today
-simulate_date: 2018-04-02
+simulate_date: 2018-04-03
