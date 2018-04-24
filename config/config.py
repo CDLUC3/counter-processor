@@ -84,7 +84,10 @@ for item in ('partial_data', 'upload_to_hub'):
 
 # similate date, in case someone wants to simulate running on a day besides now
 if 'simulate_date' in vars():
-    run_date = datetime.datetime.combine(simulate_date, datetime.datetime.min.time())
+    if isinstance(simulate_date, str):
+        run_date = datetime.datetime.strptime(simulate_date, '%Y-%m-%d')
+    else:
+        run_date = datetime.datetime.combine(simulate_date, datetime.datetime.min.time())
 else:
     run_date = datetime.datetime.now()
 
