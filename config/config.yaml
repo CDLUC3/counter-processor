@@ -1,8 +1,9 @@
 # Choose log file(s) to process for this reporting period
-log_glob: log/counter_2018-04-01.log
+# log_glob: log/counter_2018-04-01.log
 
-# choose where to save the sqlite database, generally you may not need to change the default
-processing_database: db/counter_db.sqlite3
+# currently no other option but to have daily logs and have year-month-day format in the name with
+# 4-digit year and 2-digit month and day
+log_name_pattern: log/counter_(yyyy-mm-dd).log
 
 # path_types regular expressions allow matching to classify page urls as either an investigation or request
 # based on specific URL structure for your system.
@@ -42,7 +43,7 @@ platform: Dash
 
 # only_calculate allows outputting stats from current database without having to crunch all the logs
 # again and populate the sqlite database again. Large log file crunching may take some time to complete.
-only_calculate: True
+only_calculate: False
 
 # specifying partial data will set the exception 3040: Partial Data Returned in the report because
 # it's not a final report for the time period.

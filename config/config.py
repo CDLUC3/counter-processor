@@ -17,11 +17,12 @@ hit_type_reg = None
 
 thismodule = sys.modules[__name__]
 
-ALLOWED_ENV = ('LOG_GLOB', 'PROCESSING_DATABASE', 'ROBOTS_URL', 'MACHINES_URL', 'YEAR_MONTH' # 'START_DATE', 'END_DATE',
+ALLOWED_ENV = ('LOG_GLOB', 'ROBOTS_URL', 'MACHINES_URL', 'YEAR_MONTH' # 'START_DATE', 'END_DATE',
     'OUTPUT_FILE', 'OUTPUT_FORMAT', 'PLATFORM', 'ONLY_CALCULATE', 'PARTIAL_DATA', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB')
 
 # --- methods used inside this file for processing ---
 def read_state():
+    """State is a json file that is a dictionary like {'2018-03': {id: 'doi:1234/45632', 'last_processed_day': 17}}"""
     my_dir = "state"
     if not os.path.exists(my_dir):
         os.makedirs(my_dir)
@@ -35,7 +36,10 @@ def read_state():
         return json.load(f)
 
 def make_start_and_end(my_year_month):
+    """Makes the start and end dates as yyyy-mm-dd strings for the full month reporting period"""
     yr, mnth = my_year_month.split('-')
+    if len(yr) != 4 or len(mnth) != 2:
+        raise ValueError('year and month must be YYYY-MM format')
     yr = int(yr)
     mnth = int(mnth)
     _, lastday = calendar.monthrange(yr,mnth)
@@ -83,6 +87,7 @@ start_date = dateutil.parser.parse(sd)
 end_date = dateutil.parser.parse(ed)
 
 # set up database path
+processing_database = f'state/counter_db_{year_month}.sqlite3'
 base_model.deferred_db.init(processing_database)
 
 dsr_release = 'RD1'
@@ -92,6 +97,14 @@ def start_time():
 
 def end_time():
     return datetime.datetime.combine(end_date, datetime.datetime.min.time()) + datetime.timedelta(days=1)
+
+def last_day():
+    """The last day available in the period, either yesterday if in same month, or else last day of month if it has passed"""
+    if end_time() < datetime.datetime.now():
+        return (end_time() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+    else:
+        return (datetime.datetime.now() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+
 
 def robots_regexp():
     """Get the list of robots/crawlers from a list that is one per line
@@ -122,6 +135,7 @@ def machines_regexp():
     return machines_reg
 
 def hit_type_regexp():
+    """Make hit type regular expressions for investigation vs request"""
     global hit_type_reg
     if hit_type_reg is not None:
         return hit_type_reg
@@ -134,3 +148,23 @@ def start_sql():
 
 def end_sql():
     return end_time().isoformat()
+
+def filenames_to_process():
+    """Create list of filenames to process that haven't been done yet.
+    They may be from 1st of month until yesterday (or last day of month).
+    Or could start from the file after last we processed until yesterday
+    (or the last day of the month)."""
+    ld = int(last_day().split('-')[2]) # last day to process, yesterday (if in period) or end of month
+
+    # last (previously) processed day
+    if year_month in state_dict:
+        to_process_from = state_dict[year_month]['last_processed_day'] + 1
+    else:
+        to_process_from = 1
+
+    to_process_from_str = year_month + '-' + ("%02d" % to_process_from)
+    if to_process_from > ld:
+        return []
+
+    return [ log_name_pattern.replace('(yyyy-mm-dd)', year_month + '-' + ("%02d" % x))
+        for x in range(to_process_from, ld + 1) ]

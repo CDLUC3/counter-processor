@@ -6,6 +6,7 @@ import output_processor as op
 from upload import upload
 import os
 import glob
+
 # import ipdb; ipdb.set_trace()
 
 if not config.only_calculate == True:
@@ -18,7 +19,7 @@ print('')
 
 # process the log lines into a sqlite database
 if not config.only_calculate == True:
-    for lf in sorted(glob.glob(config.log_glob)):
+    for lf in config.filenames_to_process():
         with open(lf) as infile:
             print(f'processing {lf}')
             for line in infile:
