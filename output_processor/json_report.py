@@ -23,7 +23,9 @@ class JsonReport(Report):
             json.dump(data, jsonfile, indent=2, ensure_ascii=False)
 
     def header_dict(self):
-        if config.partial_data:
+        if config.month_complete():
+            exception_dict = {}
+        else:
             exception_dict = {
                 'code':         3040,
                 'severity':     'warning',
@@ -31,8 +33,6 @@ class JsonReport(Report):
                 'help-url':     "String",
                 'data':         "usage data has not been processed for the entire reporting period"
             }
-        else:
-            exception_dict = {}
 
         head_dict = { 'report-header': {
                 'report-name':          "dataset report",

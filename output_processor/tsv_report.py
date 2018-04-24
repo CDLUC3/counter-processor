@@ -36,10 +36,11 @@ class TsvReport(Report):
         print(f'Report written to {config.output_file}.tsv')
 
     def output_header_section(self, w):
-        if config.partial_data:
-            exception_msg = '3040: Partial Data Returned'
-        else:
+        if config.month_complete():
             exception_msg = ''
+        else:
+            exception_msg = '3040: Partial Data Returned'
+
         rows = \
             [   ['Report_Name',         'Dataset Master Report'],
                 ['Report_ID',           'DSR' ],

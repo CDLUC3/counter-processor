@@ -28,8 +28,7 @@ path_types:
 robots_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user-agents/lists/robot.txt
 machines_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user-agents/lists/machine.txt
 
-# the year and month for the report you are creating.  If not a full month of complete data, use the
-# partial_data: True flag
+# the year and month for the report you are creating.
 year_month: 2018-04
 
 # Don't put the filename extension, the code will tack on the tsv or json extension for you.

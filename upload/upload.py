@@ -26,12 +26,13 @@ def send_to_datacite():
         ct = 'text/tab-separated-values; charset=UTF-8'
     headers = {'content-type': ct, 'Authorization': f'Bearer {config.hub_api_token}'}
 
-    with io.open('tmp/good_test.json', 'r', encoding='utf-8') as myfile:
-        data = myfile.read()
-
-    # TODO: put this back after DataCite accepts grids as they said they would do for now
-    # with io.open(f'{config.output_file}.{config.output_format}', 'r', encoding='utf-8') as myfile:
+    # TODO: if we need to test, use this below because still not accepting grids
+    # with io.open('good_test.json', 'r', encoding='utf-8') as myfile:
     #    data = myfile.read()
+
+
+    with io.open(f'{config.output_file}.{config.output_format}', 'r', encoding='utf-8') as myfile:
+        data = myfile.read()
 
     # post or put the information
     my_id = config.current_id()

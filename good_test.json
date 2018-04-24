@@ -1,0 +1,2759 @@
+{
+  "report-header": {
+    "report-name": "dataset report",
+    "report-id": "DSR",
+    "release": "rd1",
+    "created": "2018-04-24",
+    "created-by": "Dash",
+    "report-attributes": [],
+    "report-filters": [
+      {
+        "name": "begin-date",
+        "value": "2018-04-01T00:00:00"
+      },
+      {
+        "name": "end-date",
+        "value": "2018-04-30T00:00:00"
+      }
+    ],
+    "exceptions": [
+      {
+        "code": 3040,
+        "severity": "warning",
+        "message": "partial data returned",
+        "help-url": "String",
+        "data": "usage data has not been processed for the entire reporting period"
+      }
+    ]
+  },
+  "report_datasets": [
+    {
+      "dataset-title": "Posttraumatic Stress Disorder (PTSD)",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Michael W. Weiner"
+        },
+        {
+          "type": "name",
+          "value": "Norbert Schuff"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2013-08-22"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC San Francisco",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2012",
+      "uri": "https://datashare.ucsf.edu/stash/dataset/doi:10.7272/Q6QN64NK",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "RU",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "RU",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Influence of human disturbance on marine invertebrate biodiversity in Acadia National Park’s rocky intertidal community",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3J66V"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Cassandra Lopez"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-12-31"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3J66V",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "KR",
+              "access-method": "machine",
+              "metric-type": "total-dataset-requests",
+              "count": 1
+            },
+            {
+              "country": "KR",
+              "access-method": "machine",
+              "metric-type": "unique-dataset-requests",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "TWOSTATE, a resonance Raman excitation profile and absorption spectrum simulator",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.6071/M32Q0X"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Anne Kelley"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-09-06"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Merced",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://dash.ucmerced.edu/stash/dataset/doi:10.6071/M32Q0X",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "US",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "US",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Providence Creek soil moisture and temperature, snow depth and air temperature",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.6071/Z7WC73"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Roger Bales"
+        },
+        {
+          "type": "name",
+          "value": "Matt Meadows"
+        },
+        {
+          "type": "name",
+          "value": "Xiande Meng"
+        },
+        {
+          "type": "name",
+          "value": "Southern Sierra Critical Zone Observatory (SSCZO)"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-03-14"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Merced",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2013",
+      "uri": "https://dash.ucmerced.edu/stash/dataset/doi:10.6071/Z7WC73",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "US",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 12
+            },
+            {
+              "country": "US",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Pay It Forward: APC - SNIP Regression Raw Data",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.5060/d8kw2m"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "2015-16 University of California Pay It Forward Project"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-06-28"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Office of the President",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2016",
+      "uri": "https://dash.ucop.edu/stash/dataset/doi:10.5060/d8kw2m",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Pay It Forward: Author Survey Results",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.5060/d8z59f"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "2015-16 University of California Pay It Forward Project"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-06-29"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Office of the President",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2016",
+      "uri": "https://dash.ucop.edu/stash/dataset/doi:10.5060/d8z59f",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Pay It Forward: Journal Cost Modeling Data",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.5060/d8g593"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "2015-16 University of California Pay It Forward Project"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-06-28"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Office of the President",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2016",
+      "uri": "https://dash.ucop.edu/stash/dataset/doi:10.5060/d8g593",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Pay It Forward: APC Payment and Pricing Data",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.5060/d8301x"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "2015-16 University of California Pay It Forward Project"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-06-28"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Office of the President",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2016",
+      "uri": "https://dash.ucop.edu/stash/dataset/doi:10.5060/d8301x",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Shifts in water availability mediate plant-pollinator interactions",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.7280/D17C7X"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "M. Kate Gallagher"
+        },
+        {
+          "type": "name",
+          "value": "Diane Campbell"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-06-09"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Irvine",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://dash.lib.uci.edu/stash/dataset/doi:10.7280/D17C7X",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Data associated with Britten, Thatcher and Caro (PLOS One, 2016). \"Zebras and biting flies: quantitative analysis of reflected light from zebra coats in their natural habitat.\"",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3201J"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Kenneth H. Britten"
+        },
+        {
+          "type": "name",
+          "value": "Timothy D. Thatcher"
+        },
+        {
+          "type": "name",
+          "value": "Tim Caro"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-04-20"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2016",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3201J",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Simulation input and out and data analysis for calculating partition coefficients of small molecules in octanol/water and cyclohexane/water",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.7280/D1S887"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Caitlin C Bannan"
+        },
+        {
+          "type": "name",
+          "value": "Gaetano Calabró"
+        },
+        {
+          "type": "name",
+          "value": "Daisy Y Kyu"
+        },
+        {
+          "type": "name",
+          "value": "David L Mobley"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-08-22"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Irvine",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2016",
+      "uri": "https://dash.lib.uci.edu/stash/dataset/doi:10.7280/D1S887",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Transcriptome Analysis Reveals Extensive Alternative Splicing-Coupled Nonsense-Mediated mRNA Decay in a Human Cell Line",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.6078/D1H019"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Courtney French"
+        },
+        {
+          "type": "name",
+          "value": "Gang Wei"
+        },
+        {
+          "type": "name",
+          "value": "Steven Brenner"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2015-09-25"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Berkeley",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2015",
+      "uri": "https://dash.berkeley.edu/stash/dataset/doi:10.6078/D1H019",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Making Data Count survey responses",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.5060/D8H59D"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "John Kratz"
+        },
+        {
+          "type": "name",
+          "value": "Carly Strasser"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2015-03-25"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Office of the President",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2015",
+      "uri": "https://dash.ucop.edu/stash/dataset/doi:10.5060/D8H59D",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 2
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Program to Reduce Incontinence through Diet and Exercise (PRIDE)",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.7272/q6pn93h6"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Jennifer Creasman"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2013-11-04"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC San Francisco",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2009",
+      "uri": "https://datashare.ucsf.edu/stash/dataset/doi:10.7272/q6pn93h6",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 2
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "A scaling law for seismic moment and maximum seismic interval in Japan",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R30M3W"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Yingfeng Ji"
+        },
+        {
+          "type": "name",
+          "value": "Shoichi Yoshioka"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-08-10"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R30M3W",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 60
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 4
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "CA",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 24
+            },
+            {
+              "country": "CA",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 3
+            },
+            {
+              "country": "IE",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 8
+            },
+            {
+              "country": "IE",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 3
+            },
+            {
+              "country": "AU",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 5
+            },
+            {
+              "country": "AU",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 3
+            },
+            {
+              "country": "US",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 4
+            },
+            {
+              "country": "US",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "A microbial survey of the International Space Station (ISS)",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.25338/B89G6C"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Jonathan Eisen"
+        },
+        {
+          "type": "name",
+          "value": "David Coil"
+        },
+        {
+          "type": "name",
+          "value": "Jenna Lang"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-12-11"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Davis",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://dash.ucdavis.edu/stash/dataset/doi:10.25338/B89G6C",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 26
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "A confidence interval analysis of sampling effort, sequencing depth, and taxonomic resolution of fungal community ecology in the era of high-throughput sequencing.",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3Z96M"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Ryoko Oono"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-11-08"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3Z96M",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 16
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "10x Lacrimal Gland scRNA seq data matrix",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.7272/Q6W37T8B"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Shengyang Yu"
+        },
+        {
+          "type": "name",
+          "value": "Aaron Tward"
+        },
+        {
+          "type": "name",
+          "value": "Sarah Knox"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-06-13"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC San Francisco",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://datashare.ucsf.edu/stash/dataset/doi:10.7272/Q6W37T8B",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 4
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Causal Evidence for Lateral Prefrontal Cortex Dynamics Supporting Cognitive Control",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3Q37R"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Derek Nee"
+        },
+        {
+          "type": "name",
+          "value": "Mark D'Esposito"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-09-10"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3Q37R",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Data wikiAves",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R34K5J"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Raquel Machado"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-09-29"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2016",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R34K5J",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Dataset for \"Soil fluxes of carbonyl sulfide (COS), carbon monoxide, and carbon dioxide in a boreal forest in southern Finland\"",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R39P4R"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "W. Sun"
+        },
+        {
+          "type": "name",
+          "value": "L. M. J. Kooijmans"
+        },
+        {
+          "type": "name",
+          "value": "K. Maseyk"
+        },
+        {
+          "type": "name",
+          "value": "H. Chen"
+        },
+        {
+          "type": "name",
+          "value": "I. Mammarella"
+        },
+        {
+          "type": "name",
+          "value": "T. Vesala"
+        },
+        {
+          "type": "name",
+          "value": "J. Levula"
+        },
+        {
+          "type": "name",
+          "value": "H. Keskinen"
+        },
+        {
+          "type": "name",
+          "value": "U. Seibt"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-02-27"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R39P4R",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "DataScience Experiment: Analysis and Visualization of two GoAmazon Experiments",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3GC7B"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Andre Batista"
+        },
+        {
+          "type": "name",
+          "value": "Diogenes Lima"
+        },
+        {
+          "type": "name",
+          "value": "Lucas Cardoso"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-11-17"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2016",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3GC7B",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Data associated with Vandeleest, Beisner et al. (PeerJ, 2016) \"Decoupling Social Status and Status Certainty Effects on Health in Macaques: A Network Approach\"",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3V883"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Jessica Vandeleest"
+        },
+        {
+          "type": "name",
+          "value": "Brianne Beisner"
+        },
+        {
+          "type": "name",
+          "value": "Darcy Hannibal"
+        },
+        {
+          "type": "name",
+          "value": "Amy Nathman"
+        },
+        {
+          "type": "name",
+          "value": "John Capitanio"
+        },
+        {
+          "type": "name",
+          "value": "Hsieh Fushing"
+        },
+        {
+          "type": "name",
+          "value": "Edward Atwill"
+        },
+        {
+          "type": "name",
+          "value": "Brenda McCowan"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-08-23"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2016",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3V883",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Dados de manobras de navios em um porto brasileiro",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3ZC7P"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Mauricio Souza"
+        },
+        {
+          "type": "name",
+          "value": "Guilherme Correa"
+        },
+        {
+          "type": "name",
+          "value": "Janaina Freitas"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-12-01"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2016",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3ZC7P",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Data from Sun, W., Maseyk, K., Lett, C. and Seibt, U. (2016). Litter dominates surface fluxes of carbonyl sulfide (COS) in a Californian oak woodland",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3PP45"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Wu Sun"
+        },
+        {
+          "type": "name",
+          "value": "Kadmiel Maseyk"
+        },
+        {
+          "type": "name",
+          "value": "Céline Lett"
+        },
+        {
+          "type": "name",
+          "value": "Ulli Seibt"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-01-14"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2016",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3PP45",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Cognitive abilities dataset - Words and Non-words Reading Competence Test",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3VQ29"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Johne Jarske"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-10-05"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3VQ29",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "CT Network error reports",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3V30B"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Zhang Yuanjun"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2014-05-10"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2014",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3V30B",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Data associated with Balasubramaniam, Beisner et al. (PeerJ, 2016): \"Social buffering and contact transmission: Network connections have beneficial and detrimental effects on Shigella infection risk among captive rhesus macaques\"",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3MK5W"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Krishna Balasubramaniam"
+        },
+        {
+          "type": "name",
+          "value": "Brianne Beisner"
+        },
+        {
+          "type": "name",
+          "value": "Jessica Vandeleest"
+        },
+        {
+          "type": "name",
+          "value": "Rob Atwill"
+        },
+        {
+          "type": "name",
+          "value": "Brenda McCowan"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-09-30"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2016",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3MK5W",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "BSEL Shelflist",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3MW2V"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Sherry Lake"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2014-12-10"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2014",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3MW2V",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "CoreShellShell, a quantum dot excitonic energy and charge density calculator",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.6071/M3Z07D"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Anne Kelley"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-09-12"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Merced",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://dash.ucmerced.edu/stash/dataset/doi:10.6071/M3Z07D",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "#WOCAffirmation",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.6086/D1TW8H"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Bergis Jules"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-10-14"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Riverside",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://dash.ucr.edu/stash/dataset/doi:10.6086/D1TW8H",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "ygrange/diskbench: disk speed measuring tool",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3DM3M"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Yan Grange"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-09-29"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3DM3M",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Wind January 2013",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R35C7J"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Fernando Aguilar"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2013-11-28"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2013",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R35C7J",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Academic Libraries and Research Data Services dataset",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3FG6P"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Carol Tenopir"
+        },
+        {
+          "type": "name",
+          "value": "Ben Birch"
+        },
+        {
+          "type": "name",
+          "value": "Suzie Allard"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-01-08"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3FG6P",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "BE",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 2
+            },
+            {
+              "country": "BE",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 1
+            },
+            {
+              "country": "BE",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 2
+            },
+            {
+              "country": "BE",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Abstracts",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3TP4D"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Pedro Russo"
+        },
+        {
+          "type": "name",
+          "value": "Cesar Prada"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-12-08"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2016",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3TP4D",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "A Zebrafish Model for Studies on Esophageal Epithelial Biology",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3RG6G"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Hao Chen"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2016-07-14"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2016",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3RG6G",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Californian vascular plant species recognized by Baldwin et al. (2017), and their correspondence to the “large and intermediate-sized genera” studied by Stebbins & Major (1965)",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.6078/D1B885"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Bruce G. Baldwin"
+        },
+        {
+          "type": "name",
+          "value": "Andrew H. Thornhill"
+        },
+        {
+          "type": "name",
+          "value": "William A. Freyman"
+        },
+        {
+          "type": "name",
+          "value": "David D. Ackerly"
+        },
+        {
+          "type": "name",
+          "value": "Matthew M. Kling"
+        },
+        {
+          "type": "name",
+          "value": "Naia Morueta-Holme"
+        },
+        {
+          "type": "name",
+          "value": "Brent D. Mishler"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2017-02-21"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Berkeley",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2017",
+      "uri": "https://dash.berkeley.edu/stash/dataset/doi:10.6078/D1B885",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "A Strawberry Database: Geometric Properties, Images and 3D Scans",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.25338/B8V308"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Adrien Durand-Petiteville"
+        },
+        {
+          "type": "name",
+          "value": "Dennis Sadowski"
+        },
+        {
+          "type": "name",
+          "value": "Stavros Vougioukas"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2018-02-08"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Davis",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2018",
+      "uri": "https://dash.ucdavis.edu/stash/dataset/doi:10.25338/B8V308",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 52
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 3
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "US",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 8
+            },
+            {
+              "country": "US",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 3
+            },
+            {
+              "country": "CA",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 23
+            },
+            {
+              "country": "CA",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 3
+            },
+            {
+              "country": "IE",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 12
+            },
+            {
+              "country": "IE",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 3
+            },
+            {
+              "country": "AU",
+              "access-method": "regular",
+              "metric-type": "total-dataset-requests",
+              "count": 6
+            },
+            {
+              "country": "AU",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-requests",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Hitachi S4800",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.15146/R3RP4S"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Edmond Chow"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2014-11-03"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "DataONE",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2014",
+      "uri": "https://oneshare.cdlib.org/stash/dataset/doi:10.15146/R3RP4S",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Live cell interferometry cell division tracking data files",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.5068/D1RP49"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Thomas A. Zangle"
+        },
+        {
+          "type": "name",
+          "value": "Jason Reed"
+        },
+        {
+          "type": "name",
+          "value": "Michael A. Teitell"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2014-12-05"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Los Angeles",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2014",
+      "uri": "https://dash.ucla.edu/stash/dataset/doi:10.5068/D1RP49",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Lensfree On-chip Microscopy for Telemedicine",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.5068/D1H59V"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Tseng Kuochao"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2014-12-11"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC Los Angeles",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2014",
+      "uri": "https://dash.ucla.edu/stash/dataset/doi:10.5068/D1H59V",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset-title": "Re-analysis of microarray data from rapamycin resistant DLBCL cell lines",
+      "dataset-id": [
+        {
+          "type": "doi",
+          "value": "10.7272/Q6TD9V7J"
+        }
+      ],
+      "dataset-contributors": [
+        {
+          "type": "name",
+          "value": "Megan Laurance"
+        }
+      ],
+      "dataset-dates": [
+        {
+          "type": "pub-date",
+          "value": "2013-10-22"
+        }
+      ],
+      "platform": "Dash",
+      "publisher": "UC San Francisco",
+      "publisher-id": [
+        {
+          "type": "orcid",
+          "value": "10.7272/Q6QN64NK"
+        }
+      ],
+      "data-type": "dataset",
+      "yop": "2014",
+      "uri": "https://datashare.ucsf.edu/stash/dataset/doi:10.7272/Q6TD9V7J",
+      "performance": [
+        {
+          "period": {
+            "begin-date": "2018-04-01",
+            "end-date": "2018-04-30"
+          },
+          "instance": [
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "total-dataset-investigations",
+              "count": 1
+            },
+            {
+              "country": "DK",
+              "access-method": "regular",
+              "metric-type": "unique-dataset-investigations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

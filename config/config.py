@@ -19,12 +19,12 @@ last_p_day = None
 thismodule = sys.modules[__name__]
 
 ALLOWED_ENV = ('LOG_NAME_PATTERN', 'ROBOTS_URL', 'MACHINES_URL', 'YEAR_MONTH',
-    'OUTPUT_FILE', 'OUTPUT_FORMAT', 'PLATFORM', 'PARTIAL_DATA', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB',
+    'OUTPUT_FILE', 'OUTPUT_FORMAT', 'PLATFORM', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB',
     'SIMULATE_DATE')
 
 # --- methods used inside this file for processing ---
 def read_state():
-    """State is a json file that is a dictionary like {'2018-03': {'id': 'doi:1234/45632', 'last_processed_day': 17}}"""
+    """State is a json file that is a dictionary like {'2018-03': {'id': '2018-3-Dash', 'last_processed_day': 17}}"""
     my_dir = "state"
     if not os.path.exists(my_dir):
         os.makedirs(my_dir)
@@ -77,10 +77,14 @@ for ev in ALLOWED_ENV:
     if ev in os.environ:
         setattr(thismodule, ev.lower(), os.environ[ev])
 
-for item in ('partial_data', 'upload_to_hub'):
-    my_val = getattr(thismodule, item)
-    if isinstance(my_val, str):
-        setattr(thismodule, item, (my_val == 'True' or my_val == 'true'))
+# we used to have more than one boolean value
+#for item in ('upload_to_hub'):
+#    my_val = getattr(thismodule, item)
+#    if isinstance(my_val, str):
+#        setattr(thismodule, item, (my_val == 'True' or my_val == 'true'))
+
+if isinstance(upload_to_hub, str):
+    upload_to_hub = (upload_to_hub == 'True' or upload_to_hub == 'true')
 
 # similate date, in case someone wants to simulate running on a day besides now
 if 'simulate_date' in vars():
@@ -114,11 +118,13 @@ def last_day():
     if last_p_day is not None:
         return last_p_day
     if end_time() < run_date:
-        last_p_day = (end_time() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+        last_p_day = (end_time() - datetime.timedelta(days=1)).strftime('%Y-%m-%d') # go 1 day back because it's at 00:00 hours the first day of the next month
     else:
-        last_p_day = (run_date - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+        last_p_day = (run_date - datetime.timedelta(days=1)).strftime('%Y-%m-%d') # a day ago from the run date
     return last_p_day
 
+def month_complete():
+    return (run_date > end_time())
 
 def robots_regexp():
     """Get the list of robots/crawlers from a list that is one per line
