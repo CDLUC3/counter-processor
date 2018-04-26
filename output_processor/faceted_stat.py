@@ -44,7 +44,6 @@ class FacetedStat():
             self.__total_requests_size = LogItem.select(fn.SUM(LogItem.size)) \
                     .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
                         LogItem.event_time.between(config.start_sql(), config.end_sql()) &
-                        (LogItem.country == self.country_code) &
                         (LogItem.is_machine == self.is_machine()) &
                         (LogItem.hit_type == 'request') ).scalar()
             if self.__total_requests_size is None:
@@ -60,18 +59,10 @@ class FacetedStat():
                 self.__unique_requests_size = round((self.unique_requests() / self.total_requests()) * self.total_requests_size())
         return self.__unique_requests_size
 
-# These are helper functions
-    def is_machine(self):
-        if self.access_method == 'human':
-            return False
-        else:
-            return True
-
     def total_number(self, hit_type):
         return LogItem.select(LogItem.id) \
                 .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
                     LogItem.event_time.between(config.start_sql(), config.end_sql()) &
-                    (LogItem.country == self.country_code) &
                     (LogItem.is_machine == self.is_machine()) &
                     (LogItem.hit_type == hit_type) ) \
                 .count()
@@ -80,7 +71,58 @@ class FacetedStat():
         return LogItem.select(LogItem.calc_session_id).distinct() \
                 .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
                     LogItem.event_time.between(config.start_sql(), config.end_sql()) &
+                    (LogItem.is_machine == self.is_machine()) &
+                    (LogItem.hit_type == hit_type) ) \
+                .count()
+
+
+
+    # TODO: rename this back without "country_" at first when DataCite is ready for it
+    def country_total_requests_size(self):
+        if self.__total_requests_size is None:
+            self.__total_requests_size = LogItem.select(fn.SUM(LogItem.size)) \
+                    .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
+                        LogItem.event_time.between(config.start_sql(), config.end_sql()) &
+                        (LogItem.country == self.country_code) &
+                        (LogItem.is_machine == self.is_machine()) &
+                        (LogItem.hit_type == 'request') ).scalar()
+            if self.__total_requests_size is None:
+                self.__total_requests_size = 0
+        return self.__total_requests_size
+
+    # TODO: rename this back without "country_" at first when DataCite is ready for it
+    def country_unique_requests_size(self):
+        """ The unique requests size is more complicated than it seems, this is an approximation for now """
+        if self.__unique_requests_size is None:
+            if self.total_requests() == 0:
+                self.__unique_requests_size = 0
+            else:
+                self.__unique_requests_size = round((self.unique_requests() / self.total_requests()) * self.total_requests_size())
+        return self.__unique_requests_size
+
+    # TODO: rename this back without "country_" at first when DataCite is ready for it
+    def country_total_number(self, hit_type):
+        return LogItem.select(LogItem.id) \
+                .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
+                    LogItem.event_time.between(config.start_sql(), config.end_sql()) &
                     (LogItem.country == self.country_code) &
                     (LogItem.is_machine == self.is_machine()) &
                     (LogItem.hit_type == hit_type) ) \
                 .count()
+
+    # TODO: rename this back without "country_" at first when DataCite is ready for it
+    def country_unique_number(self, hit_type):
+        return LogItem.select(LogItem.calc_session_id).distinct() \
+                .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
+                    LogItem.event_time.between(config.start_sql(), config.end_sql()) &
+                    (LogItem.country == self.country_code) &
+                    (LogItem.is_machine == self.is_machine()) &
+                    (LogItem.hit_type == hit_type) ) \
+                .count()
+
+    # These are helper functions
+    def is_machine(self):
+        if self.access_method == 'human':
+            return False
+        else:
+            return True

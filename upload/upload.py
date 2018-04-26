@@ -39,6 +39,7 @@ def send_to_datacite():
     if my_id is None:
         my_url = urljoin(config.hub_base_url, 'reports')
         response = requests.post(my_url, data=data.encode("utf-8"), headers=headers)
+        import ipdb; ipdb.set_trace()
         json_data = json.loads(response.text)
         config.write_id(json_data['report']['id'])
     else:

@@ -53,9 +53,10 @@ class JsonMetadata():
                 stat = getattr(f_stat, meth)()
                 if stat == 0 or stat is None:
                     continue
+                # TODO: put the country back after DataCite gets it ready
                 my_stats.append(
                     {
-                        'country': f_stat.country_code,
+                        # 'country': f_stat.country_code,
                         'access-method': Report.access_term(f_stat.access_method),
                         'metric-type': name,
                         'count': stat
