@@ -172,7 +172,7 @@ def end_sql():
 def last_processed_on():
     """gives string for last day it was processed for this month"""
     if year_month in state_dict and 'last_processed_day' in state_dict[year_month]:
-        return f'{year_month}-{state_dict[year_month]["last_processed_day"]}'
+        return f'{year_month}-{ "%02d" % state_dict[year_month]["last_processed_day"] }'
     else:
         return f'not processed yet for {year_month}'
 

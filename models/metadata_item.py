@@ -26,11 +26,17 @@ class MetadataItem(BaseModel):
         return m.group(1).lower()
 
     def publisher_id_bare(self):
+        # TODO: remove this after the bad missing values have worked their way out of our logs
+        if self.publisher_id == 'tbd':
+            return 'tbd'
         m = re.search('^[a-zA-Z]{2,10}[\:\.\=](.+)', self.publisher_id)
         if m is None: return ''
         return m.group(1)
 
     def publisher_id_type(self):
+        # TODO: remove this after the bad missing values have worked their way out of our logs
+        if self.publisher_id == 'tbd':
+            return 'grid'
         m = re.search('^([a-zA-Z]{2,10})[\:\.\=].+', self.publisher_id)
         if m is None: return ''
         return m.group(1).lower()
