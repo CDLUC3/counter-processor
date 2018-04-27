@@ -39,10 +39,6 @@ output_format: json
 # the name of the platform that goes into your reports
 platform: Dash
 
-# specifying partial data will set the exception 3040: Partial Data Returned in the report because
-# it's not a final report for the time period.
-partial_data: True
-
 # Don't put your api token in here if you're going to commit it, but put in separate secrets.yaml in same
 # directory as the config or else set a environment variable when starting up in order to override the key.
 # yaml key/values set in secrets.yaml will override one from the main config.

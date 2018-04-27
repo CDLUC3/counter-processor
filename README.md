@@ -51,34 +51,57 @@ The script takes a number of different configuration parameters in order to run 
 If you don't set a CONFIG_FILE it will use the one at *config/config.yaml*.
 
 ### The options
-- **log_glob** is a glob that indicates what files the processor should load into its sqlite database for processing.
-- **processing_database**: the path where you'd like the sqlite database to be written (default is probably OK).
-- **path_types** have two sub-keys, *investigations* and *requests*. Each sub-key has an array of regular expressions for classifying the path portion of URLs for requests as either an *investigation* or a *request* for your system.
+- **log\_name\_pattern**: This pattern indicates the daily log files it should look for.  Include the string "(yyyy-mm-dd)" in your log file pattern.  It will look for log files and replace this string, without parenthesis and with actual year, month and day.
+- **path_types** have two sub-keys, *investigations* and *requests*. Each sub-key has an array of regular expressions for classifying the path portion of URLs for requests as either an *investigation* or a *request* for the URLs in your system.
 - **robots_url** is a url to download a list of regular expressions (one per line in a text file) that the script uses to classify a user-agent as a robot/crawler.
 - **machines_url** is a url to download a list of regular expressions (one per line in a text file) that the script uses to classify a user-agent as a machine (rather than human) access.
-- **start_date**: for items included in this report output (like 2018-03-01)
-- **end_date**: for items included in this report output, this day is inclusive (like 2018-03-31)
+- **year_month** is the year and month for which you are desiring to create a report.  For example, 2018-05.
 - **output_file**: the path and file to write the report to.  Leave off the extension because it will be automatically supplied based on the *output_format*.
 - **output_format**: Choose either *tsv* or *json* for this value.
 - **platform** is the name of your platform which is used in the report output.
-- **only_calculate**: True/False. If True, it tells the script not to re-process the log files (which might take a while) but to use the already existing database and generate statistics from it.
-- **partial_data**: if set to *True*, it adds an exception to the report which indicates that the reporting period you specified does not have complete data available for the period yet.
 - **hub\_api\_token**: set this value in a *secrets.yaml* file in the same directory as your config.yaml if you are committing your config.yaml to a public respository.  Be sure to exclude the secrets.yaml from being committed to a public place.
 - **hub\_base\_url**: A value such as https://metrics.test.datacite.org that will be as the base to submit data to.
 - **upload\_to\_hub**: True/False.  If True, it will attempt to POST the data you generate to the hub.  If False, the script will simply generate the output files and will not attempt uploading.
+- **simulate_date**: put in a yyyy-mm-dd date to simulate running a report on that specified year month and day.  Normally the script will process logs and create data output through the previous day based on the system time.  A report run for a month after a reporting period is over will processs things up to the end of that reporting month as specified by year_month.  Setting this allows simulating a run on a different day and is mostly for testing.  See information about how state is maintained in the section below to understand what happens when specifying a different date.  The processor expects an orderly processing of logs in chronological order such as running nightly or weekly.
+
+## Maintaining State Between Runs
+
+If you process your logs in an orderly way by running the script in chronological order, such as each night, it should correctly maintain state about any previous identifiers used for report submission and also about the last log data that has been processed.
+
+The state is maintained in the state/ directory.  You'll see some sqlite database files and a statefile.json file.
+
+The script maintains a separate sqlite database file for each reporting month in here.  Deleting a month's file will delete any previously processed data in the database for that month.
+
+The statefile.json contains simple json key/value pairs.  There is a section for each month that a report has been run for.  Under each month there is a "last\_processed\_day" key which has a value indicating the last day processing of logs has been completed for.
+
+There is also an id key for each month which indicates the identifier returned by the Sashimi server on an initial POST request. This id needs to be reused later for PUT requests to replace data (for example if the script for the month is run nightly to update ongoing statistics for the month).
+
+The state allows data to be added to the database from the logs, for example each night, without reprocessing every log for the month every night.
+
+For example, if the script is run on May 2nd, and for a May 2018 report, it woould process the log file for May 1st and put entries in the 2018-05 database for that log file (from which stats can be calculated).
+
+If run again on May 3rd, it would only need to process the May 2nd log into the database because May 1st has already been processed.
+
+If you don't process every night, it will process every log file after the last processed log file for the reporting period up until the day before the current one or the end of the reporting period.
+
+If you run the script multiple times in one day it wouldn't reprocess log files that have already been processed, for example, if the previous day is already marked as processed.  It would simply calculate stats and submit them again from what is already in the database.
+
+It might be important to understand how this works if there is an unusual situation such as an error while processing logs.  You can always send a DELETE request to the Sashimi hub for an id, remove the state data from the json file for a particular year-month and remove the appropriate sqlite database from the file system if you want to re-process from the beginning of a month again.
+
+It might also be important to know to move this state data is moving the script to another system.
+
 
 ## Override selected options in environment variables when running the script##
 You will want to set the options in the *config.yaml* file that you use, but some options may change every time you run the script. 
 
-Most options listed above in the previous section can be overriden for each execution of the program by setting them in environment variables (but in all UPPERCASE letters).  The most likely things to be overridden when you are generating reports each month are these items:
+Most options listed above in the previous section can be overriden for each execution of the program by setting them in environment variables (but in all UPPERCASE letters).  The most likely things to be overridden when you are generating reports:
 
-- **LOG_GLOB**
-- **START_DATE**
-- **END_DATE**
+- **YEAR_MONTH** -- when you want to change the month you're generating a report for.
+- **SIMULATE_DATE** -- if you want to run a report up to a different day than what the computer's clock is set to.
 
 An example of overriding them:
 
-```LOG_GLOB="log/counter_2018-03-*.log" START_DATE="2018-03-01" END_DATE="2018-03-31" ./main.py```
+```LOG_GLOB="2018-05" SIMULATE_DATE="2018-05-15" ./main.py```
 
 ## Example run
 
@@ -102,4 +125,4 @@ Writing JSON report to tmp/test.json
 
 ## Submitting to the hub
 
-To submit to the hub, set *upload_to_hub* to True in either the configuration or an environment variable.  You must also set *hub_api_token* and *hub_base_url* in the config.yaml or secrets.yaml.  It will then try sending the report to the hub for you.
+To submit to the hub, set *upload\_to\_hub* to True in either the configuration or an environment variable (otherwise it just saves them to the file system for your own use).  You must also set *hub\_api\_token* and *hub\_base\_url* in the config.yaml or secrets.yaml.  It will then send reports to the hub for you.
