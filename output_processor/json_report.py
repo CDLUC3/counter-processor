@@ -20,7 +20,9 @@ class JsonReport(Report):
             data = dict(list(head.items()) + list(body.items()))
             print('')
             print(f'Writing JSON report to {config.output_file}.json')
-            json.dump(data, jsonfile, indent=2, ensure_ascii=False)
+            json.dump(data, jsonfile, ensure_ascii=False)
+            # with whitespace makes DataCite poop because it's too big
+            # json.dump(data, jsonfile, indent=2, ensure_ascii=False)
 
     def header_dict(self):
         if config.month_complete():

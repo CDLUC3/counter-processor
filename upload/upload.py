@@ -16,7 +16,7 @@ def save_response(response):
     file.write(f'{response.headers}\n')
     file.write(f'{(response.headers["content-type"])}\n')
     parsed = json.loads(response.text)
-    file.write(json.dumps(parsed, indent=4, sort_keys=True))
+    file.write(json.dumps(parsed, indent=2, sort_keys=True))
     file.close()
 
 def send_to_datacite():
@@ -39,14 +39,13 @@ def send_to_datacite():
     if my_id is None:
         my_url = urljoin(config.hub_base_url, 'reports')
         response = requests.post(my_url, data=data.encode("utf-8"), headers=headers)
-        import ipdb; ipdb.set_trace()
+        save_response(response)
         json_data = json.loads(response.text)
         config.write_id(json_data['report']['id'])
     else:
         my_url = urljoin(config.hub_base_url, f'reports/{pathname2url(my_id)}')
         response = requests.put(my_url, data=data.encode("utf-8"), headers=headers)
-
-    save_response(response)
+        save_response(response)
 
     if response.status_code < 200 or response.status_code > 299:
         raise UploadException("Expected to get 200 range status code when sending the report to the hub")
