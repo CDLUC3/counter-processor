@@ -7,9 +7,8 @@ class FacetedStat():
     """The stats for a combination of facets for a DOI identifier
     access_method is either 'human' or 'machine' """
 
-    def __init__(self, identifier, country_code, access_method = 'human'):
+    def __init__(self, identifier, access_method = 'human'):
         self.identifier = identifier
-        self.country_code = country_code
         self.access_method = access_method
         self.__total_investigations = None
         self.__unique_investigations = None
@@ -42,7 +41,7 @@ class FacetedStat():
     """This will total the numbers for a stat across all countries in array like
     [{'country': 'US', 'ct': 3}, {'country': 'UK', 'ct': 2}] and return 5 for this example"""
     @staticmethod
-    def size_of(arr):
+    def sum(arr):
         my_total = 0
         for i in arr:
             my_total += i['ct']
@@ -80,12 +79,6 @@ class FacetedStat():
                     (LogItem.hit_type == hit_type) ) \
                 .group_by(LogItem.country)
         return [ {'country': x.country, 'ct': x.ct} for x in my_items ]
-        # return LogItem.select(LogItem.id) \
-        #        .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
-        #            LogItem.event_time.between(config.start_sql(), config.end_sql()) &
-        #            (LogItem.is_machine == self.is_machine()) &
-        #            (LogItem.hit_type == hit_type) ) \
-        #        .count()
 
     """ This gives a grouped count by country.  example: item[0]['country'], item[0]['ct'], item[1]['country'], etc"""
     def unique_number(self, hit_type):
@@ -127,26 +120,6 @@ class FacetedStat():
             else:
                 self.__unique_requests_size = round((self.unique_requests() / self.total_requests()) * self.total_requests_size())
         return self.__unique_requests_size
-
-    # TODO: rename this back without "country_" at first when DataCite is ready for it
-    def country_total_number(self, hit_type):
-        return LogItem.select(LogItem.id) \
-                .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
-                    LogItem.event_time.between(config.start_sql(), config.end_sql()) &
-                    (LogItem.country == self.country_code) &
-                    (LogItem.is_machine == self.is_machine()) &
-                    (LogItem.hit_type == hit_type) ) \
-                .count()
-
-    # TODO: rename this back without "country_" at first when DataCite is ready for it
-    def country_unique_number(self, hit_type):
-        return LogItem.select(LogItem.calc_session_id).distinct() \
-                .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
-                    LogItem.event_time.between(config.start_sql(), config.end_sql()) &
-                    (LogItem.country == self.country_code) &
-                    (LogItem.is_machine == self.is_machine()) &
-                    (LogItem.hit_type == hit_type) ) \
-                .count()
 
     # These are helper functions
     def is_machine(self):
