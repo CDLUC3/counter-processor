@@ -23,6 +23,6 @@ class IdStat():
         for access_method in ('human', 'machine'):
             # TODO: change None back to country
             fs = FacetedStat(self.identifier, None, access_method)
-            if fs.total_investigations() > 0 or fs.total_requests() > 0:
+            if FacetedStat.size_of(fs.total_investigations()) > 0 or FacetedStat.size_of(fs.total_requests()) > 0:
                 all_faceted_stats.append(fs)
         return all_faceted_stats

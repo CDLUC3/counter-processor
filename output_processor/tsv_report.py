@@ -1,3 +1,6 @@
+# TODO: The TSV report is now non-functional because the report we decided on has been trashed by constant spec changes
+# and people only considering the json report.  ie.  this may be obsolete and require a huge rewrite now.
+
 import config
 from models import *
 from peewee import *

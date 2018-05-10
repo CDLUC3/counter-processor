@@ -4,6 +4,7 @@ from models import *
 from peewee import *
 from .report import Report
 from .id_stat import IdStat
+from .faceted_stat import FacetedStat
 import datetime
 import dateutil.parser
 #import ipdb; ipdb.set_trace()
@@ -47,19 +48,22 @@ class JsonMetadata():
 
     def performance_facet_data(self):
         my_stats = []
-        # import ipdb; ipdb.set_trace()
         for f_stat in self.id_stat.stats():
             for name, meth in STAT_METHODS.items():
                 stat = getattr(f_stat, meth)()
-                if stat == 0 or stat is None:
+                if FacetedStat.size_of(stat) == 0 or stat is None:
                     continue
+                country_counts = {}
+                for i in stat:
+                    country_counts[i['country']] = i['ct']
                 # TODO: put the country back after DataCite gets it ready
                 my_stats.append(
                     {
                         # 'country': f_stat.country_code,
                         'access-method': Report.access_term(f_stat.access_method),
                         'metric-type': name,
-                        'count': stat
+                        'count': FacetedStat.size_of(stat),
+                        'country-counts': country_counts
                     }
                 )
         return my_stats

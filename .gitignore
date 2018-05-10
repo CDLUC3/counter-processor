@@ -21,6 +21,7 @@ secrets.yaml
 # Logs and databases #
 ######################
 log/*.log
+log_old/*.log
 *.sql
 *.sqlite
 *.sqlite3
