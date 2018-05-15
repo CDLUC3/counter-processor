@@ -12,8 +12,6 @@ import dateutil.parser
 # these are the terms (key) and their methods (values)
 STAT_METHODS = {'total-dataset-requests': 'total_requests', 'unique-dataset-requests': 'unique_requests',
                 'total-dataset-investigations': 'total_investigations', 'unique-dataset-investigations': 'unique_investigations'}
-# These methods are not used for now because more ongoing discussion around them and unclear specification
-# 'total-dataset-requests-size': 'total_requests_size', 'unique-dataset-requests-size': 'unique_requests_size',
 
 class JsonMetadata():
     """Structures JSON (dict-format) metadata for an id_stat object"""
@@ -58,9 +56,10 @@ class JsonMetadata():
                 country_counts = {}
                 country_volume = {}
                 for i in stat:
-                    country_counts[i['country']] = i['ct']
-                    if 'vol' in i:
-                        country_volume[i['country']] = i['vol']
+                    if i['country'] != 'unknown':
+                        country_counts[i['country']] = i['ct']
+                        if 'vol' in i:
+                            country_volume[i['country']] = i['vol']
 
                 # make base stats
                 s = {
@@ -70,13 +69,14 @@ class JsonMetadata():
                     }
 
                 # only add volume for requests, nonsensical for investigations
-                if meth == 'total_requests':
+                if meth.endswith('_requests'):
                     s['volume'] = FacetedStat.sum(stat, 'vol')
                 s['country-counts'] = country_counts
 
-                # only add country-volume for requests, nonsensical for investigations
-                if meth == 'total_requests':
-                    s['country-volume'] = country_volume
+                # only add volume for requests, nonsensical for investigations
+                # right now they don't want country volume broken out
+                # if meth.endswith('_requests'):
+                #    s['country-volume'] = country_volume
 
                 my_stats.append(s)
         return my_stats

@@ -47,29 +47,6 @@ class FacetedStat():
             my_total += i[field]
         return my_total
 
-
-
-    # TODO: unused for now, these two size methods
-    # def total_requests_size(self):
-    #     if self.__total_requests_size is None:
-    #         self.__total_requests_size = LogItem.select(fn.SUM(LogItem.size)) \
-    #                 .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
-    #                     LogItem.event_time.between(config.start_sql(), config.end_sql()) &
-    #                     (LogItem.is_machine == self.is_machine()) &
-    #                     (LogItem.hit_type == 'request') ).scalar()
-    #         if self.__total_requests_size is None:
-    #             self.__total_requests_size = 0
-    #     return self.__total_requests_size
-
-    # def unique_requests_size(self):
-    #     # The unique requests size is more complicated than it seems, this is an approximation for now
-    #     if self.__unique_requests_size is None:
-    #         if self.total_requests() == 0:
-    #             self.__unique_requests_size = 0
-    #         else:
-    #             self.__unique_requests_size = round((self.unique_requests() / self.total_requests()) * self.total_requests_size())
-    #     return self.__unique_requests_size
-
     """ This gives a grouped count and volume by country.  example: item[0]['country'], item[0]['ct'],  item[0]['vol'],
     item[1]['country'], etc"""
     def total(self, hit_type):
@@ -79,16 +56,17 @@ class FacetedStat():
                     (LogItem.is_machine == self.is_machine()) &
                     (LogItem.hit_type == hit_type) ) \
                 .group_by(LogItem.country)
-        return [ {'country': x.country, 'ct': x.ct, 'vol': x.vol} for x in my_items ]
+        return self.fix_countries([ {'country': x.country, 'ct': x.ct, 'vol': x.vol} for x in my_items ])
 
-    """ This gives a grouped count by country.  example: item[0]['country'], item[0]['ct'], item[1]['country'], etc"""
+    """ This gives a grouped count by country.  example: item[0]['country'], item[0]['ct'],  item[0]['vol'],
+    item[1]['country'], etc"""
     def unique(self, hit_type):
         # this is extra complicated because we have to eliminate duplicates with distinct and then can't
         # group by country which is a different column.  Maybe could do with some kind of subquery, but
         # it's not obvious exactly how except by the calc_session_id which isn't really appropriate id.
         country_dicts = self.total(hit_type)
         for i in country_dicts:
-            i['ct'] = LogItem.select(LogItem.calc_session_id, LogItem.identifier).distinct() \
+            i['ct'] = LogItem.select(LogItem.calc_session_id).distinct() \
                 .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
                     LogItem.event_time.between(config.start_sql(), config.end_sql()) &
                     (LogItem.country == i['country']) &
@@ -106,41 +84,18 @@ class FacetedStat():
                     LogItem.event_time.between(config.start_sql(), config.end_sql()) &
                     (LogItem.country == i['country']) &
                     (LogItem.is_machine == self.is_machine()) &
-                    (LogItem.hit_type == hit_type) ) \
-                    .alias('subquery') )
+                    (LogItem.hit_type == hit_type) ) )
+                    # .alias('subquery')
 
-            my_ct = ( subquery.select( fn.SUM(subquery.size)).alias('total_size') )
-            import ipdb; ipdb.set_trace()
+            # Can't seem to get PoS Peewee ORM to allow a select based on a subquery in the from clause like
+            # my_ct = ( subquery.select( fn.SUM(subquery.size)).alias('total_size') )
+            my_volume = 0
+            for row in subquery:
+                if row.size is not None:
+                    my_volume += row.size
+            i['vol'] = my_volume
 
-
-
-
-        return country_dicts
-
-
-
-    # TODO: rename this back without "country_" at first when DataCite is ready for it
-    def country_total_requests_size(self):
-        if self.__total_requests_size is None:
-            self.__total_requests_size = LogItem.select(fn.SUM(LogItem.size)) \
-                    .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
-                        LogItem.event_time.between(config.start_sql(), config.end_sql()) &
-                        (LogItem.country == self.country_code) &
-                        (LogItem.is_machine == self.is_machine()) &
-                        (LogItem.hit_type == 'request') ).scalar()
-            if self.__total_requests_size is None:
-                self.__total_requests_size = 0
-        return self.__total_requests_size
-
-    # TODO: rename this back without "country_" at first when DataCite is ready for it
-    def country_unique_requests_size(self):
-        """ The unique requests size is more complicated than it seems, this is an approximation for now """
-        if self.__unique_requests_size is None:
-            if self.total_requests() == 0:
-                self.__unique_requests_size = 0
-            else:
-                self.__unique_requests_size = round((self.unique_requests() / self.total_requests()) * self.total_requests_size())
-        return self.__unique_requests_size
+        return self.fix_countries(country_dicts)
 
     # These are helper functions
     def is_machine(self):
@@ -148,3 +103,12 @@ class FacetedStat():
             return False
         else:
             return True
+
+    # DCS requested country codes in lowercase
+    def fix_countries(self, my_array):
+        for item in my_array:
+            if not item['country']:
+                item['country'] = 'unknown'
+            else:
+                item['country'] = item['country'].lower()
+        return my_array
