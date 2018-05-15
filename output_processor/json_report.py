@@ -43,16 +43,11 @@ class JsonReport(Report):
                 'created':              self.just_date(datetime.datetime.now()),
                 'created-by':           config.platform,
                 'report-attributes':    [],
-                'report-filters':   [
+                'reporting-period':
                     {
-                        'name':         "begin-date",
-                        'value':        config.start_date.isoformat()
+                        'begin-date':   config.start_date.strftime('%Y-%m-%d'),
+                        'end-date':     config.last_day()
                     },
-                    {
-                        'name':         "end-date",
-                        'value':        config.end_date.isoformat()
-                    }
-                ],
                 # any reporting period like in the CSV, or does filter also mean period?
                 'exceptions': [ exception_dict ]
             }

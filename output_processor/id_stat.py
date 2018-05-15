@@ -14,6 +14,6 @@ class IdStat():
         all_faceted_stats = []
         for access_method in ('human', 'machine'):
             fs = FacetedStat(self.identifier, access_method)
-            if FacetedStat.sum(fs.total_investigations()) > 0 or FacetedStat.sum(fs.total_requests()) > 0:
+            if FacetedStat.sum(fs.total_investigations(), 'ct') > 0 or FacetedStat.sum(fs.total_requests(), 'ct') > 0:
                 all_faceted_stats.append(fs)
         return all_faceted_stats

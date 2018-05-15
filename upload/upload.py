@@ -30,7 +30,6 @@ def send_to_datacite():
     # with io.open('good_test.json', 'r', encoding='utf-8') as myfile:
     #    data = myfile.read()
 
-
     with io.open(f'{config.output_file}.{config.output_format}', 'r', encoding='utf-8') as myfile:
         data = myfile.read()
 
@@ -41,13 +40,14 @@ def send_to_datacite():
         response = requests.post(my_url, data=data.encode("utf-8"), headers=headers)
         save_response(response)
         json_data = json.loads(response.text)
-        config.write_id(json_data['report']['id'])
+        if 'report' in json_data:
+            config.write_id(json_data['report']['id'])
     else:
         my_url = urljoin(config.hub_base_url, f'reports/{pathname2url(my_id)}')
         response = requests.put(my_url, data=data.encode("utf-8"), headers=headers)
         save_response(response)
 
     if response.status_code < 200 or response.status_code > 299:
-        raise UploadException("Expected to get 200 range status code when sending the report to the hub")
-
-    print('submitted')
+        raise UploadException("Expected to get 200 range status code when sending the report to the hub. Check tmp/datacite_response_body.txt for response.")
+    else:
+        print('submitted')

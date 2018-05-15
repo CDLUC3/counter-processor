@@ -51,21 +51,34 @@ class JsonMetadata():
         for f_stat in self.id_stat.stats():
             for name, meth in STAT_METHODS.items():
                 stat = getattr(f_stat, meth)()
-                if FacetedStat.sum(stat) == 0 or stat is None:
+                if FacetedStat.sum(stat, 'ct') == 0 or stat is None:
                     continue
+
+                # setup country counts, volume
                 country_counts = {}
+                country_volume = {}
                 for i in stat:
                     country_counts[i['country']] = i['ct']
-                # TODO: put the country back after DataCite gets it ready
-                my_stats.append(
-                    {
-                        # 'country': f_stat.country_code,
+                    if 'vol' in i:
+                        country_volume[i['country']] = i['vol']
+
+                # make base stats
+                s = {
                         'access-method': Report.access_term(f_stat.access_method),
                         'metric-type': name,
-                        'count': FacetedStat.sum(stat),
-                        'country-counts': country_counts
+                        'count': FacetedStat.sum(stat, 'ct')
                     }
-                )
+
+                # only add volume for requests, nonsensical for investigations
+                if meth == 'total_requests':
+                    s['volume'] = FacetedStat.sum(stat, 'vol')
+                s['country-counts'] = country_counts
+
+                # only add country-volume for requests, nonsensical for investigations
+                if meth == 'total_requests':
+                    s['country-volume'] = country_volume
+
+                my_stats.append(s)
         return my_stats
 
 

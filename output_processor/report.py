@@ -37,14 +37,3 @@ class Report():
     @staticmethod
     def access_term(t):
         return ACCESS_METHOD_TERMS[t]
-
-    def printrr(self, f):
-        """A dumb method to print out info so I can debug/see working output"""
-        print('')
-        print(f'id: {f.identifier}, country: {f.country_code}, method: {f.access_method}')
-        print(f'  total_investigations: {f.total_investigations()}')
-        print(f'  total_requests: {f.total_requests()}')
-        print(f'  unique_investigations: {f.unique_investigations()}')
-        print(f'  unique_requests: {f.unique_requests()}')
-        print(f'  total_requests_size: {f.total_requests_size()}')
-        print(f'  unique_requests_size: {f.unique_requests_size()}')
