@@ -49,7 +49,7 @@ class JsonMetadata():
         for f_stat in self.id_stat.stats():
             for name, meth in STAT_METHODS.items():
                 stat = getattr(f_stat, meth)()
-                if FacetedStat.sum(stat, 'ct') == 0 or stat is None:
+                if (stat is None) or FacetedStat.sum(stat, 'ct') == 0:
                     continue
 
                 # setup country counts, volume

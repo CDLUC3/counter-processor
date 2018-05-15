@@ -69,7 +69,7 @@ class FacetedStat():
             i['ct'] = LogItem.select(LogItem.calc_session_id).distinct() \
                 .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
                     LogItem.event_time.between(config.start_sql(), config.end_sql()) &
-                    (LogItem.country == i['country']) &
+                    (LogItem.country == i['country'].upper()) &
                     (LogItem.is_machine == self.is_machine()) &
                     (LogItem.hit_type == hit_type) ) \
                 .count()
@@ -82,7 +82,7 @@ class FacetedStat():
             subquery = ( LogItem.select(LogItem.calc_session_id, LogItem.request_url, LogItem.size).distinct() \
                 .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
                     LogItem.event_time.between(config.start_sql(), config.end_sql()) &
-                    (LogItem.country == i['country']) &
+                    (LogItem.country == i['country'].upper()) &
                     (LogItem.is_machine == self.is_machine()) &
                     (LogItem.hit_type == hit_type) ) )
                     # .alias('subquery')
