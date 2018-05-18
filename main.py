@@ -40,3 +40,5 @@ elif config.output_format == 'json':
 
 if config.upload_to_hub == True:
     upload.send_to_datacite()
+
+sys.exit(0)

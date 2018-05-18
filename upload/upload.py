@@ -48,6 +48,8 @@ def send_to_datacite():
         save_response(response)
 
     if response.status_code < 200 or response.status_code > 299:
-        raise UploadException("Expected to get 200 range status code when sending the report to the hub. Check tmp/datacite_response_body.txt for response.")
+        # raise UploadException("Expected to get 200 range status code when sending the report to the hub. Check tmp/datacite_response_body.txt for response.")
+        print("Expected to get 200 range status code when sending the report to the hub. Check tmp/datacite_response_body.txt for response.")
+        sys.exit(1)
     else:
         print('submitted')

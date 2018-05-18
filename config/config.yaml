@@ -43,7 +43,9 @@ platform: Dash
 # directory as the config or else set a environment variable when starting up in order to override the key.
 # yaml key/values set in secrets.yaml will override one from the main config.
 hub_api_token: set_me_in_secrets
-hub_base_url: https://metrics.test.datacite.org
+# the test metrics is only for testing
+# hub_base_url: https://metrics.test.datacite.org
+hub_base_url: https://metrics.datacite.org
 upload_to_hub: True
 
 # only use this to simulate running on a date besides today
