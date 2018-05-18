@@ -20,9 +20,10 @@ class JsonReport(Report):
             data = dict(list(head.items()) + list(body.items()))
             print('')
             print(f'Writing JSON report to {config.output_file}.json')
-            #json.dump(data, jsonfile, ensure_ascii=False)
-            # with whitespace makes DataCite poop because it's too big
-            json.dump(data, jsonfile, indent=2, ensure_ascii=False)
+            json.dump(data, jsonfile, ensure_ascii=False)
+            # the indent makes it much easier to read, but makes the file much bigger sending across the wire
+            # the indent is good for troubleshooting and reading to find problems and line numbers are useful to communicate
+            # json.dump(data, jsonfile, indent=2, ensure_ascii=False)
 
     def header_dict(self):
         if config.month_complete():
