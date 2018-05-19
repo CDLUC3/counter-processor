@@ -51,6 +51,7 @@ class JsonReport(Report):
                         'begin-date':   config.start_date.strftime('%Y-%m-%d'),
                         'end-date':     config.last_day()
                     },
+                'report-filters':       [],
                 # any reporting period like in the CSV, or does filter also mean period?
                 'exceptions': [ exception_dict ]
             }
