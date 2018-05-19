@@ -41,7 +41,9 @@ class JsonReport(Report):
                 'report-name':          "dataset report",
                 'report-id':            "DSR",
                 'release':              "rd1",
-                'created':              self.just_date(datetime.datetime.now()),
+                'created':              config.last_day(),
+                # TODO: DataCite Sashimi doesn't handle reports correctly, so have to put in fake creation dates
+                # 'created':              self.just_date(datetime.datetime.now()),
                 'created-by':           config.platform,
                 'report-attributes':    [],
                 'reporting-period':

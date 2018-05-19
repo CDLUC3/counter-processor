@@ -4,6 +4,7 @@ from urllib.parse import urljoin
 import io
 import json
 from urllib.request import pathname2url
+import sys
 #import ipdb; ipdb.set_trace()
 
 class UploadException(Exception):
