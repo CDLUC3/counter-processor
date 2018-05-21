@@ -10,3 +10,8 @@ class DbActions(BaseModel):
     def create_db():
         db = DbActions._meta.database
         db.create_tables([MetadataItem, MetadataAuthor, LogItem])
+
+    @staticmethod
+    def vacuum():
+        db = DbActions._meta.database
+        db.execute_sql('VACUUM;')

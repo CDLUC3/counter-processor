@@ -12,6 +12,8 @@ import sys
 
 if not os.path.isfile(config.processing_database):
     DbActions.create_db()
+else:
+    DbActions.vacuum() # cleans up DB indices for speed
 
 the_filenames = config.filenames_to_process()
 
@@ -30,12 +32,12 @@ for lf in the_filenames:
 config.update_log_processed_date()
 
 print('')
+DbActions.vacuum() # cleanup indices, etc, maybe makes queries faster
 # output for each unique identifier (that isn't robots)
 if config.output_format == 'tsv':
     my_report = op.TsvReport()
     my_report.output()
 elif config.output_format == 'json':
-    # pass
     my_report = op.JsonReport()
     my_report.output()
 
