@@ -1,6 +1,3 @@
-# Choose log file(s) to process for this reporting period
-# log_glob: log/counter_2018-04-01.log
-
 # currently no other option but to have daily logs and have year-month-day format in the name with
 # 4-digit year and 2-digit month and day
 log_name_pattern: log/counter_(yyyy-mm-dd).log
