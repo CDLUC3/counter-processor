@@ -139,5 +139,5 @@ If there are errors or problem submitting to the hub, check the tmp/datacite_res
 
 Some possible submission problems:
 - Submitting to the server using a POST request for a month that has already had data submitted and has already been assigned an ID (where a PUT using that ID would be more appropriate).
-- Missing or invalid data is contained in the report (or data for features not yet implemented in the hub such as country counts)
+- Missing or invalid data is contained in the report (or data for features not yet implemented in the hub such as country counts).
 - Is the hub server up and functioning properly?
