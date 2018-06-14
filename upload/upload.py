@@ -16,8 +16,9 @@ def save_response(response):
     file.write(f'{str(response.status_code)}\n')
     file.write(f'{response.headers}\n')
     file.write(f'{(response.headers["content-type"])}\n')
-    parsed = json.loads(response.text)
-    file.write(json.dumps(parsed, indent=2, sort_keys=True))
+    file.write(response.text)
+    # parsed = json.loads(response.text)
+    # file.write(json.dumps(parsed, indent=2, sort_keys=True))
     file.close()
 
 def send_to_datacite():
