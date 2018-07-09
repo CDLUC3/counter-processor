@@ -11,6 +11,7 @@ import datetime
 import json
 import calendar
 import exceptions
+import geoip2.database
 
 robots_reg = None
 machines_reg = None
@@ -21,7 +22,7 @@ thismodule = sys.modules[__name__]
 
 ALLOWED_ENV = ('LOG_NAME_PATTERN', 'ROBOTS_URL', 'MACHINES_URL', 'YEAR_MONTH',
     'OUTPUT_FILE', 'OUTPUT_FORMAT', 'PLATFORM', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB',
-    'IPSTACK_ACCESS_KEY', 'SIMULATE_DATE')
+    'SIMULATE_DATE', 'MAXMIND_GEOIP_COUNTRY_PATH')
 
 # --- methods used inside this file for processing ---
 def read_state():
@@ -104,6 +105,9 @@ end_date = dateutil.parser.parse(ed)
 # set up database path
 processing_database = f'state/counter_db_{year_month}.sqlite3'
 base_model.deferred_db.init(processing_database)
+
+# set up MaxMind geoip database path.  We use binary one downloaded from https://dev.maxmind.com/geoip/geoip2/geolite2/
+geoip_reader = geoip2.database.Reader(maxmind_geoip_country_path)
 
 dsr_release = 'RD1'
 

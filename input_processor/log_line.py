@@ -6,6 +6,7 @@ import dateutil.parser
 import datetime
 import requests
 from urllib.parse import urlparse
+import geoip2.errors
 #import ipdb; ipdb.set_trace()
 
 class LogLine():
@@ -98,16 +99,17 @@ class LogLine():
 
     def lookup_geoip(self):
         """Lookup the geographical area from the IP address and return the 2 letter code"""
-        # try to grab this IP location cached in our existing database when possible to cut down on API requests
+        # try to grab this IP location cached in our existing database when possible to cut down on possible API requests
         prev = LogItem.select().where(LogItem.client_ip == self.client_ip).limit(1)
         for l in prev:
             return l.country
 
-        resp = requests.get(f'http://api.ipstack.com/{self.client_ip}?access_key={config.ipstack_access_key}')
-
-        if resp.status_code != 200:
-            raise exceptions.ApiError(f'ERROR: GET /json/{self.client_ip} returned status code {format(resp.status_code)}')
-        return resp.json()['country_code']
+        try:
+            response = config.geoip_reader.country(self.client_ip)
+            isocode = response.country.iso_code
+        except geoip2.errors.AddressNotFoundError:
+            isocode = None
+        return isocode
 
     def get_hit_type(self):
         o = urlparse(self.request_url)
