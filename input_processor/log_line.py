@@ -1,4 +1,5 @@
 import config
+import exceptions
 from models import *
 from peewee import *
 import dateutil.parser
@@ -102,9 +103,10 @@ class LogLine():
         for l in prev:
             return l.country
 
-        resp = requests.get(f'http://freegeoip.net/json/{self.client_ip}')
+        resp = requests.get(f'http://api.ipstack.com/{self.client_ip}?access_key={config.ipstack_access_key}')
+
         if resp.status_code != 200:
-            raise ApiError('GET /json/<ip_address> {}'.format(resp.status_code))
+            raise exceptions.ApiError(f'ERROR: GET /json/{self.client_ip} returned status code {format(resp.status_code)}')
         return resp.json()['country_code']
 
     def get_hit_type(self):

@@ -10,6 +10,7 @@ import dateutil.parser
 import datetime
 import json
 import calendar
+import exceptions
 
 robots_reg = None
 machines_reg = None
@@ -20,7 +21,7 @@ thismodule = sys.modules[__name__]
 
 ALLOWED_ENV = ('LOG_NAME_PATTERN', 'ROBOTS_URL', 'MACHINES_URL', 'YEAR_MONTH',
     'OUTPUT_FILE', 'OUTPUT_FORMAT', 'PLATFORM', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB',
-    'SIMULATE_DATE')
+    'IPSTACK_ACCESS_KEY', 'SIMULATE_DATE')
 
 # --- methods used inside this file for processing ---
 def read_state():
@@ -134,7 +135,7 @@ def robots_regexp():
         return robots_reg
     resp = requests.get(robots_url)
     if resp.status_code != 200:
-        raise ApiError(f'GET {url} failed.')
+        raise exceptions.ApiError(f'GET {url} failed.')
     lines = resp.text.splitlines()
     lines = [s for s in lines if not s.startswith('#')]
     robots_reg = re.compile('|'.join(lines))
@@ -148,7 +149,7 @@ def machines_regexp():
         return machines_reg
     resp = requests.get(machines_url)
     if resp.status_code != 200:
-        raise ApiError(f'GET {url} failed.')
+        raise exceptions.ApiError(f'GET {url} failed.')
     lines = resp.text.splitlines()
     lines = [s for s in lines if not s.startswith('#')]
     machines_reg = re.compile('|'.join(lines))
