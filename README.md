@@ -43,6 +43,12 @@ Log items are separated by tabs (\t) and any missing values may be logged with a
 ## Make logs available  
 You will need to run the script on a computer where the log files you're trying to process are available on the file system for the script to access.
 
+## Download the free IP to geolocation database
+This product includes GeoLite2 data created by MaxMind, available from
+<a href="http://www.maxmind.com">http://www.maxmind.com</a>.
+
+GeoLite2 is a free IP geolocation database that must be installed in the product.  You can download the database from [https://dev.maxmind.com/geoip/geoip2/geolite2/](https://dev.maxmind.com/geoip/geoip2/geolite2/).  Choose the GeoLite2 Country database (binary, gzipped) and extract it to the maxmind_geoip directory inside the application to use with default configuration, or put it elsewhere and configure the path as mentioned below.
+
 ## Set up the configuration file
 The script takes a number of different configuration parameters in order to run correctly.  See **config/config.yaml** for an example.  To change the configuration you may edit it at config/config.yaml or you can put it at a different location and then specify it with an environment variable when starting the script like the example below.
 
@@ -63,6 +69,7 @@ If you don't set a CONFIG_FILE the script will use the one at *config/config.yam
 - **hub\_base\_url**: A value such as https://metrics.datacite.org that will be as the base to submit data to.
 - **upload\_to\_hub**: True/False.  If True, it will attempt to POST the data you generate to the hub.  If False, the script will simply generate the output files and will not attempt uploading (could be useful for troubleshooting).
 - **simulate_date**: put in a yyyy-mm-dd date to simulate running a report on that specified year month and day.  Normally the script will process logs and create data output through the previous day based on the system time.  A report run for a month after a reporting period is over will process things up to the end of that reporting month as specified by year_month.  Setting this allows simulating a run on a different day and is mostly for testing.  See information about how state is maintained in the section below to understand what happens when specifying a different date.  The processor expects an orderly processing of logs in chronological order such as running nightly or weekly.
+- **maxmind\_geoip\_country\_path**: set the path to the GeoLite2-Country.mmdb binary geolocation database file.  You may need to periodically download updates to this file from MaxMind.
 
 ## Maintaining State Between Runs
 
