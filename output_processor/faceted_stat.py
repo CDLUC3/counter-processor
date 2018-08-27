@@ -20,22 +20,22 @@ class FacetedStat():
 
     def total_investigations(self):
         if self.__total_investigations is None:
-            self.__total_investigations = self.total('investigation')
+            self.__total_investigations = self.total(['investigation', 'request'])
         return self.__total_investigations
 
     def unique_investigations(self):
         if self.__unique_investigations is None:
-            self.__unique_investigations = self.unique('investigation')
+            self.__unique_investigations = self.unique(['investigation', 'request'])
         return self.__unique_investigations
 
     def total_requests(self):
         if self.__total_requests is None:
-            self.__total_requests = self.total('request')
+            self.__total_requests = self.total(['request'])
         return self.__total_requests
 
     def unique_requests(self):
         if self.__unique_requests is None:
-            self.__unique_requests = self.unique('request')
+            self.__unique_requests = self.unique(['request'])
         return self.__unique_requests
 
     """This will total the numbers for a stat across all countries in array like
@@ -54,7 +54,7 @@ class FacetedStat():
                 .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
                     LogItem.event_time.between(config.start_sql(), config.end_sql()) &
                     (LogItem.is_machine == self.is_machine()) &
-                    (LogItem.hit_type == hit_type) ) \
+                    (LogItem.hit_type << hit_type) ) \
                 .group_by(LogItem.country)
         return self.fix_countries([ {'country': x.country, 'ct': x.ct, 'vol': x.vol} for x in my_items ])
 
@@ -71,7 +71,7 @@ class FacetedStat():
                     LogItem.event_time.between(config.start_sql(), config.end_sql()) &
                     (LogItem.country == i['country'].upper()) &
                     (LogItem.is_machine == self.is_machine()) &
-                    (LogItem.hit_type == hit_type) ) \
+                    (LogItem.hit_type << hit_type) ) \
                 .count()
 
             # this feels weird, because I'm including size, but the size for the same url and same dataset should stay the same if it hasn't changed
@@ -84,7 +84,7 @@ class FacetedStat():
                     LogItem.event_time.between(config.start_sql(), config.end_sql()) &
                     (LogItem.country == i['country'].upper()) &
                     (LogItem.is_machine == self.is_machine()) &
-                    (LogItem.hit_type == hit_type) ) )
+                    (LogItem.hit_type << hit_type) ) )
                     # .alias('subquery')
 
             # Can't seem to get PoS Peewee ORM to allow a select based on a subquery in the from clause like
