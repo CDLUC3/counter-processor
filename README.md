@@ -148,3 +148,11 @@ Some possible submission problems:
 - Submitting to the server using a POST request for a month that has already had data submitted and has already been assigned an ID (where a PUT using that ID would be more appropriate).
 - Missing or invalid data is contained in the report (or data for features not yet implemented in the hub such as country counts).
 - Is the hub server up and functioning properly?
+
+## Examples/notes
+
+An example of processing only one day to test functioning (for January 1st, 2019 an using a log with a name pattern for that day)
+
+```
+YEAR_MONTH=2019-01 LOG_NAME_PATTERN="log/counter_(yyyy-mm-dd).log" UPLOAD_TO_HUB=False SIMULATE_DATE=2019-01-02 ./main.py
+```

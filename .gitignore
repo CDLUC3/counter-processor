@@ -41,3 +41,7 @@ Thumbs.db
 tmp/*
 state/*
 maxmind_geoip/*.mmdb
+
+# ignore editor files #
+#######################
+.idea
