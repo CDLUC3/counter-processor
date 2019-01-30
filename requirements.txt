@@ -1,5 +1,5 @@
-peewee==3.0.12
-requests==2.18.4
 geoip2==2.9.0
-python_dateutil==2.7.3
+peewee==3.0.12
+requests==2.21.0
+python_dateutil==2.7.5
 PyYAML==3.13

@@ -89,6 +89,4 @@ class JsonMetadata():
     # "Type": "Dataset-Version",
     # "Value": "VoR"
 #}
-#],
-# TODO: Target URL is missing from this schema
-# TODO: is URI correct for the target uri?, or leave it out?
+#]
