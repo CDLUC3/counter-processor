@@ -186,6 +186,11 @@ def filenames_to_process():
     They may be from 1st of month until yesterday (or last day of month).
     Or could start from the file after last we processed until yesterday
     (or the last day of the month)."""
+
+    # if no string of '(yyyy-mm-dd)' in pattern use as one literal filename
+    if '(yyyy-mm-dd)' not in log_name_pattern:
+        return [ log_name_pattern ]
+
     ld = int(last_day().split('-')[2]) # last day to process, yesterday (if in period) or end of month
 
     # last (previously) processed day

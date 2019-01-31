@@ -21,7 +21,7 @@ the_filenames = config.filenames_to_process()
 print(f'Running report for {config.start_time().isoformat()} to {config.end_time().isoformat()}')
 
 # process the log lines into a sqlite database
-print(f'{len(the_filenames)} daily log file(s) will be added to the database')
+print(f'{len(the_filenames)} log file(s) will be added to the database')
 print(f'Last processed date: {config.last_processed_on()}')
 for lf in the_filenames:
     with open(lf) as infile:
