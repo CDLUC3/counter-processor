@@ -44,6 +44,7 @@ hub_api_token: set_me_in_secrets
 # hub_base_url: https://metrics.test.datacite.org
 hub_base_url: https://api.datacite.org
 upload_to_hub: True
+output_volume: False
 
 # only use this to simulate running on a date besides today
 # simulate_date: 2018-04-02
