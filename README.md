@@ -9,6 +9,11 @@ The software assumes you area already logging your COUNTER dataset *investigatio
 
 Log items are separated by tabs (\t) and any missing values may be logged with a dash (-) or by a an empty string.
 
+## Go through an example of installing and running the script
+
+See the [step-by-step-install.md](documentation/step-by-step-install.md) to get started
+with some examples.
+
 ## Items to log per line for processing
 - Event datetime in ISO8601 format
 - Client IP address
@@ -70,6 +75,7 @@ If you don't set a CONFIG_FILE the script will use the one at *config/config.yam
 - **upload\_to\_hub**: True/False.  If True, it will attempt to POST the data you generate to the hub.  If False, the script will simply generate the output files and will not attempt uploading (could be useful for troubleshooting).
 - **simulate_date**: put in a yyyy-mm-dd date to simulate running a report on that specified year month and day.  Normally the script will process logs and create data output through the previous day based on the system time.  A report run for a month after a reporting period is over will process things up to the end of that reporting month as specified by year_month.  Setting this allows simulating a run on a different day and is mostly for testing.  See information about how state is maintained in the section below to understand what happens when specifying a different date.  The processor expects an orderly processing of logs in chronological order such as running nightly or weekly.
 - **maxmind\_geoip\_country\_path**: set the path to the GeoLite2-Country.mmdb binary geolocation database file.  You may need to periodically download updates to this file from MaxMind.
+- **output\_volume**: set to True if you'd like volume (file size) information output in the report.  This option is currently not supported when submitting reports to the hub.
 
 ## Maintaining State Between Runs
 
