@@ -69,9 +69,8 @@ class JsonMetadata():
                     }
 
                 # only add volume for requests, nonsensical for investigations
-                # TODO: put back the following two lines if DataCite begins accepting volume
-                # if meth.endswith('_requests'):
-                #     s['volume'] = FacetedStat.sum(stat, 'vol')
+                if meth.endswith('_requests'):
+                    s['volume'] = FacetedStat.sum(stat, 'vol')
                 s['country-counts'] = country_counts
 
                 # only add volume for requests, nonsensical for investigations
@@ -90,6 +89,4 @@ class JsonMetadata():
     # "Type": "Dataset-Version",
     # "Value": "VoR"
 #}
-#],
-# TODO: Target URL is missing from this schema
-# TODO: is URI correct for the target uri?, or leave it out?
+#]
