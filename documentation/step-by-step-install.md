@@ -9,8 +9,16 @@ git checkout <em>branch-or-tag</em>
 </pre>
 
 ## Set an environment for python besides your system environment
+
+You may need to install python 3.6 on your system if it is not there already.
+This may be through your package manager (apt, yum, homebrew, etc) or manually.
+
+See for example [this big page of installation instructions](https://realpython.com/installing-python/).
+
+
 <pre>
 python3.6 -m venv counter-env
+# You may need to source counter env such as "source counter-env/bin/activate" in some cases.
 python --version # should display the python version 3.6.x in response
 </pre>
 
