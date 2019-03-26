@@ -34,7 +34,7 @@ output_file: tmp/test_out
 output_format: json
 
 # the name of the platform that goes into your reports
-platform: Dash
+platform: change-me
 
 # Don't put your api token in here if you're going to commit it, but put in separate secrets.yaml in same
 # directory as the config or else set a environment variable when starting up in order to override the key.
@@ -43,7 +43,8 @@ hub_api_token: set_me_in_secrets
 # the test metrics is only for testing
 # hub_base_url: https://metrics.test.datacite.org
 hub_base_url: https://api.datacite.org
-upload_to_hub: True
+upload_to_hub: False
+output_volume: False
 
 # only use this to simulate running on a date besides today
 # simulate_date: 2018-04-02

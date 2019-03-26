@@ -69,14 +69,15 @@ class JsonMetadata():
                     }
 
                 # only add volume for requests, nonsensical for investigations
-                if meth.endswith('_requests'):
+                if meth.endswith('_requests') and config.output_volume:
                     s['volume'] = FacetedStat.sum(stat, 'vol')
+
                 s['country-counts'] = country_counts
 
                 # only add volume for requests, nonsensical for investigations
                 # right now they don't want country volume broken out
-                # if meth.endswith('_requests'):
-                #    s['country-volume'] = country_volume
+                if meth.endswith('_requests') and config.output_volume:
+                    s['country-volume'] = country_volume
 
                 my_stats.append(s)
         return my_stats

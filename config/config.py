@@ -22,7 +22,7 @@ thismodule = sys.modules[__name__]
 
 ALLOWED_ENV = ('LOG_NAME_PATTERN', 'ROBOTS_URL', 'MACHINES_URL', 'YEAR_MONTH',
     'OUTPUT_FILE', 'OUTPUT_FORMAT', 'PLATFORM', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB',
-    'SIMULATE_DATE', 'MAXMIND_GEOIP_COUNTRY_PATH')
+    'SIMULATE_DATE', 'MAXMIND_GEOIP_COUNTRY_PATH', 'OUTPUT_VOLUME')
 
 # --- methods used inside this file for processing ---
 def read_state():
@@ -79,16 +79,14 @@ for ev in ALLOWED_ENV:
     if ev in os.environ:
         setattr(thismodule, ev.lower(), os.environ[ev])
 
-# we used to have more than one boolean value
-#for item in ('upload_to_hub'):
-#    my_val = getattr(thismodule, item)
-#    if isinstance(my_val, str):
-#        setattr(thismodule, item, (my_val == 'True' or my_val == 'true'))
-
 if isinstance(upload_to_hub, str):
-    upload_to_hub = (upload_to_hub == 'True' or upload_to_hub == 'true')
+    upload_to_hub = (upload_to_hub.lower() == 'true')
 
-# similate date, in case someone wants to simulate running on a day besides now
+if isinstance(output_volume, str):
+    output_volume = (output_volume.lower() == 'true')
+
+
+# simulate date, in case someone wants to simulate running on a day besides now
 if 'simulate_date' in vars():
     if isinstance(simulate_date, str):
         run_date = datetime.datetime.strptime(simulate_date, '%Y-%m-%d')
@@ -186,6 +184,11 @@ def filenames_to_process():
     They may be from 1st of month until yesterday (or last day of month).
     Or could start from the file after last we processed until yesterday
     (or the last day of the month)."""
+
+    # if no string of '(yyyy-mm-dd)' in pattern use as one literal filename
+    if '(yyyy-mm-dd)' not in log_name_pattern:
+        return [ log_name_pattern ]
+
     ld = int(last_day().split('-')[2]) # last day to process, yesterday (if in period) or end of month
 
     # last (previously) processed day
