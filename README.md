@@ -129,6 +129,7 @@ An example of overriding:
 # note: "(yyyy-mm-dd)" is an literal in the string for running this.
 # When run with this example, it will look for any daily log files such as "counter_2019-08-01.log",
 # "counter_2019-08-02.log" and so on, up until the day before now (or if other options are specified).
+
 $ YEAR_MONTH=2019-08 LOG_NAME_PATTERN="/path/to/my/daily/logs/counter_(yyyy-mm-dd).log" ./main.py
 Running report for 2019-08-01T00:00:00 to 2019-09-01T00:00:00
 1 daily log file(s) will be added to the database
