@@ -192,7 +192,7 @@ def filenames_to_process():
     ld = int(last_day().split('-')[2]) # last day to process, yesterday (if in period) or end of month
 
     # last (previously) processed day
-    if year_month in state_dict:
+    if year_month in state_dict and 'last_processed_day' in state_dict[year_month]:
         to_process_from = state_dict[year_month]['last_processed_day'] + 1
     else:
         to_process_from = 1
