@@ -111,7 +111,7 @@ If you wish to completely reprocess and submit a month's data from log files you
 It might also be important to understand how state works if moving the script to a different system so that you maintain the state files as needed.
 
 
-## Override selected options in environment variables when running the script##
+## Override selected options in environment variables when running the script
 You will want to set the options in the *config.yaml* file that you use, but some options may change every time you run the script.
 
 Most options listed above in the previous section can be overriden for each execution of the program by setting them in environment variables (but in all UPPERCASE letters).  The most likely things to be overridden when you are generating reports:
@@ -125,22 +125,30 @@ An example of overriding:
 
 ## Example run
 
-I'm sure this will change.
-
 ```
-$ LOG_GLOB="sample_logs/counter_2018-03-*.log" START_DATE="2018-03-01" END_DATE="2018-03-31" ./main.py
-Running report for 2018-03-01T00:00:00 to 2018-04-01T00:00:00
+# note: "(yyyy-mm-dd)" is an literal in the string for running this.
+# When run with this example, it will look for any daily log files such as "counter_2019-08-01.log",
+# "counter_2019-08-02.log" and so on, up until the day before now (or if other options are specified).
 
-processing sample_logs/counter_2018-03-13.log
-processing sample_logs/counter_2018-03-14.log
+$ YEAR_MONTH=2019-08 LOG_NAME_PATTERN="/path/to/my/daily/logs/counter_(yyyy-mm-dd).log" ./main.py
+Running report for 2019-08-01T00:00:00 to 2019-09-01T00:00:00
+1 daily log file(s) will be added to the database
+Last processed date: 2019-08-08
+processing /apps/dash2/apps/ui/current/log/counter_2019-08-09.log
 
-Calculating stats for doi:10.6071/Z7WC73
-Calculating stats for doi:10.5060/D8H59D
-Calculating stats for doi:10.7280/D1MW2M
+Calculating stats for doi:10.7272/Q66Q1V54
+Calculating stats for doi:10.6071/M39W8V
+Calculating stats for doi:10.7272/Q6639MWG
+Calculating stats for doi:10.7280/D1FT10
+Calculating stats for doi:10.6078/D1KS3M
+Calculating stats for doi:10.15146/R30K59
+Calculating stats for doi:10.15146/R31P48
+Calculating stats for doi:10.15146/R30P4Z
+Calculating stats for doi:10.15146/R32G68
 ...
 Calculating stats for doi:10.6078/D11S3N
 
-Writing JSON report to tmp/test.json
+Writing JSON report to tmp/test_out.json
 submitted
 ```
 
@@ -161,4 +169,9 @@ An example of processing only one day to test functioning (for January 1st, 2019
 
 ```
 YEAR_MONTH=2019-01 LOG_NAME_PATTERN="log/counter_(yyyy-mm-dd).log" UPLOAD_TO_HUB=False SIMULATE_DATE=2019-01-02 ./main.py
+```
+
+An example of processing an entire month at a time.  There is no literal string of "(yyyy-mm-dd)" in the filename so it will not be used to process daily logs and will take the filename completely literally.
+```
+YEAR_MONTH=2019-01 LOG_NAME_PATTERN="/path/to/my/log/counter_2019-01.log" UPLOAD_TO_HUB=False ./main.py
 ```
