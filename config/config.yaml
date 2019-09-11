@@ -10,6 +10,7 @@ path_types:
     - ^/api/versions/\d+$
     - ^/stash/dataset/\S+$
     - ^/stash/data_paper/\S+$
+    - ^/resource/doi:[^/]+/dryad[^/]+$
   requests:
     - ^/api/datasets/[^\/]+/download$
     - ^/api/versions/\d+/download$
@@ -19,6 +20,7 @@ path_types:
     - ^/stash/downloads/file_stream/\d+$
     - ^/stash/downloads/async_request/\d+$
     - ^/stash/share/\S+$
+    - ^/resource/doi:[^/]+/dryad[^/]+/.+$
 
 # Robots and machines urls are urls where the script can download a list of regular expressions to determine
 # if something is a robot or machine user-agent.  The text file has one regular expression per line
@@ -32,6 +34,8 @@ year_month: 2018-04
 # Output formats are either tsv or json currently.  TSV is currently broken until anyone accepts reports in that format.
 output_file: tmp/test_out
 output_format: json
+# Allows the report to have volume (size) info, which DataCite doesn't accept yet
+output_volume: False
 
 # the name of the platform that goes into your reports
 platform: change-me
@@ -44,7 +48,6 @@ hub_api_token: set_me_in_secrets
 # hub_base_url: https://metrics.test.datacite.org
 hub_base_url: https://api.datacite.org
 upload_to_hub: False
-output_volume: False
 
 # only use this to simulate running on a date besides today
 # simulate_date: 2018-04-02
