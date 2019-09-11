@@ -18,20 +18,27 @@ class LogLine():
         'other_id', 'target_url', 'publication_year')
 
     def __init__(self, line):
+        self.badline = False
         line = line.strip()
         if line.startswith('#'):
             self.event_time = None
             return
         split_line = line.split("\t")
+
+        if len(split_line) != len(self.COLUMNS):
+            print(f'line is wrong: {line}')
+            self.badline = True
+            return
+
         # import the COLUMNS above
         for idx, my_field in enumerate(self.COLUMNS):
-            tempval = split_line[idx]
+            tempval = split_line[idx].strip()
             if tempval == '' or tempval == '-' or tempval == '????':
                 tempval = None
             setattr(self, my_field, tempval)
 
     def populate(self):
-        if self.event_time == None:
+        if self.badline == True or self.event_time == None:
             return
 
         # create descriptive metadata
