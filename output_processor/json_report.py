@@ -16,7 +16,7 @@ class JsonReport(Report):
     def output(self):
         with io.open(f"{config.output_file}.json", 'w', encoding='utf8') as jsonfile:
             head = self.header_dict()
-            body = {'report_datasets': [self.dict_for_id(my_id) for my_id in self.ids_to_process ] }
+            body = {'report-datasets': [self.dict_for_id(my_id) for my_id in self.ids_to_process ] }
             data = dict(list(head.items()) + list(body.items()))
             print('')
             print(f'Writing JSON report to {config.output_file}.json')
