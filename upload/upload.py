@@ -6,6 +6,7 @@ import json
 from urllib.request import pathname2url
 import sys
 import time
+import gzip
 #import ipdb; ipdb.set_trace()
 
 class UploadException(Exception):
@@ -33,11 +34,16 @@ def retry_if_500(method, url, data, headers):
             time.sleep(1)
 
 def send_to_datacite():
-    if config.output_format == 'json':
-        ct = 'application/json; charset=UTF-8'
-    else:
-        ct = 'text/tab-separated-values; charset=UTF-8'
-    headers = {'content-type': ct, 'Authorization': f'Bearer {config.hub_api_token}'}
+    # removing TSV output from upload since it has never been implemented in servers and just clutters code
+    # if needed, can find it in the github history.
+
+    # changing content-type to gzip since it is safest for large files and it fails without compression in many cases
+    headers = {
+        'Content-Type': 'application/gzip',
+        'Content-Encoding': 'gzip',
+        'Accept': 'gzip',
+        'Authorization': f'Bearer {config.hub_api_token}'
+    }
 
     with io.open(f'{config.output_file}.{config.output_format}', 'r', encoding='utf-8') as myfile:
         data = myfile.read()
