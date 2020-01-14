@@ -26,7 +26,7 @@ def save_response(response):
 # this method is a retry since the datacite api randomly gives many 500 errors
 def retry_if_500(method, url, data, headers):
     for attempt in range(60):
-        response = getattr(requests, method)(url, data=data.encode("utf-8"), headers=headers)
+        response = getattr(requests, method)(url, data=gzip.compress(data.encode()), headers=headers)
         if response.status_code < 500 or attempt == 59:
             return response
         else:
