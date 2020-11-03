@@ -101,6 +101,10 @@ class LogLine():
                     .where(MetadataAuthor.metadata_item_id == md_item.id)
                     .execute())
 
+        if self.authors is None:
+            MetadataAuthor.create(metadata_item_id=md_item.id, author_name="None None")
+            return
+
         for au in self.authors.split("|"):
             MetadataAuthor.create(metadata_item_id=md_item.id, author_name=au)
 

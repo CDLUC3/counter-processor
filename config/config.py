@@ -102,6 +102,11 @@ end_date = dateutil.parser.parse(ed)
 
 # set up database path
 processing_database = f'state/counter_db_{year_month}.sqlite3'
+
+# Processing in memory may be helpful for back-processing old data you don't want to keep in a DB to add to later
+# and may be faster.  Also need to optimize queries and ignore the size stats for now since not used by hub.
+# processing_database = ':memory:'
+
 base_model.deferred_db.init(processing_database)
 
 # set up MaxMind geoip database path.  We use binary one downloaded from https://dev.maxmind.com/geoip/geoip2/geolite2/

@@ -26,6 +26,13 @@ class JsonReport(Report):
             # json.dump(data, jsonfile, indent=2, ensure_ascii=False)
 
     def header_dict(self):
+        compressed_dict = {
+            'code':         69,
+            'severity':     'warning',
+            'message':      'Report is compressed using gzip',
+            'help-url':     'https://github.com/datacite/sashimi',
+            'data':         'usage data needs to be uncompressed'
+        }
         if config.month_complete():
             exception_dict = {}
         else:
@@ -52,8 +59,7 @@ class JsonReport(Report):
                         'end-date':     config.last_day()
                     },
                 'report-filters':       [],
-                # any reporting period like in the CSV, or does filter also mean period?
-                'exceptions': [ exception_dict ]
+                'exceptions': [ compressed_dict, exception_dict ]
             }
         }
         return head_dict
