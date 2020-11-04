@@ -18,13 +18,13 @@ class TestConfig(unittest.TestCase):
 
     def test_yaml_set(self):
         self.assertEqual(config.platform, 'Dashlet')
-        self.assertEqual(config.output_file, 'tmp/test_run.tsv')
+        self.assertEqual(config.output_file, 'tmp/test_run')
 
     def test_env_set(self):
-        self.assertEqual(config.processing_database, 'db/test_only_db.sqlite3')
+        self.assertEqual(config.processing_database, 'state/counter_db_2018-02.sqlite3')
 
     def test_dates_transformed_from_string(self):
-        self.assertEqual(config.end_sql(), '2018-03-14T00:00:00')
+        self.assertEqual(config.end_sql(), '2018-03-01T00:00:00')
 
     def test_start_time(self):
         self.assertEqual(config.start_sql(), '2018-02-01T00:00:00')

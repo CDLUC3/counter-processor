@@ -1,5 +1,4 @@
-log_glob: log/counter_2018-02-*.log
-processing_database: db/counter_db.sqlite3
+log_name_pattern: log/counter_(yyyy-mm-dd).log
 path_types:
   investigations:
     - investo
@@ -9,9 +8,13 @@ path_types:
     - reqlumpto
 robots_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user-agents/lists/robot.txt
 machines_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/user-agents/lists/machine.txt
-start_time: 2018-02-01 00:00:00
-end_time: 2018-03-01 00:00:00
+year_month: 2018-02
 output_file: tmp/test_run
 platform: Dashlet
-# only_calculate allows outputting stats from current database without having to crunch all the logs again and populate it (slow)
-only_calculate: False
+hub_api_token: set_me_in_secrets
+# hub_base_url: https://metrics.test.datacite.org
+hub_base_url: https://api.datacite.org
+upload_to_hub: False
+output_volume: False
+# simulate_date: 2018-04-02
+maxmind_geoip_country_path: maxmind_geoip/GeoLite2-Country.mmdb
