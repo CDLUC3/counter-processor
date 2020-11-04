@@ -21,7 +21,7 @@ last_p_day = None
 thismodule = sys.modules[__name__]
 
 ALLOWED_ENV = ('LOG_NAME_PATTERN', 'ROBOTS_URL', 'MACHINES_URL', 'YEAR_MONTH',
-    'OUTPUT_FILE', 'OUTPUT_FORMAT', 'PLATFORM', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB',
+    'OUTPUT_FILE', 'PLATFORM', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB',
     'SIMULATE_DATE', 'MAXMIND_GEOIP_COUNTRY_PATH', 'OUTPUT_VOLUME')
 
 # --- methods used inside this file for processing ---

@@ -45,7 +45,7 @@ def send_to_datacite():
         'Authorization': f'Bearer {config.hub_api_token}'
     }
 
-    with io.open(f'{config.output_file}.{config.output_format}', 'r', encoding='utf-8') as myfile:
+    with io.open(f'{config.output_file}.json', 'r', encoding='utf-8') as myfile:
         data = myfile.read()
 
     # post or put the information

@@ -68,7 +68,7 @@ If you don't set a CONFIG_FILE the script will use the one at *config/config.yam
 - **machines_url** is a url to download a list of regular expressions (one per line in a text file) that the script uses to classify a user-agent as a machine (rather than human) access.
 - **year_month** is the year and month for which you are desiring to create a report.  For example, 2018-05.
 - **output_file**: the path and file to write the report to.  Leave off the extension because it will be automatically supplied based on the *output_format*.
-- **output_format**: Choose either *tsv* or *json* for this value.  Currently only json is fully functional.
+- **output_format**: deprecated from earlier versions. It is always json.
 - **platform** is the name of your platform which is used in the report output.
 - **hub\_api\_token**: set this value in a *secrets.yaml* file in the same directory as your config.yaml if you are committing your config.yaml to a public respository.  Be sure to exclude the secrets.yaml from being committed to a public place such as with a .gitignore file.
 - **hub\_base\_url**: A value such as https://metrics.datacite.org that will be as the base to submit data to.

@@ -30,10 +30,12 @@ machines_url: https://raw.githubusercontent.com/CDLUC3/Make-Data-Count/master/us
 # the year and month for the report you are creating.
 year_month: 2018-04
 
+
+# Output formats are only json currently. tsv was planned but spec was never finalized.
+
 # Don't put the filename extension, the code will tack on the tsv or json extension for you.
-# Output formats are either tsv or json currently.  TSV is currently broken until anyone accepts reports in that format.
 output_file: tmp/test_out
-output_format: json
+
 # Allows the report to have volume (size) info, which DataCite doesn't accept yet
 output_volume: False
 

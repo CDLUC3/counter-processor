@@ -34,12 +34,8 @@ config.update_log_processed_date()
 print('')
 DbActions.vacuum() # cleanup indices, etc, maybe makes queries faster
 # output for each unique identifier (that isn't robots)
-if config.output_format == 'tsv':
-    my_report = op.TsvReport()
-    my_report.output()
-elif config.output_format == 'json':
-    my_report = op.JsonReport()
-    my_report.output()
+my_report = op.JsonReport()
+my_report.output()
 
 if config.upload_to_hub == True:
     upload.send_to_datacite()
