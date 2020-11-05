@@ -1,4 +1,6 @@
-import config
+# from config import Config as cf
+# config = cf()
+
 from models import *
 from peewee import *
 from .id_stat import IdStat

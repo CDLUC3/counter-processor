@@ -11,7 +11,9 @@ os.environ["END_TIME"] = '2018-03-14 00:00:00'
 
 import unittest
 # from unittest.mock import patch
-import config
+from config import Config as cf
+config = cf()
+
 import re
 
 class TestConfig(unittest.TestCase):

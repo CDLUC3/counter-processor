@@ -1,4 +1,6 @@
-import config
+# from config import Config as cf
+# config = cf()
+import main
 import exceptions
 from models import *
 from peewee import *

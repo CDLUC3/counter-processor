@@ -1,4 +1,6 @@
-import config
+# from config import Config as cf
+# config = cf()
+
 import requests
 from urllib.parse import urljoin
 import io
