@@ -47,12 +47,13 @@ class JsonMetadata():
     def performance_facet_data(self):
         my_stats = []
         for f_stat in self.id_stat.stats():
+            # the items total_requests, unique_requests, total_investigations, unique_investigations
             for name, meth in STAT_METHODS.items():
                 stat = getattr(f_stat, meth)()
                 if (stat is None) or FacetedStat.sum(stat, 'ct') == 0:
                     continue
 
-                # setup country counts, volume
+                # bucket country counts, volume for each access method
                 country_counts = {}
                 country_volume = {}
                 for i in stat:

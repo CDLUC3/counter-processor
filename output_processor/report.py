@@ -14,6 +14,7 @@ class Report():
     def __init__(self):
         self.ids_to_process = LogItem.select(LogItem.identifier) \
                 .distinct() \
+                .order_by(LogItem.identifier.asc()) \
                 .where((LogItem.is_robot == False) &
                     LogItem.event_time.between(config.Config().start_sql(), config.Config().end_sql()))
         self.ids_to_process = [x.identifier for x in self.ids_to_process]
