@@ -8,6 +8,7 @@ from .json_metadata import JsonMetadata
 import datetime
 import dateutil.parser
 import io
+import datetime
 #import ipdb; ipdb.set_trace()
 
 class JsonReport(Report):
@@ -66,7 +67,8 @@ class JsonReport(Report):
 
     def dict_for_id(self, my_id):
         """Takes a IdStat object, which is at the level of identifier"""
-        print(f'Calculating stats for {my_id}')
+        self.ids_processed = self.ids_processed + 1
+        print(f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}  {self.ids_processed}/{self.id_count} Calculating stats for {my_id}')
         id_stat = IdStat(my_id)
         meta = self.find_metadata_by_identifier(id_stat.identifier)
         js_meta = JsonMetadata(id_stat, meta)

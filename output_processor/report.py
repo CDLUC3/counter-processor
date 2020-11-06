@@ -17,6 +17,8 @@ class Report():
                 .order_by(LogItem.identifier.asc()) \
                 .where((LogItem.is_robot == False) &
                     LogItem.event_time.between(config.Config().start_sql(), config.Config().end_sql()))
+        self.id_count = len(self.ids_to_process)
+        self.ids_processed = 0
         self.ids_to_process = [x.identifier for x in self.ids_to_process]
 
     def iterate_facet_stats(self):
