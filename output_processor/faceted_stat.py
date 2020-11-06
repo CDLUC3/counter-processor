@@ -1,6 +1,4 @@
-# from config import Config as cf
-# config = cf()
-
+import config
 from models import *
 from peewee import *
 #import ipdb; ipdb.set_trace()
@@ -54,7 +52,7 @@ class FacetedStat():
     def total(self, hit_type):
         my_items =  LogItem.select(LogItem.country, fn.COUNT().alias('ct'), fn.SUM(LogItem.size).alias('vol')) \
                 .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
-                    LogItem.event_time.between(config.start_sql(), config.end_sql()) &
+                    LogItem.event_time.between(config.Config().start_sql(), config.Config().end_sql()) &
                     (LogItem.is_machine == self.is_machine()) &
                     (LogItem.hit_type << hit_type) ) \
                 .group_by(LogItem.country)
@@ -70,7 +68,7 @@ class FacetedStat():
         for i in country_dicts:
             i['ct'] = LogItem.select(LogItem.calc_session_id).distinct() \
                 .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
-                    LogItem.event_time.between(config.start_sql(), config.end_sql()) &
+                    LogItem.event_time.between(config.Config().start_sql(), config.Config().end_sql()) &
                     (LogItem.country == i['country'].upper()) &
                     (LogItem.is_machine == self.is_machine()) &
                     (LogItem.hit_type << hit_type) ) \
@@ -83,7 +81,7 @@ class FacetedStat():
             # FROM (SELECT request_url, size FROM logitem WHERE request_url = 'http://dash.ucop.edu/stash/downloads/file_download/16783') subquery
             subquery = ( LogItem.select(LogItem.calc_session_id, LogItem.request_url, LogItem.size).distinct() \
                 .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
-                    LogItem.event_time.between(config.start_sql(), config.end_sql()) &
+                    LogItem.event_time.between(config.Config().start_sql(), config.Config().end_sql()) &
                     (LogItem.country == i['country'].upper()) &
                     (LogItem.is_machine == self.is_machine()) &
                     (LogItem.hit_type << hit_type) ) )

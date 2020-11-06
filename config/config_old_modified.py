@@ -18,7 +18,8 @@ machines_reg = None
 hit_type_reg = None
 last_p_day = None
 
-thismodule = sys.modules[__name__]
+# thismodule = sys.modules[__name__]
+thismodule = sys.modules['config']
 
 ALLOWED_ENV = ('LOG_NAME_PATTERN', 'ROBOTS_URL', 'MACHINES_URL', 'YEAR_MONTH',
     'OUTPUT_FILE', 'PLATFORM', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB',
@@ -49,70 +50,71 @@ def make_start_and_end(my_year_month):
     _, lastday = calendar.monthrange(yr,mnth)
     return (f'{yr}-{mnth}-01', f'{yr}-{mnth}-{lastday}')
 
-# --- main setup and reading of all the config information ---
 
-state_dict = read_state()
+def setup():
+    global start_date, end_date, last_p_day, run_date, robots_reg, state_dict, config_file, dsr_release, processing_database
+    state_dict = read_state()
 
-# this makes easy way to completely change the config file to a different one if needed by CONFIG_FILE ENV Variable
-config_file = 'config/config.yaml'
-if 'CONFIG_FILE' in os.environ:
-    config_file = os.environ['CONFIG_FILE']
+    # this makes easy way to completely change the config file to a different one if needed by CONFIG_FILE ENV Variable
+    config_file = 'config/config.yaml'
+    if 'CONFIG_FILE' in os.environ:
+        config_file = os.environ['CONFIG_FILE']
 
-# load the config file
-with open(config_file, 'r') as ymlfile:
-    cfg = yaml.load(ymlfile)
-for x in cfg:
-    setattr(thismodule, x, cfg[x])
-
-# load the secrets file if you want to separate any sensitive information from the config in secrets.yaml
-# which is .gitignored.  Anything set in secrets will override that top-level key from the config if it's set.
-secret = os.path.join(os.path.dirname(config_file), 'secrets.yaml')
-if os.path.isfile(secret) == True:
-    with open(secret, 'r') as ymlfile:
+    # load the config file
+    with open(config_file, 'r') as ymlfile:
         cfg = yaml.load(ymlfile)
-        for x in cfg:
-            setattr(thismodule, x, cfg[x])
+    for x in cfg:
+        # globals()[x] = cfg[x]
+        setattr(thismodule, x, cfg[x])
+
+    # load the secrets file if you want to separate any sensitive information from the config in secrets.yaml
+    # which is .gitignored.  Anything set in secrets will override that top-level key from the config if it's set.
+    secret = os.path.join(os.path.dirname(config_file), 'secrets.yaml')
+    if os.path.isfile(secret) == True:
+        with open(secret, 'r') as ymlfile:
+            cfg = yaml.load(ymlfile)
+            for x in cfg:
+                setattr(thismodule, x, cfg[x])
 
 
-# if someone has set any of these environment variables, overide whatever loaded from yaml (but make them lowercase props)
-for ev in ALLOWED_ENV:
-    if ev in os.environ:
-        setattr(thismodule, ev.lower(), os.environ[ev])
+    # if someone has set any of these environment variables, overide whatever loaded from yaml (but make them lowercase props)
+    for ev in ALLOWED_ENV:
+        if ev in os.environ:
+            setattr(thismodule, ev.lower(), os.environ[ev])
 
-if isinstance(upload_to_hub, str):
-    upload_to_hub = (upload_to_hub.lower() == 'true')
+    if isinstance(upload_to_hub, str):
+        setattr(thismodule, 'upload_to_hub', (upload_to_hub.lower() == 'true'))
 
-if isinstance(output_volume, str):
-    output_volume = (output_volume.lower() == 'true')
+    if isinstance(output_volume, str):
+        setattr(thismodule, 'output_volume', (output_volume.lower() == 'true'))
 
-
-# simulate date, in case someone wants to simulate running on a day besides now
-if 'simulate_date' in vars():
-    if isinstance(simulate_date, str):
-        run_date = datetime.datetime.strptime(simulate_date, '%Y-%m-%d')
+    # simulate date, in case someone wants to simulate running on a day besides now
+    if 'simulate_date' in vars():
+        if isinstance(simulate_date, str):
+            run_date = datetime.datetime.strptime(simulate_date, '%Y-%m-%d')
+        else:
+            run_date = datetime.datetime.combine(simulate_date, datetime.datetime.min.time())
     else:
-        run_date = datetime.datetime.combine(simulate_date, datetime.datetime.min.time())
-else:
-    run_date = datetime.datetime.now()
+        run_date = datetime.datetime.now()
 
-# parse in the start and end days now
-sd, ed = make_start_and_end(year_month)
-start_date = dateutil.parser.parse(sd)
-end_date = dateutil.parser.parse(ed)
+    # parse in the start and end days now
+    sd, ed = make_start_and_end(year_month)
+    start_date = dateutil.parser.parse(sd)
+    end_date = dateutil.parser.parse(ed)
 
-# set up database path
-processing_database = f'state/counter_db_{year_month}.sqlite3'
+    # set up database path
+    processing_database = f'state/counter_db_{year_month}.sqlite3'
 
-# Processing in memory may be helpful for back-processing old data you don't want to keep in a DB to add to later
-# and may be faster.  Also need to optimize queries and ignore the size stats for now since not used by hub.
-# processing_database = ':memory:'
+    # Processing in memory may be helpful for back-processing old data you don't want to keep in a DB to add to later
+    # and may be faster.  Also need to optimize queries and ignore the size stats for now since not used by hub.
+    # processing_database = ':memory:'
 
-base_model.deferred_db.init(processing_database)
+    base_model.deferred_db.init(processing_database)
 
-# set up MaxMind geoip database path.  We use binary one downloaded from https://dev.maxmind.com/geoip/geoip2/geolite2/
-geoip_reader = geoip2.database.Reader(maxmind_geoip_country_path)
+    # set up MaxMind geoip database path.  We use binary one downloaded from https://dev.maxmind.com/geoip/geoip2/geolite2/
+    geoip_reader = geoip2.database.Reader(maxmind_geoip_country_path)
 
-dsr_release = 'RD1'
+    dsr_release = 'RD1'
 
 def start_time():
     return datetime.datetime.combine(start_date, datetime.datetime.min.time())

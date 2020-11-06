@@ -11,28 +11,27 @@ os.environ["END_TIME"] = '2018-03-14 00:00:00'
 
 import unittest
 # from unittest.mock import patch
-from config import Config as cf
-config = cf()
+import config
 
 import re
 
 class TestConfig(unittest.TestCase):
 
     def test_yaml_set(self):
-        self.assertEqual(config.platform, 'Dashlet')
-        self.assertEqual(config.output_file, 'tmp/test_run')
+        self.assertEqual(config.Config().platform, 'Dashlet')
+        self.assertEqual(config.Config().output_file, 'tmp/test_run')
 
     def test_env_set(self):
-        self.assertEqual(config.processing_database, 'state/counter_db_2018-02.sqlite3')
+        self.assertEqual(config.Config().processing_database, 'state/counter_db_2018-02.sqlite3')
 
     def test_dates_transformed_from_string(self):
-        self.assertEqual(config.end_sql(), '2018-03-01T00:00:00')
+        self.assertEqual(config.Config().end_sql(), '2018-03-01T00:00:00')
 
     def test_start_time(self):
-        self.assertEqual(config.start_sql(), '2018-02-01T00:00:00')
+        self.assertEqual(config.Config().start_sql(), '2018-02-01T00:00:00')
 
     def test_regex_for_type(self):
-        self.assertEqual(config.hit_type_regexp()['investigation'], re.compile('investo|inclumpto'))
+        self.assertEqual(config.Config().hit_type_regexp()['investigation'], re.compile('investo|inclumpto'))
 
 if __name__ == '__main__':
     unittest.main()

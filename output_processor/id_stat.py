@@ -1,6 +1,4 @@
-# from config import Config as cf
-# config = cf()
-
+import config
 from models import *
 from peewee import *
 from .faceted_stat import FacetedStat

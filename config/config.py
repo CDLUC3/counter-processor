@@ -51,7 +51,6 @@ class _Config:
         self.dsr_release = None
         self.processing_database = None
 
-    def initiate_state(self)
         # --- main setup and reading of all the config information ---
         self.state_dict = _Config.read_state()
 
@@ -209,8 +208,8 @@ class _Config:
 
     def last_processed_on(self):
         """gives string for last day it was processed for this month"""
-        if self.year_month in self.state_dict and 'last_processed_day' in self.state_dict[year_month]:
-            return f'{self.year_month}-{ "%02d" % self.state_dict[year_month]["last_processed_day"] }'
+        if self.year_month in self.state_dict and 'last_processed_day' in self.state_dict[self.year_month]:
+            return f'{self.year_month}-{ "%02d" % self.state_dict[self.year_month]["last_processed_day"] }'
         else:
             return f'not processed yet for {self.year_month}'
 
@@ -259,7 +258,7 @@ class _Config:
             json.dump(self.state_dict, f, sort_keys = True, indent = 4, ensure_ascii=False)
 
 # this is hiding the class behind this function and making it a singleton
-# def Config():
-#     if _Config._instance is None:
-#         _Config._instance = _Config()
-#     return _Config._instance
+def Config():
+    if _Config._instance is None:
+        _Config._instance = _Config()
+    return _Config._instance

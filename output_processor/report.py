@@ -1,6 +1,4 @@
-# from config import Config as cf
-# config = cf()
-
+import config
 from models import *
 from peewee import *
 from .id_stat import IdStat
@@ -17,7 +15,7 @@ class Report():
         self.ids_to_process = LogItem.select(LogItem.identifier) \
                 .distinct() \
                 .where((LogItem.is_robot == False) &
-                    LogItem.event_time.between(config.start_sql(), config.end_sql()))
+                    LogItem.event_time.between(config.Config().start_sql(), config.Config().end_sql()))
         self.ids_to_process = [x.identifier for x in self.ids_to_process]
 
     def iterate_facet_stats(self):

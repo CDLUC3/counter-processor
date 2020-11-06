@@ -26,6 +26,7 @@ class TestMain(unittest.TestCase):
             os.rename('state/statefile.json', 'state/saved_state.json')
         if os.path.exists('state/counter_db_2018-05.sqlite3'):
             os.rename('state/counter_db_2018-05.sqlite3', 'state/moved_db.sqlite3')
+        main.test_mode = true
 
     def tearDown(self):
         del os.environ['YEAR_MONTH']
@@ -40,6 +41,7 @@ class TestMain(unittest.TestCase):
             os.rename('state/saved_state.json', 'state/statefile.json')
         if os.path.exists('state/moved_db.sqlite3'):
             os.rename('state/moved_db.sqlite3', 'state/counter_db_2018-05.sqlite3')
+        main.test_mode = false
 
     def test_main(self):
         main.main()
