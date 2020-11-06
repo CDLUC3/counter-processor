@@ -17,7 +17,7 @@ class LogItem(BaseModel):
     filename = TextField(null=True)
     size = BigIntegerField(null=True)
     user_agent = TextField(null=True)
-    country = CharField(null=True)
+    country = CharField(null=True, index=True)
     hit_type = CharField(null=True, index=True)
     is_robot = BooleanField(default=False, index=True)
     is_machine = BooleanField(default=False, index=True)
