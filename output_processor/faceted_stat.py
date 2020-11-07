@@ -85,6 +85,9 @@ class FacetedStat():
             # SELECT SUM(subquery.size) as my_total
             # FROM (SELECT request_url, size FROM logitem WHERE request_url = 'http://dash.ucop.edu/stash/downloads/file_download/16783') subquery
 
+
+            # the stuff below is to get distinct size?
+
             # select (session_id, request, size).distinct
             # robot: false, identifier: id, event time, country, machine_type, hit_type:
             subquery = ( LogItem.select(LogItem.calc_session_id, LogItem.request_url, LogItem.size).distinct() \
