@@ -27,7 +27,7 @@ def main():
 
     for lf in the_filenames:
         with open(lf) as infile:
-            print(f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}  processing {lf}')
+            print(f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}  importing {lf}')
             for line in infile:
                 ll = ip.LogLine(line)
                 ll.populate()
