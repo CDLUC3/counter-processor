@@ -61,7 +61,7 @@ class _Config:
 
         # load the config file
         with open(self.config_file, 'r') as ymlfile:
-            cfg = yaml.load(ymlfile)
+            cfg = yaml.safe_load(ymlfile)
         for x in cfg:
             setattr(self, x, cfg[x])
 
