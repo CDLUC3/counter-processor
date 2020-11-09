@@ -31,7 +31,9 @@ def main():
             for line in infile:
                 ll = ip.LogLine(line)
                 ll.populate()
+
     config.Config().update_log_processed_date()
+    config.Config().copy_db_to_disk()
 
     print('')
     DbActions.vacuum() # cleanup indices, etc, maybe makes queries faster

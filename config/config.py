@@ -12,6 +12,7 @@ import json
 import calendar
 import exceptions
 import geoip2.database
+from sqlite3 import connect
 
 class _Config:
     _instance = None
@@ -50,6 +51,7 @@ class _Config:
         self.config_file = None
         self.dsr_release = None
         self.processing_database = None
+        self._memory_database = None
 
         # --- main setup and reading of all the config information ---
         self.state_dict = _Config.read_state()
@@ -104,11 +106,9 @@ class _Config:
         # set up database path
         self.processing_database = f'state/counter_db_{self.year_month}.sqlite3'
 
-        # Processing in memory may be helpful for back-processing old data you don't want to keep in a DB to add to later
-        # and may be faster.  Also need to optimize queries and ignore the size stats for now since not used by hub.
-        # self.processing_database = ':memory:'
+        self.copy_db_to_memory()
 
-        base_model.deferred_db.init(self.processing_database)
+        base_model.deferred_db.init('file::memory:?cache=shared', uri=True)
 
         # set up MaxMind geoip database path.  We use binary one downloaded from https://dev.maxmind.com/geoip/geoip2/geolite2/
         self.geoip_reader = geoip2.database.Reader(self.maxmind_geoip_country_path)
@@ -256,6 +256,26 @@ class _Config:
         self.state_dict[self.year_month]['id'] = the_id
         with open('state/statefile.json', 'w') as f:
             json.dump(self.state_dict, f, sort_keys = True, indent = 4, ensure_ascii=False)
+
+    def copy_db_to_memory(self):
+        # I couldn't find a way for Peewee to initialize with a sqlite3 connection rather than a string, but this url
+        # shows how to share a database when using a string if it is in the same process
+        # https://stackoverflow.com/questions/15720700/can-two-processes-access-in-memory-memory-sqlite-database-concurrently
+        # see also https://www.devdungeon.com/content/python-sqlite3-tutorial
+        if os.path.exists(self.processing_database):
+            disk_db = connect(self.processing_database)
+            self._memory_database = connect('file::memory:?cache=shared', uri=True)
+            disk_db.backup(self._memory_database)
+            disk_db.close()
+        else:
+            self._memory_database = connect('file::memory:?cache=shared', uri=True)
+
+    def copy_db_to_disk(self):
+        # Backup a memory database to a file
+        disk_db = connect(self.processing_database)
+        self._memory_database.backup(disk_db)
+        disk_db.close()
+
 
 # this is hiding the class behind this function and making it a singleton
 def Config():
