@@ -86,25 +86,25 @@ class FacetedStat():
             # FROM (SELECT request_url, size FROM logitem WHERE request_url = 'http://dash.ucop.edu/stash/downloads/file_download/16783') subquery
 
 
-            # the stuff below is to get distinct size?
+            # the stuff below is to get size, which isn't always output
+            if config.Config().output_volume:
+                # select (session_id, request, size).distinct
+                # robot: false, identifier: id, event time, country, machine_type, hit_type:
+                subquery = ( LogItem.select(LogItem.calc_session_id, LogItem.request_url, LogItem.size).distinct() \
+                    .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
+                        LogItem.event_time.between(config.Config().start_sql(), config.Config().end_sql()) &
+                        (LogItem.country == i['country'].upper()) &
+                        (LogItem.is_machine == self.is_machine()) &
+                        (LogItem.hit_type << hit_type) ) )
+                        # .alias('subquery')
 
-            # select (session_id, request, size).distinct
-            # robot: false, identifier: id, event time, country, machine_type, hit_type:
-            subquery = ( LogItem.select(LogItem.calc_session_id, LogItem.request_url, LogItem.size).distinct() \
-                .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
-                    LogItem.event_time.between(config.Config().start_sql(), config.Config().end_sql()) &
-                    (LogItem.country == i['country'].upper()) &
-                    (LogItem.is_machine == self.is_machine()) &
-                    (LogItem.hit_type << hit_type) ) )
-                    # .alias('subquery')
-
-            # Can't seem to get PoS Peewee ORM to allow a select based on a subquery in the from clause like
-            # my_ct = ( subquery.select( fn.SUM(subquery.size)).alias('total_size') )
-            my_volume = 0
-            for row in subquery:
-                if row.size is not None:
-                    my_volume += row.size
-            i['vol'] = my_volume
+                # Can't seem to get PoS Peewee ORM to allow a select based on a subquery in the from clause like
+                # my_ct = ( subquery.select( fn.SUM(subquery.size)).alias('total_size') )
+                my_volume = 0
+                for row in subquery:
+                    if row.size is not None:
+                        my_volume += row.size
+                i['vol'] = my_volume
 
         return self.fix_countries(country_dicts)
 
