@@ -10,30 +10,45 @@ git checkout <em>branch-or-tag</em>
 
 ## Set an environment for python besides your system environment
 
-You may need to install python 3.6 on your system if it is not there already.
+You may need to install python 3.7 or later on your system if it is not there already.
+3.7+ is required because of some sqlite3 options not available in earlier versions.  This
+may be set as the command `python` or `python3` on your system.
+
 This may be through your package manager (apt, yum, homebrew, etc) or manually.
 
-See for example [this big page of installation instructions](https://realpython.com/installing-python/).
+Programs for managing multiple versions of Python such as pyenv, virtualenv or update-alternatives or others
+exist, but are beyond the scope of this readme and are documented on the internet. 
 
-
-<pre>
-python3.6 -m venv counter-env
-# You may need to source counter env such as "source counter-env/bin/activate" in some cases.
-python --version # should display the python version 3.6.x in response
-</pre>
+Maybe [this big page of installation instructions](https://realpython.com/installing-python/) is helpful.
 
 ## Get the GeoLite2 Country database
-<pre>
-cd maxmind_geoip # go to the maxmind directory
+
+I'm leaving the previous instructions about obtaining the database below.  MaxMind has
+changed their licensing terms for new updates.
+
+In the future, they require registration, obtaining a key and updating the database on a regular
+schedule and perhaps other changes to the software to use their databases.  See
+[Ycombinator discussion](https://news.ycombinator.com/item?id=21915160) about this.
+
+Until that work can be completed and incorporated as part of the processor, the best bet is
+to use an old database from before the license changes.
+[Internet Archive](https://web.archive.org/web/20191222130401/https://dev.maxmind.com/geoip/geoip2/geolite2/)
+has copies of those old databases.
+
+
+<hr>
+
 
 ## download the database
-wget https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz
+```
+wget https://web.archive.org/web/20191222130401/https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz
 
 tar zxvf GeoLite2-Country.tar.gz # extract the database
 
-# copy it here for the default config to work
-cp GeoLite2-Country_<em>release-date</em>/GeoLite2-Country.mmdb .
+# copy it to the maxmind_geoip directory inside the app for defaults
+cp GeoLite2-Country_<em>release-date</em>/GeoLite2-Country.mmdb <app_directory>/maxmind_geoip
 </pre>
+```
 
 ## Edit the *config/config.yaml* file
 - to have your correct *platform* name.
