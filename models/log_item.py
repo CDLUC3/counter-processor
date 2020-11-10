@@ -4,6 +4,7 @@ from peewee import *
 import dateutil.parser
 import datetime
 import re
+import hashlib
 
 class LogItem(BaseModel):
     """These are the log items in the sqlite database based on peewee ORM"""
@@ -17,13 +18,13 @@ class LogItem(BaseModel):
     filename = TextField(null=True)
     size = BigIntegerField(null=True)
     user_agent = TextField(null=True)
-    country = CharField(null=True)
+    country = CharField(null=True, index=True)
     hit_type = CharField(null=True, index=True)
     is_robot = BooleanField(default=False, index=True)
     is_machine = BooleanField(default=False, index=True)
     metadata_item = ForeignKeyField(MetadataItem, backref='log_items')
-    calc_doubleclick_id = TextField(null=True, index=True)
-    calc_session_id = TextField(null=True, index=True)
+    calc_doubleclick_id = BlobField(null=True, index=True)
+    calc_session_id = BlobField(null=True, index=True)
 
     def event_time_as_dt(self):
         return dateutil.parser.parse(self.event_time)
@@ -47,13 +48,13 @@ class LogItem(BaseModel):
             - By a "session cookie" or identifier (ie it expires when the browser is closed)
             - By ip address + user-agent + hour slice (date and hour of day)"""
         if self.user_id is not None:
-            self.calc_doubleclick_id = f'u_{self.user_id}'
+            self.calc_doubleclick_id = hashlib.md5(f'u_{self.user_id}'.encode()).digest()
         elif self.user_cookie_id is not None:
-            self.calc_doubleclick_id = f'uc_{self.user_cookie_id}'
+            self.calc_doubleclick_id = hashlib.md5(f'uc_{self.user_cookie_id}'.encode()).digest()
         elif self.session_cookie_id is not None:
-            self.calc_doubleclick_id = f's_{self.session_cookie_id}'
+            self.calc_doubleclick_id = hashlib.md5(f's_{self.session_cookie_id}'.encode()).digest()
         else:
-            self.calc_doubleclick_id = f'ip_{self.client_ip}|{self.user_agent}|{self.event_time_as_timeslice()}'
+            self.calc_doubleclick_id = hashlib.md5(f'ip_{self.client_ip}|{self.user_agent}|{self.event_time_as_timeslice()}'.encode()).digest()
 
     def add_session_id(self):
         """Create a unique session id based on COUNTER CoP rules with priority from top to bottom:
@@ -62,13 +63,13 @@ class LogItem(BaseModel):
             - (session cookie id) + (date & hour)
             - (ip address) + (user-agent) + (date & hour)"""
         if self.user_id is not None:
-            self.calc_session_id = f'u_{self.user_id}|{self.event_time_as_timeslice()}'
+            self.calc_session_id = hashlib.md5(f'u_{self.user_id}|{self.event_time_as_timeslice()}'.encode()).digest()
         elif self.user_cookie_id is not None:
-            self.calc_session_id = f'uc_{self.user_cookie_id}|{self.event_time_as_timeslice()}'
+            self.calc_session_id = hashlib.md5(f'uc_{self.user_cookie_id}|{self.event_time_as_timeslice()}'.encode()).digest()
         elif self.session_cookie_id is not None:
-            self.calc_session_id = f's_{self.session_cookie_id}|{self.event_time_as_timeslice()}'
+            self.calc_session_id = hashlib.md5(f's_{self.session_cookie_id}|{self.event_time_as_timeslice()}'.encode()).digest()
         else:
-            self.calc_session_id = f'ip_{self.client_ip}|{self.user_agent}|{self.event_time_as_timeslice()}'
+            self.calc_session_id = hashlib.md5(f'ip_{self.client_ip}|{self.user_agent}|{self.event_time_as_timeslice()}'.encode()).digest()
 
     def de_double_click(self):
         """Remove previous items the same as this one for this user according to COUNTER rules within 30 seconds previous"""

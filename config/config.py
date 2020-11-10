@@ -12,218 +12,273 @@ import json
 import calendar
 import exceptions
 import geoip2.database
+from sqlite3 import connect
 
-robots_reg = None
-machines_reg = None
-hit_type_reg = None
-last_p_day = None
+class _Config:
+    _instance = None
 
-thismodule = sys.modules[__name__]
+    ALLOWED_ENV = ('LOG_NAME_PATTERN', 'ROBOTS_URL', 'MACHINES_URL', 'YEAR_MONTH',
+        'OUTPUT_FILE', 'PLATFORM', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB',
+        'SIMULATE_DATE', 'MAXMIND_GEOIP_COUNTRY_PATH', 'OUTPUT_VOLUME')
 
-ALLOWED_ENV = ('LOG_NAME_PATTERN', 'ROBOTS_URL', 'MACHINES_URL', 'YEAR_MONTH',
-    'OUTPUT_FILE', 'OUTPUT_FORMAT', 'PLATFORM', 'HUB_API_TOKEN', 'HUB_BASE_URL', 'UPLOAD_TO_HUB',
-    'SIMULATE_DATE', 'MAXMIND_GEOIP_COUNTRY_PATH', 'OUTPUT_VOLUME')
+    # thismodule = sys.modules[__name__]  # not sure this is needed
 
-# --- methods used inside this file for processing ---
-def read_state():
-    """State is a json file that is a dictionary like {'2018-03': {'id': '2018-3-Dash', 'last_processed_day': 17}}"""
-    my_dir = "state"
-    if not os.path.exists(my_dir):
-        os.makedirs(my_dir)
+    def __init__(self):
+        # things that come from the configuration file
+        self.robots_reg = None
+        self.machines_reg = None
+        self.hit_type_reg = None
+        self.log_name_pattern = None
+        self.robots_url = None
+        self.machines_url = None
+        self.year_month = None
+        self.output_file = None
+        self.platform = None
+        self.hub_api_token = None
+        self.hub_base_url = None
+        self.upload_to_hub = None
+        self.simulate_date = None
+        self.maxmind_geoip_country_path = None
+        self.output_volume = None
 
-    my_file = f'{my_dir}/statefile.json'
-    if not os.path.isfile(my_file):
-        with open(my_file, 'w') as f:
-            json.dump({}, f, sort_keys = True, indent = 4, ensure_ascii=False)
+        # things that are stored or calculated separately
+        self.start_date = None
+        self.end_date = None
+        self.last_p_day = None
+        self.run_date = None
+        self.robots_reg = None
+        self.state_dict = None
+        self.config_file = None
+        self.dsr_release = None
+        self.processing_database = None
+        self._memory_database = None
 
-    with open(my_file) as f:
-        return json.load(f)
+        # --- main setup and reading of all the config information ---
+        self.state_dict = _Config.read_state()
 
-def make_start_and_end(my_year_month):
-    """Makes the start and end dates as yyyy-mm-dd strings for the full month reporting period"""
-    yr, mnth = my_year_month.split('-')
-    if len(yr) != 4 or len(mnth) != 2:
-        raise ValueError('year and month must be YYYY-MM format')
-    yr = int(yr)
-    mnth = int(mnth)
-    _, lastday = calendar.monthrange(yr,mnth)
-    return (f'{yr}-{mnth}-01', f'{yr}-{mnth}-{lastday}')
+        # this makes easy way to completely change the config file to a different one if needed by CONFIG_FILE ENV Variable
+        self.config_file = 'config/config.yaml'
+        if 'CONFIG_FILE' in os.environ:
+            self.config_file = os.environ['CONFIG_FILE']
 
-# --- main setup and reading of all the config information ---
-
-state_dict = read_state()
-
-# this makes easy way to completely change the config file to a different one if needed by CONFIG_FILE ENV Variable
-config_file = 'config/config.yaml'
-if 'CONFIG_FILE' in os.environ:
-    config_file = os.environ['CONFIG_FILE']
-
-# load the config file
-with open(config_file, 'r') as ymlfile:
-    cfg = yaml.load(ymlfile)
-for x in cfg:
-    setattr(thismodule, x, cfg[x])
-
-# load the secrets file if you want to separate any sensitive information from the config in secrets.yaml
-# which is .gitignored.  Anything set in secrets will override that top-level key from the config if it's set.
-secret = os.path.join(os.path.dirname(config_file), 'secrets.yaml')
-if os.path.isfile(secret) == True:
-    with open(secret, 'r') as ymlfile:
-        cfg = yaml.load(ymlfile)
+        # load the config file
+        with open(self.config_file, 'r') as ymlfile:
+            cfg = yaml.safe_load(ymlfile)
         for x in cfg:
-            setattr(thismodule, x, cfg[x])
+            setattr(self, x, cfg[x])
+
+        # load the secrets file if you want to separate any sensitive information from the config in secrets.yaml
+        # which is .gitignored.  Anything set in secrets will override that top-level key from the config if it's set.
+        secret = os.path.join(os.path.dirname(self.config_file), 'secrets.yaml')
+        if os.path.isfile(secret) == True:
+            with open(secret, 'r') as ymlfile:
+                cfg = yaml.load(ymlfile)
+                for x in cfg:
+                    setattr(self, x, cfg[x])
 
 
-# if someone has set any of these environment variables, overide whatever loaded from yaml (but make them lowercase props)
-for ev in ALLOWED_ENV:
-    if ev in os.environ:
-        setattr(thismodule, ev.lower(), os.environ[ev])
+        # if someone has set any of these environment variables, overide whatever loaded from yaml (but make them lowercase props)
+        for ev in self.ALLOWED_ENV:
+            if ev in os.environ:
+                setattr(self, ev.lower(), os.environ[ev])
 
-if isinstance(upload_to_hub, str):
-    upload_to_hub = (upload_to_hub.lower() == 'true')
+        if isinstance(self.upload_to_hub, str):
+            self.upload_to_hub = (self.upload_to_hub.lower() == 'true')
 
-if isinstance(output_volume, str):
-    output_volume = (output_volume.lower() == 'true')
+        if isinstance(self.output_volume, str):
+            self.output_volume = (self.output_volume.lower() == 'true')
 
 
-# simulate date, in case someone wants to simulate running on a day besides now
-if 'simulate_date' in vars():
-    if isinstance(simulate_date, str):
-        run_date = datetime.datetime.strptime(simulate_date, '%Y-%m-%d')
-    else:
-        run_date = datetime.datetime.combine(simulate_date, datetime.datetime.min.time())
-else:
-    run_date = datetime.datetime.now()
+        # simulate date, in case someone wants to simulate running on a day besides now
+        if self.simulate_date is not None:
+            if isinstance(self.simulate_date, str):
+                self.run_date = datetime.datetime.strptime(self.simulate_date, '%Y-%m-%d')
+            else:
+                self.run_date = datetime.datetime.combine(self.simulate_date, datetime.datetime.min.time())
+        else:
+            self.run_date = datetime.datetime.now()
 
-# parse in the start and end days now
-sd, ed = make_start_and_end(year_month)
-start_date = dateutil.parser.parse(sd)
-end_date = dateutil.parser.parse(ed)
+        # parse in the start and end days now
+        sd, ed = _Config.make_start_and_end(self.year_month)
+        self.start_date = dateutil.parser.parse(sd)
+        self.end_date = dateutil.parser.parse(ed)
 
-# set up database path
-processing_database = f'state/counter_db_{year_month}.sqlite3'
+        # set up database path
+        self.processing_database = f'state/counter_db_{self.year_month}.sqlite3'
 
-# Processing in memory may be helpful for back-processing old data you don't want to keep in a DB to add to later
-# and may be faster.  Also need to optimize queries and ignore the size stats for now since not used by hub.
-# processing_database = ':memory:'
+        self.copy_db_to_memory()
 
-base_model.deferred_db.init(processing_database)
+        base_model.deferred_db.init('file::memory:?cache=shared', uri=True)
 
-# set up MaxMind geoip database path.  We use binary one downloaded from https://dev.maxmind.com/geoip/geoip2/geolite2/
-geoip_reader = geoip2.database.Reader(maxmind_geoip_country_path)
+        # set up MaxMind geoip database path.  We use binary one downloaded from https://dev.maxmind.com/geoip/geoip2/geolite2/
+        self.geoip_reader = geoip2.database.Reader(self.maxmind_geoip_country_path)
 
-dsr_release = 'RD1'
+        self.dsr_release = 'RD1'
 
-def start_time():
-    return datetime.datetime.combine(start_date, datetime.datetime.min.time())
+    # --- reads the state from the json for the state, set in <application>/state location, static method
+    def read_state():
+        """State is a json file for the state of what has run.  Returns the dictionary
+        from the file like {'2018-03': {'id': '2018-3-Dash', 'last_processed_day': 17}}"""
+        my_dir = "state"
+        if not os.path.exists(my_dir):
+            os.makedirs(my_dir)
 
-def end_time():
-    return datetime.datetime.combine(end_date, datetime.datetime.min.time()) + datetime.timedelta(days=1)
+        my_file = f'{my_dir}/statefile.json'
+        if not os.path.isfile(my_file):
+            with open(my_file, 'w') as f:
+                json.dump({}, f, sort_keys = True, indent = 4, ensure_ascii=False)
 
-def last_day():
-    """The last day available in the period, either yesterday if in same month, or else last day of month if it has passed"""
-    global last_p_day
-    if last_p_day is not None:
-        return last_p_day
-    if end_time() < run_date:
-        last_p_day = (end_time() - datetime.timedelta(days=1)).strftime('%Y-%m-%d') # go 1 day back because it's at 00:00 hours the first day of the next month
-    else:
-        last_p_day = (run_date - datetime.timedelta(days=1)).strftime('%Y-%m-%d') # a day ago from the run date
-    return last_p_day
+        with open(my_file) as f:
+            return json.load(f)
 
-def month_complete():
-    return (run_date > end_time())
+    # static method to make start and end dates
+    def make_start_and_end(my_year_month):
+        """Makes the start and end dates as yyyy-mm-dd strings for the full month reporting period"""
+        yr, mnth = my_year_month.split('-')
+        if len(yr) != 4 or len(mnth) != 2:
+            raise ValueError('year and month must be YYYY-MM format')
+        yr = int(yr)
+        mnth = int(mnth)
+        _, lastday = calendar.monthrange(yr,mnth)
+        return (f'{yr}-{mnth}-01', f'{yr}-{mnth}-{lastday}')
 
-def robots_regexp():
-    """Get the list of robots/crawlers from a list that is one per line
-    from the URL and make a regular expression for the detection"""
-    global robots_reg
-    if robots_reg is not None:
-        return robots_reg
-    resp = requests.get(robots_url)
-    if resp.status_code != 200:
-        raise exceptions.ApiError(f'GET {url} failed.')
-    lines = resp.text.splitlines()
-    lines = [s for s in lines if not s.startswith('#')]
-    robots_reg = re.compile('|'.join(lines))
-    return robots_reg
 
-def machines_regexp():
-    """Get the list of machines from a list that is one per line
-    from the URL and make a regular expression for the detection"""
-    global machines_reg
-    if machines_reg is not None:
-        return machines_reg
-    resp = requests.get(machines_url)
-    if resp.status_code != 200:
-        raise exceptions.ApiError(f'GET {url} failed.')
-    lines = resp.text.splitlines()
-    lines = [s for s in lines if not s.startswith('#')]
-    machines_reg = re.compile('|'.join(lines))
-    return machines_reg
+    def start_time(self):
+        return datetime.datetime.combine(self.start_date, datetime.datetime.min.time())
 
-def hit_type_regexp():
-    """Make hit type regular expressions for investigation vs request"""
-    global hit_type_reg
-    if hit_type_reg is not None:
-        return hit_type_reg
-    hit_type_reg = { 'investigation': re.compile( '|'.join( path_types['investigations']) ),
-        'request': re.compile( '|'.join(path_types['requests']))}
-    return hit_type_reg
+    def end_time(self):
+        return datetime.datetime.combine(self.end_date, datetime.datetime.min.time()) + datetime.timedelta(days=1)
 
-def start_sql():
-    return start_time().isoformat()
+    # memoization of last day
+    def last_day(self):
+        """The last day available in the period, either yesterday if in same month, or else last day of month if it has passed"""
+        if self.last_p_day is not None:
+            return self.last_p_day
+        if self.end_time() < self.run_date:
+            self.last_p_day = (self.end_time() - datetime.timedelta(days=1)).strftime('%Y-%m-%d') # go 1 day back because it's at 00:00 hours the first day of the next month
+        else:
+            self.last_p_day = (self.run_date - datetime.timedelta(days=1)).strftime('%Y-%m-%d') # a day ago from the run date
+        return self.last_p_day
 
-def end_sql():
-    return end_time().isoformat()
+    def month_complete(self):
+        return (self.run_date > self.end_time())
 
-def last_processed_on():
-    """gives string for last day it was processed for this month"""
-    if year_month in state_dict and 'last_processed_day' in state_dict[year_month]:
-        return f'{year_month}-{ "%02d" % state_dict[year_month]["last_processed_day"] }'
-    else:
-        return f'not processed yet for {year_month}'
+    # gets/memoizes the robots regexp
+    def robots_regexp(self):
+        """Get the list of robots/crawlers from a list that is one per line
+        from the URL and make a regular expression for the detection"""
+        if self.robots_reg is not None:
+            return self.robots_reg
+        resp = requests.get(self.robots_url)
+        if resp.status_code != 200:
+            raise exceptions.ApiError(f'GET {url} failed.')
+        lines = resp.text.splitlines()
+        lines = [s for s in lines if not s.startswith('#')]
+        self.robots_reg = re.compile('|'.join(lines))
+        return self.robots_reg
 
-def filenames_to_process():
-    """Create list of filenames to process that haven't been done yet.
-    They may be from 1st of month until yesterday (or last day of month).
-    Or could start from the file after last we processed until yesterday
-    (or the last day of the month)."""
+    # gets/memoizes the machines regexp
+    def machines_regexp(self):
+        """Get the list of machines from a list that is one per line
+        from the URL and make a regular expression for the detection"""
+        if self.machines_reg is not None:
+            return self.machines_reg
+        resp = requests.get(self.machines_url)
+        if resp.status_code != 200:
+            raise exceptions.ApiError(f'GET {url} failed.')
+        lines = resp.text.splitlines()
+        lines = [s for s in lines if not s.startswith('#')]
+        self.machines_reg = re.compile('|'.join(lines))
+        return self.machines_reg
 
-    # if no string of '(yyyy-mm-dd)' in pattern use as one literal filename
-    if '(yyyy-mm-dd)' not in log_name_pattern:
-        return [ log_name_pattern ]
+    # gets/memoizes the hit-type regexp
+    def hit_type_regexp(self):
+        """Make hit type regular expressions for investigation vs request"""
+        if self.hit_type_reg is not None:
+            return self.hit_type_reg
+        self.hit_type_reg = { 'investigation': re.compile( '|'.join( self.path_types['investigations']) ),
+            'request': re.compile( '|'.join(self.path_types['requests']))}
+        return self.hit_type_reg
 
-    ld = int(last_day().split('-')[2]) # last day to process, yesterday (if in period) or end of month
+    def start_sql(self):
+        return self.start_time().isoformat()
 
-    # last (previously) processed day
-    if year_month in state_dict and 'last_processed_day' in state_dict[year_month]:
-        to_process_from = state_dict[year_month]['last_processed_day'] + 1
-    else:
-        to_process_from = 1
+    def end_sql(self):
+        return self.end_time().isoformat()
 
-    to_process_from_str = year_month + '-' + ("%02d" % to_process_from)
-    if to_process_from > ld:
-        return []
+    def last_processed_on(self):
+        """gives string for last day it was processed for this month"""
+        if self.year_month in self.state_dict and 'last_processed_day' in self.state_dict[self.year_month]:
+            return f'{self.year_month}-{ "%02d" % self.state_dict[self.year_month]["last_processed_day"] }'
+        else:
+            return f'not processed yet for {self.year_month}'
 
-    return [ log_name_pattern.replace('(yyyy-mm-dd)', year_month + '-' + ("%02d" % x))
-        for x in range(to_process_from, ld + 1) ]
+    def filenames_to_process(self):
+        """Create list of filenames to process that haven't been done yet.
+        They may be from 1st of month until yesterday (or last day of month).
+        Or could start from the file after last we processed until yesterday
+        (or the last day of the month)."""
 
-def update_log_processed_date():
-    if year_month in state_dict:
-        state_dict[year_month]['last_processed_day'] = int(last_day().split('-')[2])
-    else:
-        state_dict[year_month] = {'last_processed_day': int(last_day().split('-')[2])}
-    with open('state/statefile.json', 'w') as f:
-        json.dump(state_dict, f, sort_keys = True, indent = 4, ensure_ascii=False)
+        # if no string of '(yyyy-mm-dd)' in pattern use as one literal filename
+        if '(yyyy-mm-dd)' not in self.log_name_pattern:
+            return [ self.log_name_pattern ]
 
-def current_id():
-    if 'id' in state_dict[year_month]:
-        return state_dict[year_month]['id']
-    else:
-        return None
+        ld = int(self.last_day().split('-')[2]) # last day to process, yesterday (if in period) or end of month
 
-def write_id(the_id):
-    state_dict[year_month]['id'] = the_id
-    with open('state/statefile.json', 'w') as f:
-        json.dump(state_dict, f, sort_keys = True, indent = 4, ensure_ascii=False)
+        # last (previously) processed day
+        if self.year_month in self.state_dict and 'last_processed_day' in self.state_dict[self.year_month]:
+            to_process_from = self.state_dict[self.year_month]['last_processed_day'] + 1
+        else:
+            to_process_from = 1
+
+        to_process_from_str = self.year_month + '-' + ("%02d" % to_process_from)
+        if to_process_from > ld:
+            return []
+
+        return [ self.log_name_pattern.replace('(yyyy-mm-dd)', self.year_month + '-' + ("%02d" % x))
+            for x in range(to_process_from, ld + 1) ]
+
+    def update_log_processed_date(self):
+        if self.year_month in self.state_dict:
+            self.state_dict[self.year_month]['last_processed_day'] = int(self.last_day().split('-')[2])
+        else:
+            self.state_dict[self.year_month] = {'last_processed_day': int(self.last_day().split('-')[2])}
+        with open('state/statefile.json', 'w') as f:
+            json.dump(self.state_dict, f, sort_keys = True, indent = 4, ensure_ascii=False)
+
+    def current_id(self):
+        if 'id' in self.state_dict[self.year_month]:
+            return self.state_dict[self.year_month]['id']
+        else:
+            return None
+
+    def write_id(self, the_id):
+        self.state_dict[self.year_month]['id'] = the_id
+        with open('state/statefile.json', 'w') as f:
+            json.dump(self.state_dict, f, sort_keys = True, indent = 4, ensure_ascii=False)
+
+    def copy_db_to_memory(self):
+        # I couldn't find a way for Peewee to initialize with a sqlite3 connection rather than a string, but this url
+        # shows how to share a database when using a string if it is in the same process
+        # https://stackoverflow.com/questions/15720700/can-two-processes-access-in-memory-memory-sqlite-database-concurrently
+        # see also https://www.devdungeon.com/content/python-sqlite3-tutorial
+        if os.path.exists(self.processing_database):
+            disk_db = connect(self.processing_database)
+            self._memory_database = connect('file::memory:?cache=shared', uri=True)
+            disk_db.backup(self._memory_database)
+            disk_db.close()
+        else:
+            self._memory_database = connect('file::memory:?cache=shared', uri=True)
+
+    def copy_db_to_disk(self):
+        # Backup a memory database to a file
+        disk_db = connect(self.processing_database)
+        self._memory_database.backup(disk_db)
+        disk_db.close()
+
+
+# this is hiding the class behind this function and making it a singleton
+def Config():
+    if _Config._instance is None:
+        _Config._instance = _Config()
+    return _Config._instance

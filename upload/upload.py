@@ -1,4 +1,6 @@
-import config
+# from config import Config as cf
+# config = cf()
+
 import requests
 from urllib.parse import urljoin
 import io
@@ -42,24 +44,24 @@ def send_to_datacite():
         'Content-Type': 'application/gzip',
         'Content-Encoding': 'gzip',
         'Accept': 'gzip',
-        'Authorization': f'Bearer {config.hub_api_token}'
+        'Authorization': f'Bearer {config.Config().hub_api_token}'
     }
 
-    with io.open(f'{config.output_file}.{config.output_format}', 'r', encoding='utf-8') as myfile:
+    with io.open(f'{config.Config().output_file}.json', 'r', encoding='utf-8') as myfile:
         data = myfile.read()
 
     # post or put the information
-    my_id = config.current_id()
+    my_id = config.Config().current_id()
     if my_id is None:
-        my_url = urljoin(config.hub_base_url, 'reports')
+        my_url = urljoin(config.Config().hub_base_url, 'reports')
         # response = requests.post(my_url, data=data.encode("utf-8"), headers=headers)
         response = retry_if_500(method='post', url=my_url, data=data, headers=headers)
         save_response(response)
         json_data = json.loads(response.text)
         if 'report' in json_data:
-            config.write_id(json_data['report']['id'])
+            config.Config().write_id(json_data['report']['id'])
     else:
-        my_url = urljoin(config.hub_base_url, f'reports/{pathname2url(my_id)}')
+        my_url = urljoin(config.Config().hub_base_url, f'reports/{pathname2url(my_id)}')
         # response = requests.put(my_url, data=data.encode("utf-8"), headers=headers)
         response = retry_if_500(method='put', url=my_url, data=data, headers=headers)
         save_response(response)

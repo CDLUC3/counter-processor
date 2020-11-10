@@ -1,4 +1,5 @@
 import config
+import main
 import exceptions
 from models import *
 from peewee import *
@@ -116,7 +117,7 @@ class LogLine():
             return l.country
 
         try:
-            response = config.geoip_reader.country(self.client_ip)
+            response = config.Config().geoip_reader.country(self.client_ip)
             isocode = response.country.iso_code
         except geoip2.errors.AddressNotFoundError:
             isocode = None
@@ -124,7 +125,7 @@ class LogLine():
 
     def get_hit_type(self):
         o = urlparse(self.request_url)
-        for k,v in config.hit_type_regexp().items():
+        for k,v in config.Config().hit_type_regexp().items():
             if v.search(o.path):
                 return k
         return None
@@ -132,9 +133,9 @@ class LogLine():
     def is_robot(self):
         if self.user_agent is None:
             return False
-        return bool(config.robots_regexp().search(self.user_agent))
+        return bool(config.Config().robots_regexp().search(self.user_agent))
 
     def is_machine(self):
         if self.user_agent is None:
             return True
-        return bool(config.machines_regexp().search(self.user_agent))
+        return bool(config.Config().machines_regexp().search(self.user_agent))

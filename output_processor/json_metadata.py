@@ -27,7 +27,7 @@ class JsonMetadata():
             'dataset-id': [ {'type': self.meta.identifier_type(), 'value': self.meta.identifier_bare()} ],
             'dataset-contributors': contribs,
             'dataset-dates': [ {'type': "pub-date", 'value': Report.just_date(self.meta.publication_date) } ],
-            'platform': config.platform,
+            'platform': config.Config().platform,
             'publisher': self.meta.publisher,
             'publisher-id': [ { 'type': self.meta.publisher_id_type(), 'value': self.meta.publisher_id_bare() } ],
             'data-type': "dataset",
@@ -40,19 +40,20 @@ class JsonMetadata():
 
     def performance(self):
         return {
-            'period': { 'begin-date': Report.just_date(config.start_date), 'end-date': Report.just_date(config.end_date) },
+            'period': { 'begin-date': Report.just_date(config.Config().start_date), 'end-date': Report.just_date(config.Config().end_date) },
             'instance': self.performance_facet_data()
         }
 
     def performance_facet_data(self):
         my_stats = []
         for f_stat in self.id_stat.stats():
+            # the items total_requests, unique_requests, total_investigations, unique_investigations
             for name, meth in STAT_METHODS.items():
                 stat = getattr(f_stat, meth)()
                 if (stat is None) or FacetedStat.sum(stat, 'ct') == 0:
                     continue
 
-                # setup country counts, volume
+                # bucket country counts, volume for each access method
                 country_counts = {}
                 country_volume = {}
                 for i in stat:
@@ -69,14 +70,14 @@ class JsonMetadata():
                     }
 
                 # only add volume for requests, nonsensical for investigations
-                if meth.endswith('_requests') and config.output_volume:
+                if meth.endswith('_requests') and config.Config().output_volume:
                     s['volume'] = FacetedStat.sum(stat, 'vol')
 
                 s['country-counts'] = country_counts
 
                 # only add volume for requests, nonsensical for investigations
                 # right now they don't want country volume broken out
-                if meth.endswith('_requests') and config.output_volume:
+                if meth.endswith('_requests') and config.Config().output_volume:
                     s['country-volume'] = country_volume
 
                 my_stats.append(s)

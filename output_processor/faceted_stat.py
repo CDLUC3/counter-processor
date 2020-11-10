@@ -52,7 +52,7 @@ class FacetedStat():
     def total(self, hit_type):
         my_items =  LogItem.select(LogItem.country, fn.COUNT().alias('ct'), fn.SUM(LogItem.size).alias('vol')) \
                 .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
-                    LogItem.event_time.between(config.start_sql(), config.end_sql()) &
+                    LogItem.event_time.between(config.Config().start_sql(), config.Config().end_sql()) &
                     (LogItem.is_machine == self.is_machine()) &
                     (LogItem.hit_type << hit_type) ) \
                 .group_by(LogItem.country)
@@ -64,11 +64,16 @@ class FacetedStat():
         # this is extra complicated because we have to eliminate duplicates with distinct and then can't
         # group by country which is a different column.  Maybe could do with some kind of subquery, but
         # it's not obvious exactly how except by the calc_session_id which isn't really appropriate id.
+
+        # get the total hits, which groups by country
         country_dicts = self.total(hit_type)
+
+        # now do another query distinct session_ids for each country
+        #  - robots: false, identifier: current, between_dates,  country: current_country:, machine: machine_status, hit_type:
         for i in country_dicts:
             i['ct'] = LogItem.select(LogItem.calc_session_id).distinct() \
                 .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
-                    LogItem.event_time.between(config.start_sql(), config.end_sql()) &
+                    LogItem.event_time.between(config.Config().start_sql(), config.Config().end_sql()) &
                     (LogItem.country == i['country'].upper()) &
                     (LogItem.is_machine == self.is_machine()) &
                     (LogItem.hit_type << hit_type) ) \
@@ -79,21 +84,27 @@ class FacetedStat():
             # this is a working subquery as an example in sqlite
             # SELECT SUM(subquery.size) as my_total
             # FROM (SELECT request_url, size FROM logitem WHERE request_url = 'http://dash.ucop.edu/stash/downloads/file_download/16783') subquery
-            subquery = ( LogItem.select(LogItem.calc_session_id, LogItem.request_url, LogItem.size).distinct() \
-                .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
-                    LogItem.event_time.between(config.start_sql(), config.end_sql()) &
-                    (LogItem.country == i['country'].upper()) &
-                    (LogItem.is_machine == self.is_machine()) &
-                    (LogItem.hit_type << hit_type) ) )
-                    # .alias('subquery')
 
-            # Can't seem to get PoS Peewee ORM to allow a select based on a subquery in the from clause like
-            # my_ct = ( subquery.select( fn.SUM(subquery.size)).alias('total_size') )
-            my_volume = 0
-            for row in subquery:
-                if row.size is not None:
-                    my_volume += row.size
-            i['vol'] = my_volume
+
+            # the stuff below is to get size, which isn't always output
+            if config.Config().output_volume:
+                # select (session_id, request, size).distinct
+                # robot: false, identifier: id, event time, country, machine_type, hit_type:
+                subquery = ( LogItem.select(LogItem.calc_session_id, LogItem.request_url, LogItem.size).distinct() \
+                    .where((LogItem.is_robot == False) & (LogItem.identifier == self.identifier) &
+                        LogItem.event_time.between(config.Config().start_sql(), config.Config().end_sql()) &
+                        (LogItem.country == i['country'].upper()) &
+                        (LogItem.is_machine == self.is_machine()) &
+                        (LogItem.hit_type << hit_type) ) )
+                        # .alias('subquery')
+
+                # Can't seem to get PoS Peewee ORM to allow a select based on a subquery in the from clause like
+                # my_ct = ( subquery.select( fn.SUM(subquery.size)).alias('total_size') )
+                my_volume = 0
+                for row in subquery:
+                    if row.size is not None:
+                        my_volume += row.size
+                i['vol'] = my_volume
 
         return self.fix_countries(country_dicts)
 
