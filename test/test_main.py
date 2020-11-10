@@ -68,7 +68,6 @@ class TestMain(unittest.TestCase):
             self.assertEqual(item[0]['count'], 2)
             self.assertEqual(item[0]['country-counts'], {'us': 2})
             self.assertEqual(len(item), 2)
-        print('hi')
 
 
 if __name__ == '__main__':
