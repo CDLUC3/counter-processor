@@ -49,6 +49,20 @@ def send_to_datacite():
         data = myfile.read()
 
     # post or put the information
+    #
+    # Note: the submitting report API has been expanded to return more status codes, according to https://github.com/datacite/sashimi/pull/129
+    # The new set of codes are:
+    # 200	Report has been updated
+    # 201	Report has been CREATED and validated correctly
+    # 202	Report has been ACCEPTED and its waiting for validation
+    # 404	Report does not exist
+    # 422	Report or sub-report has failed validation
+
+    # The validation here is still OK (200-299 is considered OK), retry on 500 errors, others codes log errors for examination.
+    # The new 200-level codes will mostly be useful for monitoring DataCite status or re-checking previous submissions which
+    # this class doesn't really do and would likely happen in a separate monitoring process since the other 200 codes happen
+    # asynchronously to be checked after submission time.
+
     my_id = config.Config().current_id()
     if my_id is None:
         my_url = urljoin(config.Config().hub_base_url, 'reports')
