@@ -59,7 +59,7 @@ for classifying urls (or any string patterns) into *investigations* and *request
   with your regular expression and not overlap the two. The processor will
   take care of "double-counting"  all *requests* as an *investigation* for you.
 - *hub_api_token*: set this value in a *secrets.yaml* file in the same directory as your *config.yaml*
-if you are committing your *config.yaml* to a public respository. Be sure to exclude the *secrets.yaml*
+if you are committing your *config.yaml* to a public repository. Be sure to exclude the *secrets.yaml*
 from being committed to a public place such as with a .gitignore file.  The *hub_api_token* is used for
 automatically submitting to the hub if you have that option enabled.
 
