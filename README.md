@@ -5,6 +5,18 @@
 The Counter Processor is a Python 3 (3.10) script for processing dataset access statistics from logs
 using the COUNTER Code of Practice for Research Data.
 
+I'd strongly recommend installing python using a tool such as `pyenv` (*nix/MacOS) or `anaconda` or `miniconda`
+for managing multiple Python versions and dependencies separate from versions of Python
+installed by the operating system.  `pyenv` also has the nice feature of automatically
+using the correct version of python when you `cd` into a project directory with a `.python-version`
+file that indicates the version of python to use.  `venv` is a built-in tool for creating
+virtual environments for Python and does something similar to `pyenv` and can work in tandem
+with it.
+
+If using python from the global OS version, you may need to use `pip3` instead of `pip` and
+`python3` instead of `python` in the examples below.  If you have a local version of
+python installed, you can use `pip` and `python` as shown in the examples.
+
 The software assumes you area already logging your COUNTER dataset *investigations* and *requests* to a log file using a format somewhat similar to extended log format.  The COUNTER Code of Practice requires that descriptive metadata be submitted along with statistics--these items are included in logs to ease later processing.
 
 Log items are separated by tabs (\t) and any missing values may be logged with a dash (-) or by a an empty string.
