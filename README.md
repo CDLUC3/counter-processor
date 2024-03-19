@@ -1,4 +1,29 @@
-# Counter Processor
+# Counter Processor -- ARCHIVED, no longer maintained
+
+[![Build Status](https://travis-ci.org/CDLUC3/counter-processor.svg?branch=master)](https://travis-ci.org/CDLUC3/counter-processor)
+
+## This repository has been archived and is no longer maintained.
+
+As of 2024, this script is no longer in use by the internal projects that were originally
+using it. Dryad has moved on to using the DataCite web tracker for the statistics they are
+tracking.
+
+The DataCite web tracker has the advantage of being able to log statistics directly to
+a web endpoint and statistics are automatically calculated by DataCite rather than needing
+to manage logs, calculate stats manually (and slowly for large amounts of traffic)
+and upload reports separately to the DataCite hub on a schedule.
+
+As of March 2024, I've done some final cleanup of Python library versions to update
+dependencies to address security vulnerabilities and to make the script run with Python
+3.10.
+
+Some aspects of the project are long out of date or were designed for smaller scale that didn't
+work well for the later states of some software that used it. Resources and prioritization meant
+that the project has been out of date for quite some time (for example having to use older
+geolocation libraries without of date data) and updates have been slow.
+
+Because of this, the project is being archived and is no longer maintained. We hope this
+doesn't cause large problems for the few who continue to use it.
 
 ## Introduction
 
