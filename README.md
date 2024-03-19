@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The Counter Processor is a Python 3 (3.7+ required) script for processing dataset access statistics from logs
+The Counter Processor is a Python 3 (3.10) script for processing dataset access statistics from logs
 using the COUNTER Code of Practice for Research Data.
 
 The software assumes you area already logging your COUNTER dataset *investigations* and *requests* to a log file using a format somewhat similar to extended log format.  The COUNTER Code of Practice requires that descriptive metadata be submitted along with statistics--these items are included in logs to ease later processing.
@@ -49,10 +49,20 @@ with some examples.
 You will need to run the script on a computer where the log files you're trying to process are available on the file system for the script to access.
 
 ## Download the free IP to geolocation database
-This product includes GeoLite2 data created by MaxMind, available from
-<a href="http://www.maxmind.com">http://www.maxmind.com</a>.
+The geo-ip uses GeoLite2 data created by MaxMind and is available from
+<a href="https://web.archive.org/web/20191222130401/https://dev.maxmind.com/geoip/geoip2/geolite2/" target="_blank">
+Internet Archive</a>
+(you only need the country database in binary database format).
 
-GeoLite2 is a free IP geolocation database that must be installed in the product.  You can download the database from [https://dev.maxmind.com/geoip/geoip2/geolite2/](https://dev.maxmind.com/geoip/geoip2/geolite2/).  Choose the GeoLite2 Country database (binary, gzipped) and extract it to the maxmind_geoip directory inside the application to use with default configuration, or put it elsewhere and configure the path as mentioned below.
+GeoLite2 is a free IP geolocation database that must be installed. You can download the
+database above. Choose the GeoLite2 Country database (binary, gzipped) and extract it to
+the maxmind_geoip directory inside the application to use with default configuration,
+or put it elsewhere and configure the path as mentioned below.
+
+Newer versions of the database cannot be used with the current version of the script since
+additional licensing terms are required such as registering for accounts, having an auto-update
+functionality and ensuring it runs regularly. The script has not been updated to take these
+additional requirements into account.
 
 ## Set up the configuration file
 The script takes a number of different configuration parameters in order to run correctly.  See **config/config.yaml** for an example.  To change the configuration you may edit it at config/config.yaml or you can put it at a different location and then specify it with an environment variable when starting the script like the example below.
@@ -165,13 +175,32 @@ Some possible submission problems:
 
 ## Examples/notes
 
-An example of processing only one day to test functioning (for January 1st, 2019 an using a log with a name pattern for that day)
+An example of processing only one day to test functioning, using the sample log in this repository.
 
 ```
-YEAR_MONTH=2019-01 LOG_NAME_PATTERN="log/counter_(yyyy-mm-dd).log" UPLOAD_TO_HUB=False SIMULATE_DATE=2019-01-02 ./main.py
+YEAR_MONTH=2018-05 SIMULATE_DATE=2018-05-02 LOG_NAME_PATTERN=sample_logs/counter_2018-05-01.log UPLOAD_TO_HUB=False ./main.py
 ```
 
 An example of processing an entire month at a time.  There is no literal string of "(yyyy-mm-dd)" in the filename so it will not be used to process daily logs and will take the filename completely literally.
 ```
 YEAR_MONTH=2019-01 LOG_NAME_PATTERN="/path/to/my/log/counter_2019-01.log" UPLOAD_TO_HUB=False ./main.py
 ```
+
+## Updated for Python 3.10 (2024)
+
+I've updated dependencies to try and address older libraries and update them where
+possible.
+
+I installed version 3.10.13 of Python using the `pyenv` tool and was able to run
+`pip install -r requirements.txt` to install the newer dependencies.
+
+I was able to process the sample log files using the first example above after
+downloading the GeoLite2-Country.mmdb file from the Internet Archive (see link above)
+and placing it in the maxmind_geoip directory.
+
+Some of the geolocation libraries were not updated due to licensing changes and
+remain at older versions since updating would require additional work to comply
+with the new licensing terms.
+
+This is no longer a script in use by Dryad and they have moved on to using the
+DataCite web tracker for the statistics they are tracking.
