@@ -41,7 +41,7 @@ def send_to_datacite():
     headers = {
         'Content-Type': 'application/gzip',
         'Content-Encoding': 'gzip',
-        'Accept': 'gzip',
+        'Accept': 'application/json',
         'Authorization': f'Bearer {config.Config().hub_api_token}'
     }
 
