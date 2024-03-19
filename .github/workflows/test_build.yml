@@ -1,0 +1,14 @@
+# validate YAML
+# https://codebeautify.org/yaml-validator
+
+name: github-actions
+on: [push, pull_request]
+
+jobs:
+  test-build:
+    name: test-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run build
+        run: pip3 install -r requirements.txt
