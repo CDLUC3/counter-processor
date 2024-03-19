@@ -9,7 +9,9 @@ I'd strongly recommend installing python using a tool such as `pyenv` (*nix/MacO
 for managing multiple Python versions and dependencies separate from versions of Python
 installed by the operating system.  `pyenv` also has the nice feature of automatically
 using the correct version of python when you `cd` into a project directory with a `.python-version`
-file that indicates the version of python to use.
+file that indicates the version of python to use.  `venv` is a built-in tool for creating
+virtual environments for Python and does something similar to `pyenv` and can work in tandem
+with it.
 
 If using python from the global OS version, you may need to use `pip3` instead of `pip` and
 `python3` instead of `python` in the examples below.  If you have a local version of
